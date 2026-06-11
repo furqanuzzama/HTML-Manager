@@ -86,10 +86,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .conquest-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
 .stat-pill{font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
   padding:6px 14px;border:2px solid #5a3e1b;background:#fdf6e3;box-shadow:3px 3px 0 #5a3e1b;color:#3a2800;}
-
-/* ═══════════════════════════════════════
-   SKILLS — compact cards, 3-per-row
-   ═══════════════════════════════════════ */
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .skill-row{padding:12px 14px;border:var(--border);background:var(--white);box-shadow:var(--shadow);}
 .skill-name-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
@@ -99,8 +95,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .skill-bar-wrap{width:100%;height:12px;border:var(--border);background:#e0e0e0;position:relative;}
 .skill-bar{height:100%;position:absolute;left:0;top:0;transition:width .5s;}
 .skill-bar-label{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:8px;font-weight:700;}
-
-/* ── +/- confidence stepper buttons ── */
 .conf-stepper{display:flex;align-items:center;gap:6px;margin-top:6px;}
 .conf-btn{width:28px;height:28px;border:var(--border);font-family:var(--font-mono);font-size:16px;font-weight:700;
   cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #000;
@@ -111,7 +105,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .conf-btn.plus:hover{background:var(--lime);}
 .conf-value{font-family:var(--font-mono);font-size:12px;font-weight:700;min-width:36px;text-align:center;
   background:var(--black);color:var(--white);padding:4px 8px;border:var(--border);}
-
 .book-card{background:var(--white);border:var(--border);box-shadow:var(--shadow);padding:14px;margin-bottom:10px}
 .book-title{font-weight:700;font-size:14px;margin-bottom:3px}
 .book-author{font-family:var(--font-mono);font-size:11px;color:#666;margin-bottom:6px}
@@ -132,8 +125,19 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .node-number{font-size:48px;font-weight:700;line-height:1;margin-bottom:4px}
 .node-label{font-family:var(--font-mono);font-size:11px;color:#666;text-transform:uppercase}
 .network-sub-section{margin-bottom:28px}
-.friend-chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;background:var(--white);border:var(--border);box-shadow:var(--shadow);margin:4px;font-family:var(--font-mono);font-size:11px;font-weight:600;cursor:pointer;transition:background .1s}
-.friend-chip:hover{background:var(--cyan)}
+
+/* ── FRIEND CARDS — expanded layout ── */
+.friends-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
+.friend-card{background:var(--white);border:var(--border);box-shadow:var(--shadow-lg);overflow:hidden;}
+.friend-card-header{padding:10px 14px;border-bottom:var(--border);font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;justify-content:space-between;background:var(--cyan);}
+.friend-card-body{padding:14px;}
+.friend-name{font-weight:700;font-size:15px;text-transform:uppercase;letter-spacing:.03em;margin-bottom:4px;}
+.friend-role{font-family:var(--font-mono);font-size:11px;color:#666;text-transform:uppercase;margin-bottom:10px;}
+.friend-detail-row{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;font-family:var(--font-mono);font-size:11px;}
+.friend-detail-label{font-size:9px;font-weight:700;text-transform:uppercase;color:#888;min-width:68px;padding-top:1px;}
+.friend-detail-value{color:#222;word-break:break-word;}
+.friend-card-actions{display:flex;gap:6px;margin-top:10px;border-top:1px solid #eee;padding-top:10px;}
+
 .ultimate-display{max-width:720px;margin:0 auto;text-align:center;padding:64px 24px}
 .ultimate-title-big{font-size:80px;font-weight:700;text-transform:uppercase;line-height:1;margin-bottom:16px;text-shadow:6px 6px 0 var(--cyan),10px 10px 0 #000}
 .ultimate-desc{font-size:18px;line-height:1.6;margin-bottom:32px;font-family:var(--font-mono)}
@@ -170,95 +174,112 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 #db-badge.offline{background:var(--red);color:#fff;}
 #db-badge.checking{background:var(--yellow);}
 
-/* ═══════════════════════════════════════
-   PLANNING PAGE — GANTT DRAG-TO-SPAN
-   ═══════════════════════════════════════ */
+/* ═══════════════════════════════════════════════════════════════
+   PLANNING PAGE — GOOGLE CALENDAR STYLE
+   Rows = months, Columns = timeline lanes
+   Blocks span multiple rows (months) with absolute positioning
+   ═══════════════════════════════════════════════════════════════ */
 #page-planning{padding:48px}
-
-/* planning top bar */
 .planning-topbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
 .plan-year-badge{font-family:var(--font-mono);font-size:32px;font-weight:700;line-height:1;
   background:var(--yellow);border:var(--border);box-shadow:var(--shadow);padding:4px 16px;}
 
-/* outer scroll container */
-.planning-scroll{overflow-x:auto;overflow-y:visible;border:var(--border);box-shadow:var(--shadow-xl);background:#fff;}
-.planning-grid{display:flex;flex-direction:row;min-width:max-content;position:relative;}
+/* Main calendar grid */
+.cal-wrapper{border:var(--border);box-shadow:var(--shadow-xl);background:#fff;overflow:hidden;}
+.cal-scroll{overflow-x:auto;}
+.cal-table{display:grid;min-width:max-content;}
 
-/* month label rail — sticky left */
-.p-month-rail{flex-shrink:0;width:88px;position:sticky;left:0;z-index:20;background:var(--black);}
-.p-corner{height:56px;background:#111;border-right:var(--border);border-bottom:var(--border);
-  display:flex;align-items:center;justify-content:center;
-  font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#555;}
-.p-month-cell{height:72px;border-right:var(--border);border-bottom:1px solid #333;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;position:relative;}
-.p-month-num{font-family:var(--font-mono);font-size:20px;font-weight:700;line-height:1;color:var(--yellow);}
-.p-month-name{font-family:var(--font-mono);font-size:9px;color:#777;text-transform:uppercase;letter-spacing:.1em;}
-.p-month-cell.now .p-month-num{color:var(--cyan);}
-.p-month-cell.now .p-month-name{color:var(--cyan);}
-.p-month-cell.now::after{content:'NOW';position:absolute;right:-2px;top:50%;transform:translateY(-50%);
-  background:var(--cyan);color:#000;font-family:var(--font-mono);font-size:7px;font-weight:700;
-  padding:2px 5px;letter-spacing:.08em;z-index:1;}
+/* Header row: blank corner + one cell per lane */
+.cal-header{display:contents;}
+.cal-corner{grid-row:1;grid-column:1;
+  background:#111;border-right:var(--border);border-bottom:var(--border);
+  height:52px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:8px;font-weight:700;color:#555;text-transform:uppercase;letter-spacing:.1em;
+  position:sticky;left:0;z-index:30;}
+.cal-lane-head{height:52px;border-right:1px solid rgba(0,0,0,.12);border-bottom:var(--border);
+  display:flex;align-items:center;justify-content:space-between;padding:0 10px;
+  position:sticky;top:0;z-index:20;font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap;}
+.cal-lane-head .lane-del{background:none;border:none;cursor:pointer;font-size:12px;font-family:var(--font-mono);opacity:.4;transition:opacity .1s,color .1s;padding:0 0 0 6px;}
+.cal-lane-head .lane-del:hover{opacity:1;color:var(--red);}
 
-/* timeline column */
-.p-col{flex-shrink:0;width:200px;border-right:1px solid rgba(0,0,0,.14);position:relative;}
-.p-col:last-of-type{border-right:none;}
+/* Sticky month labels column */
+.cal-month-label{grid-column:1;
+  background:var(--black);border-right:var(--border);border-bottom:1px solid #333;
+  height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
+  position:sticky;left:0;z-index:25;}
+.cal-month-label.now{background:#111;}
+.cal-month-label .m-num{font-family:var(--font-mono);font-size:20px;font-weight:700;color:var(--yellow);line-height:1;}
+.cal-month-label.now .m-num{color:var(--cyan);}
+.cal-month-label .m-name{font-family:var(--font-mono);font-size:8px;color:#777;text-transform:uppercase;letter-spacing:.1em;}
+.cal-month-label.now .m-name{color:var(--cyan);}
+.cal-month-label.now::after{content:'NOW';position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+  background:var(--cyan);color:#000;font-family:var(--font-mono);font-size:6px;font-weight:700;
+  padding:2px 4px;letter-spacing:.08em;z-index:1;}
 
-/* column header */
-.p-col-header{height:56px;border-bottom:var(--border);display:flex;align-items:center;
-  justify-content:space-between;padding:0 10px;position:sticky;top:0;z-index:10;}
-.p-col-name{font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:150px;}
-.p-col-del{background:none;border:none;cursor:pointer;font-size:13px;font-family:var(--font-mono);
-  line-height:1;opacity:.4;transition:opacity .1s,color .1s;padding:0;}
-.p-col-del:hover{opacity:1;color:var(--red);}
+/* Each lane's cells — one cell per month row, holds the events for that lane via relative container */
+.cal-cell{border-right:1px solid rgba(0,0,0,.1);border-bottom:1px solid rgba(0,0,0,.06);
+  height:80px;position:relative;cursor:pointer;transition:background .1s;}
+.cal-cell:hover{background:rgba(0,240,255,.06);}
+.cal-cell.now-row{background:rgba(0,240,255,.04);border-left:2px solid var(--cyan);}
+.cal-cell.drag-over{background:rgba(0,240,255,.15);}
 
-/* the drag-target body of a column — all 12 rows stacked */
-.p-col-body{position:relative;}
+/* The "+add" hint that shows on hover */
+.cal-cell::after{content:'+ ADD';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
+  color:rgba(0,0,0,.15);opacity:0;transition:opacity .15s;pointer-events:none;}
+.cal-cell:hover::after{opacity:1;}
 
-/* individual month row inside a column — drag target */
-.p-row{height:72px;border-bottom:1px solid rgba(0,0,0,.06);position:relative;cursor:crosshair;user-select:none;}
-.p-row:nth-child(even){background:rgba(0,0,0,.025);}
-.p-row.now-row{background:rgba(0,240,255,.06);border-left:3px solid var(--cyan);}
-.p-row.drag-hover{background:rgba(0,240,255,.15);}
-
-/* Gantt bar — spans multiple rows via absolute positioning on the column body */
-.p-bar{position:absolute;left:6px;right:6px;border:var(--border);box-shadow:var(--shadow);
-  font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
-  padding:4px 6px;display:flex;align-items:flex-start;justify-content:space-between;gap:4px;
-  overflow:hidden;z-index:4;cursor:default;transition:box-shadow .1s;}
-.p-bar:hover{box-shadow:var(--shadow-lg);}
-.p-bar-text{flex:1;line-height:1.3;word-break:break-word;}
-.p-bar-del{cursor:pointer;background:none;border:none;font-family:var(--font-mono);font-size:11px;
+/* EVENT BLOCK — Google Calendar style pill spanning one or more months */
+.cal-event{position:absolute;left:6px;right:6px;
+  border:var(--border);box-shadow:var(--shadow);
+  font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
+  padding:5px 8px;display:flex;align-items:flex-start;justify-content:space-between;gap:4px;
+  overflow:hidden;z-index:10;border-radius:0;cursor:default;transition:box-shadow .1s,transform .1s;}
+.cal-event:hover{box-shadow:var(--shadow-lg);transform:translateY(-1px);}
+.cal-event-text{flex:1;line-height:1.3;word-break:break-word;}
+.cal-event-del{cursor:pointer;background:none;border:none;font-family:var(--font-mono);font-size:12px;
   line-height:1;flex-shrink:0;opacity:.4;transition:opacity .1s;padding:0;}
-.p-bar-del:hover{opacity:1;}
+.cal-event-del:hover{opacity:1;}
 
-/* drag-ghost bar shown while dragging before text is entered */
-.p-drag-ghost{position:absolute;left:6px;right:6px;background:rgba(0,240,255,.35);
-  border:2px dashed #000;z-index:8;pointer-events:none;}
+/* Resize handle at bottom of event */
+.cal-event-resize{position:absolute;bottom:0;left:0;right:0;height:6px;cursor:ns-resize;
+  background:rgba(0,0,0,.1);display:none;}
+.cal-event:hover .cal-event-resize{display:block;}
 
-/* add column button */
-.p-add-col{flex-shrink:0;width:64px;display:flex;flex-direction:column;align-items:center;padding-top:56px;gap:8px;
-  border-left:2px dashed #ddd;}
-.p-add-col-btn{width:40px;height:40px;background:var(--black);border:var(--border);box-shadow:var(--shadow);
-  cursor:pointer;font-size:22px;font-weight:700;color:var(--cyan);display:flex;align-items:center;
+/* Spanning: top segment (has text+del), middle segments (empty), bottom segment (has resize) */
+.cal-event.span-top{border-bottom:none;}
+.cal-event.span-mid{border-top:1px dashed rgba(0,0,0,.3);border-bottom:none;padding-top:2px;padding-bottom:2px;}
+.cal-event.span-bot{border-top:1px dashed rgba(0,0,0,.3);}
+.cal-event.span-single{} /* no changes needed */
+
+/* Add-lane button */
+.cal-add-lane{grid-row:1/span 13;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:8px;border-left:2px dashed #ddd;padding:0 12px;}
+.cal-add-lane-btn{width:44px;height:44px;background:var(--black);border:var(--border);box-shadow:var(--shadow);
+  cursor:pointer;font-size:24px;font-weight:700;color:var(--cyan);display:flex;align-items:center;
   justify-content:center;font-family:var(--font-mono);transition:background .12s;}
-.p-add-col-btn:hover{background:var(--cyan);color:#000;}
-.p-add-col-label{font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;
+.cal-add-lane-btn:hover{background:var(--cyan);color:#000;}
+.cal-add-lane-label{font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;
   letter-spacing:.1em;color:#aaa;text-align:center;}
 
-/* bar name popup */
-.p-name-popup{position:fixed;z-index:700;background:var(--white);border:var(--border);
-  box-shadow:var(--shadow-xl);padding:14px;width:250px;}
-.p-name-popup input{font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:var(--border);
+/* Quick-add popup */
+.quick-add-popup{position:fixed;z-index:700;background:var(--white);border:var(--border);
+  box-shadow:var(--shadow-xl);padding:14px 16px;width:272px;}
+.quick-add-popup input{font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:var(--border);
   background:#f8f8f8;width:100%;outline:none;margin-bottom:8px;}
-.p-name-popup input:focus{outline:3px solid var(--cyan);outline-offset:0;}
-.p-name-popup-label{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
+.quick-add-popup input:focus{outline:3px solid var(--cyan);outline-offset:0;}
+.quick-add-popup-label{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
   letter-spacing:.1em;color:#666;margin-bottom:8px;}
-.p-color-row{display:flex;gap:5px;margin-bottom:10px;}
-.p-swatch{width:20px;height:20px;border:2px solid transparent;cursor:pointer;flex-shrink:0;}
-.p-swatch.sel{border-color:#000;box-shadow:2px 2px 0 #000;}
-.p-popup-btns{display:flex;gap:6px;}
-.p-popup-btns button{flex:1;font-family:var(--font-mono);font-size:11px;font-weight:700;
+/* Month span selector */
+.span-selector{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
+.span-selector label{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;}
+.span-selector select{font-family:var(--font-mono);font-size:11px;padding:4px 6px;border:var(--border);background:#fff;cursor:pointer;}
+.color-swatch-row{display:flex;gap:5px;margin-bottom:10px;}
+.color-swatch{width:22px;height:22px;border:2px solid transparent;cursor:pointer;flex-shrink:0;transition:transform .1s;}
+.color-swatch:hover{transform:scale(1.15);}
+.color-swatch.selected{border-color:#000;box-shadow:2px 2px 0 #000;}
+.quick-add-btns{display:flex;gap:6px;}
+.quick-add-btns button{flex:1;font-family:var(--font-mono);font-size:11px;font-weight:700;
   text-transform:uppercase;padding:7px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);}
 </style>
 </head>
@@ -317,7 +338,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   <div class="page-header"><div class="page-title">NETWORK</div><div class="page-subtitle">// NETWORK_NODES</div></div>
   <div class="network-nodes" id="network-stats"></div>
   <div class="network-sub-section">
-    <div class="section-header"><div class="section-title">FRIENDS</div><button class="btn btn-cyan btn-sm" onclick="openModal('modal-friend')">+ ADD</button></div>
+    <div class="section-header"><div class="section-title">FRIENDS</div><button class="btn btn-cyan btn-sm" onclick="openModal('modal-friend')">+ ADD CONTACT</button></div>
     <div id="friends-list"></div>
   </div>
   <div class="network-sub-section">
@@ -334,16 +355,19 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 <div class="page" id="page-planning">
   <div class="page-header">
     <div class="page-title">PLANNING</div>
-    <div class="page-subtitle">// YEAR.TIMELINE.MATRIX</div>
+    <div class="page-subtitle">// YEAR.CALENDAR.MATRIX — CLICK ANY CELL TO ADD AN EVENT BLOCK</div>
   </div>
   <div class="planning-topbar">
     <div class="plan-year-badge" id="plan-year-badge">2025</div>
     <button class="btn btn-dark btn-sm" onclick="planChangeYear(-1)">◀ PREV</button>
     <button class="btn btn-dark btn-sm" onclick="planChangeYear(1)">NEXT ▶</button>
-    <button class="btn btn-cyan btn-sm" onclick="planAddColumn()">+ ADD TIMELINE</button>
-    <span style="font-family:var(--font-mono);font-size:10px;color:#888;text-transform:uppercase;">CLICK ANY MONTH CELL TO ADD AN EVENT</span>
+    <button class="btn btn-cyan btn-sm" onclick="planAddLane()">+ ADD LANE</button>
   </div>
-  <div id="planning-area" style="border:var(--border);box-shadow:var(--shadow-xl);overflow:hidden;background:#fff;"></div>
+  <div class="cal-wrapper">
+    <div class="cal-scroll">
+      <div class="cal-table" id="cal-table"></div>
+    </div>
+  </div>
 </div>
 
 <!-- ULTIMATE PAGE -->
@@ -391,8 +415,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
         </div>
       </div>
       <div class="field"><label class="label-field">DEADLINE</label><input class="input" id="g-deadline" type="date"/></div>
-      <div class="field"><label class="label-field">TOTAL TASKS (max 60)</label>
-        <input class="input" id="g-total" type="number" min="1" max="60" placeholder="E.g. 12"/>
+      <div class="field"><label class="label-field">TOTAL TASKS (max 90)</label>
+        <input class="input" id="g-total" type="number" min="1" max="90" placeholder="E.g. 12"/>
         <div style="font-family:var(--font-mono);font-size:10px;color:#888;margin-top:4px;">Each task = one pixel. Click any pixel to mark it conquered.</div>
       </div>
     </div>
@@ -451,15 +475,46 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
-<!-- FRIEND MODAL -->
+<!-- FRIEND MODAL — extended details -->
 <div class="modal-overlay" id="modal-friend">
   <div class="modal">
     <div class="modal-header">ADD CONTACT <button class="modal-close" onclick="closeModal('modal-friend')">X</button></div>
     <div class="modal-body">
-      <div class="field"><label class="label-field">NAME</label><input class="input" id="fr-name" placeholder="Contact name"/></div>
-      <div class="field"><label class="label-field">ROLE</label><input class="input" id="fr-role" placeholder="E.g. Mentor"/></div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
+        <div class="field" style="margin-bottom:0;grid-column:1/3;">
+          <label class="label-field">FULL NAME *</label>
+          <input class="input" id="fr-name" placeholder="Contact name"/>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="label-field">ROLE / RELATIONSHIP</label>
+          <input class="input" id="fr-role" placeholder="E.g. Mentor, Friend"/>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="label-field">PHONE</label>
+          <input class="input" id="fr-phone" placeholder="+91 98765 43210" type="tel"/>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="label-field">DATE OF BIRTH</label>
+          <input class="input" id="fr-dob" type="date"/>
+        </div>
+        <div class="field" style="margin-bottom:0;">
+          <label class="label-field">GUARDIAN / PARENT</label>
+          <input class="input" id="fr-guardian" placeholder="Guardian's name"/>
+        </div>
+        <div class="field" style="margin-bottom:0;grid-column:1/3;">
+          <label class="label-field">ADDRESS</label>
+          <textarea class="input" id="fr-address" rows="2" placeholder="Street, City, State, PIN" style="resize:vertical;"></textarea>
+        </div>
+        <div class="field" style="margin-bottom:0;grid-column:1/3;">
+          <label class="label-field">NOTES</label>
+          <input class="input" id="fr-notes" placeholder="Any extra notes..."/>
+        </div>
+      </div>
     </div>
-    <div class="modal-footer"><button class="btn" onclick="closeModal('modal-friend')">CANCEL</button><button class="btn btn-cyan" onclick="addFriend()">ADD CONTACT</button></div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-friend')">CANCEL</button>
+      <button class="btn btn-cyan" onclick="addFriend()">ADD CONTACT</button>
+    </div>
   </div>
 </div>
 
@@ -493,11 +548,22 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
-<!-- PLANNING QUICK-ADD POPUP -->
+<!-- QUICK-ADD EVENT POPUP (planning) -->
 <div id="quick-add-popup" class="quick-add-popup" style="display:none;">
-  <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;color:#444;" id="qap-label">ADD EVENT</div>
-  <input id="qap-text" placeholder="Event text…" maxlength="80" onkeydown="qapKeydown(event)"/>
-  <div class="quick-add-color-row" id="qap-colors"></div>
+  <div class="quick-add-popup-label" id="qap-label">ADD EVENT</div>
+  <input id="qap-text" placeholder="Event name…" maxlength="80" onkeydown="qapKeydown(event)"/>
+  <div class="span-selector">
+    <label>SPANS</label>
+    <select id="qap-span">
+      <option value="1">1 month</option>
+      <option value="2">2 months</option>
+      <option value="3">3 months</option>
+      <option value="4">4 months</option>
+      <option value="5">5 months</option>
+      <option value="6">6 months</option>
+    </select>
+  </div>
+  <div class="color-swatch-row" id="qap-colors"></div>
   <div class="quick-add-btns">
     <button style="background:var(--black);color:var(--white);" onclick="qapConfirm()">ADD</button>
     <button style="background:#eee;" onclick="qapCancel()">CANCEL</button>
@@ -583,12 +649,12 @@ async function loadStateFromDB() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// CONSTANTS & MAP GENERATION (unchanged)
+// CONSTANTS & MAP GENERATION
 // ═══════════════════════════════════════════════════════════════
 const GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085','#2c3e50','#c0392b','#1a5276','#6d4c41','#4a235a','#145a32'];
 const MAP_GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085','#5d4037','#ad1457','#1565c0','#558b2f','#6a1b9a','#00838f'];
 const ACCENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316','#e879f9','#34d399','#fbbf24','#60a5fa'];
-const EVENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316'];
+const EVENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316','#34d399','#60a5fa'];
 
 const CONQUERED_COLOR = '#8b0000';
 const NEXUS_COLOR = '#8b0000';
@@ -608,7 +674,7 @@ const _featRng=makePRNG(99999);const MAP_MOUNTAINS=[];const MAP_FORESTS=[];(()=>
 const WATER_SEED=12345;const _waterRng=makePRNG(WATER_SEED);const WATER_CELLS=generateWater(_waterRng);
 
 // ═══════════════════════════════════════════════════════════════
-// DEFAULT STATE  — now includes planning
+// DEFAULT STATE
 // ═══════════════════════════════════════════════════════════════
 function defaultState(){
   return{
@@ -628,12 +694,15 @@ function defaultState(){
       {id:2,name:'Hindi',goalProgress:0,confidence:100},
       {id:3,name:'Japanese',goalProgress:0,confidence:18}
     ],
-    friends:[{id:1,name:'Arjun Sharma',role:'Mentor'},{id:2,name:'Priya Nair',role:'Collaborator'}],
+    friends:[
+      {id:1,name:'Arjun Sharma',role:'Mentor',phone:'',dob:'',guardian:'',address:'',notes:''},
+      {id:2,name:'Priya Nair',role:'Collaborator',phone:'',dob:'',guardian:'',address:'',notes:''}
+    ],
     social:{instagram:{followers:0,handle:''},youtube:{subscribers:0,handle:''},linkedin:{connections:0,handle:''}},
     clients:[],
     ultimate:{title:'YOUR ENDGAME',vision:'Define your ultimate mission',progress:0},
-    // planning: { year, columns: [{id, name, colorIdx, events:[{id,monthIdx,text,colorIdx,offsetY}]}] }
-    planning:{ year: new Date().getFullYear(), columns:[] },
+    // planning: { year, lanes: [{id, name, colorIdx, events:[{id, startMonth, span, text, colorIdx}]}] }
+    planning:{ year: new Date().getFullYear(), lanes:[] },
     nextId:100,
   };
 }
@@ -650,12 +719,10 @@ function getTerritory(){
   return _territory;
 }
 
-// ── sync helpers ─────────────────────────────────────────────
 function syncSkillProgress(){state.skills.forEach(sk=>{const linked=state.goals.filter(g=>g.category==='skill'&&(g.catData&&g.catData['cf-s1']&&g.catData['cf-s1'].toUpperCase()===sk.name.toUpperCase()));if(linked.length===0)return;const totalTasks=linked.reduce((s,g)=>s+g.total,0);const doneTasks=linked.reduce((s,g)=>s+getDone(g),0);sk.goalProgress=totalTasks>0?Math.round(doneTasks/totalTasks*100):0;});}
 function syncLangProgress(){state.langs.forEach(ln=>{const linked=state.goals.filter(g=>g.category==='skill'&&(g.catData&&g.catData['cf-s1']&&g.catData['cf-s1'].toUpperCase()===ln.name.toUpperCase()));if(linked.length===0)return;const totalTasks=linked.reduce((s,g)=>s+g.total,0);const doneTasks=linked.reduce((s,g)=>s+getDone(g),0);ln.goalProgress=totalTasks>0?Math.round(doneTasks/totalTasks*100):0;});}
 function syncBookProgress(){state.books.forEach(bk=>{if(!bk.linkedGoalId)return;const g=state.goals.find(x=>x.id===bk.linkedGoalId);if(!g)return;const pct=g.total>0?getDone(g)/g.total:0;bk.read=Math.round(pct*(bk.pages||0));});}
 
-// ── nav ──────────────────────────────────────────────────────
 function showPage(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -671,7 +738,6 @@ function showPage(name,el){
   if(name==='ultimate')renderUltimate();
 }
 
-// ── category fields ──────────────────────────────────────────
 const catFieldDefs={
   goal: [],
   skill:[{id:'cf-s1',label:'SKILL NAME (must match a skill in Skills page)',type:'text',ph:'E.g. Figma'}],
@@ -703,14 +769,13 @@ function selectOutput(t){
 
 function getDone(g){return g.doneSet?g.doneSet.size:(g.done||0);}
 
-// ── add goal ─────────────────────────────────────────────────
 function addGoal(){
   const name=document.getElementById('g-name').value.trim();
-  const total=Math.min(60,parseInt(document.getElementById('g-total').value)||0);
+  const total=Math.min(90,parseInt(document.getElementById('g-total').value)||0); // ← 90 limit
   const deadline=document.getElementById('g-deadline').value;
   const cat=document.getElementById('g-category').value;
   if(!name){toast('ENTER GOAL NAME');return;}
-  if(total<1){toast('ENTER TOTAL TASKS (1-60)');return;}
+  if(total<1){toast('ENTER TOTAL TASKS (1-90)');return;}
   if(!deadline){toast('SET A DEADLINE');return;}
   const colorIdx=state.goals.length%ACCENT_COLORS.length;
   const catData={};
@@ -803,7 +868,6 @@ function updateCards(){
     else{dlClass='dl-ok';dlLabel=diff+'D';}
     const dlDisplay=dl.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
     const fillColor=pct>=100?CONQUERED_COLOR:mapColor;
-    // category label
     const catLabel = g.category==='goal'?'STANDALONE':g.category.toUpperCase();
     html+=`<div class="goal-card">
       <div class="goal-card-header" style="background:${accentColor};">
@@ -826,7 +890,7 @@ function updateCards(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// SKILLS — compact cards with +/- confidence stepper
+// SKILLS
 // ═══════════════════════════════════════════════════════════════
 function renderSkills(){
   const el=document.getElementById('skills-list');
@@ -854,16 +918,9 @@ function renderSkills(){
 }
 
 function stepConfidence(type, id, delta){
-  if(type==='skill'){
-    const s=state.skills.find(x=>x.id===id);
-    if(s){s.confidence=Math.max(0,Math.min(100,(s.confidence||0)+delta));scheduleSave();renderSkills();}
-  } else if(type==='lang'){
-    const l=state.langs.find(x=>x.id===id);
-    if(l){l.confidence=Math.max(0,Math.min(100,(l.confidence||0)+delta));scheduleSave();renderLangs();}
-  } else if(type==='book'){
-    const b=state.books.find(x=>x.id===id);
-    if(b){b.remembrance=Math.max(0,Math.min(100,(b.remembrance||0)+delta));scheduleSave();renderBooks();}
-  }
+  if(type==='skill'){const s=state.skills.find(x=>x.id===id);if(s){s.confidence=Math.max(0,Math.min(100,(s.confidence||0)+delta));scheduleSave();renderSkills();}}
+  else if(type==='lang'){const l=state.langs.find(x=>x.id===id);if(l){l.confidence=Math.max(0,Math.min(100,(l.confidence||0)+delta));scheduleSave();renderLangs();}}
+  else if(type==='book'){const b=state.books.find(x=>x.id===id);if(b){b.remembrance=Math.max(0,Math.min(100,(b.remembrance||0)+delta));scheduleSave();renderBooks();}}
 }
 
 function deleteSkill(id){state.skills=state.skills.filter(x=>x.id!==id);scheduleSave();renderSkills();}
@@ -958,24 +1015,115 @@ function addLang(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// NETWORK (unchanged)
+// NETWORK — extended friend cards
 // ═══════════════════════════════════════════════════════════════
 const socialMeta={instagram:{label:'INSTAGRAM',color:'var(--pink)',tw:true},youtube:{label:'YOUTUBE',color:'var(--orange)'},linkedin:{label:'LINKEDIN',color:'var(--cyan)'}};
+
+function formatDOB(dob){
+  if(!dob)return'';
+  const d=new Date(dob);if(isNaN(d))return dob;
+  return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
+}
+
 function renderNetwork(){
   document.getElementById('network-stats').innerHTML=`
     <div class="node-card"><div class="node-header" style="background:var(--cyan);">NODE 01</div><div class="node-body"><div class="node-number">${state.friends.length}</div><div class="node-label">FRIENDS</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--pink);color:#fff;">NODE 02</div><div class="node-body"><div class="node-number">${fmtN(state.social.instagram.followers)}</div><div class="node-label">INSTAGRAM</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--orange);">NODE 03</div><div class="node-body"><div class="node-number">${fmtN(state.social.youtube.subscribers)}</div><div class="node-label">YOUTUBE</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--lime);">NODE 04</div><div class="node-body"><div class="node-number">${fmtN(state.social.linkedin.connections)}</div><div class="node-label">LINKEDIN</div></div></div>`;
-  document.getElementById('friends-list').innerHTML=state.friends.length===0?'<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CONTACTS</span>':state.friends.map(f=>`<span class="friend-chip">${f.name} <span style="font-size:9px;color:#999;">${f.role}</span> <span onclick="deleteFriend(${f.id})" style="cursor:pointer;color:#999;margin-left:4px;">✕</span></span>`).join('');
+
+  // Friends — expanded cards
+  const friendsWrap = document.getElementById('friends-list');
+  if(!state.friends.length){
+    friendsWrap.innerHTML='<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CONTACTS YET — PRESS + ADD CONTACT</span>';
+  } else {
+    friendsWrap.innerHTML=`<div class="friends-grid">${state.friends.map(f=>{
+      const dobFormatted = formatDOB(f.dob);
+      const details = [
+        f.phone    ? `<div class="friend-detail-row"><span class="friend-detail-label">📞 PHONE</span><span class="friend-detail-value">${f.phone}</span></div>` : '',
+        dobFormatted ? `<div class="friend-detail-row"><span class="friend-detail-label">🎂 DOB</span><span class="friend-detail-value">${dobFormatted}</span></div>` : '',
+        f.guardian ? `<div class="friend-detail-row"><span class="friend-detail-label">👤 GUARDIAN</span><span class="friend-detail-value">${f.guardian}</span></div>` : '',
+        f.address  ? `<div class="friend-detail-row"><span class="friend-detail-label">📍 ADDRESS</span><span class="friend-detail-value">${f.address}</span></div>` : '',
+        f.notes    ? `<div class="friend-detail-row"><span class="friend-detail-label">📝 NOTES</span><span class="friend-detail-value">${f.notes}</span></div>` : '',
+      ].join('');
+      return`<div class="friend-card">
+        <div class="friend-card-header">
+          <span>CONTACT</span>
+          <button class="del-btn" onclick="deleteFriend(${f.id})" style="color:rgba(0,0,0,.5);border:none;" title="Delete">✕</button>
+        </div>
+        <div class="friend-card-body">
+          <div class="friend-name">${f.name}</div>
+          <div class="friend-role">${f.role||'—'}</div>
+          ${details||'<div style="font-family:var(--font-mono);font-size:10px;color:#bbb;">No additional details</div>'}
+          <div class="friend-card-actions">
+            <button class="btn btn-sm btn-dark" onclick="editFriend(${f.id})">EDIT</button>
+          </div>
+        </div>
+      </div>`;
+    }).join('')}</div>`;
+  }
+
   document.getElementById('social-cards').innerHTML=Object.entries(socialMeta).map(([k,m])=>{const pl=state.social[k];const val=pl.followers||pl.subscribers||pl.connections||0;return`<div class="node-card"><div class="node-header" style="background:${m.color};${m.tw?'color:#fff':''}">${m.label}</div><div class="node-body"><div class="node-number" style="font-size:36px;">${fmtN(val)}</div><div class="node-label">${{instagram:'Followers',youtube:'Subscribers',linkedin:'Connections'}[k]}</div><div style="display:flex;gap:6px;margin-top:10px;"><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="Count" type="number" min="0" oninput="updateSocialCount('${k}',this.value)"/><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="@handle" value="${pl.handle||''}" oninput="updateSocialHandle('${k}',this.value)"/></div></div></div>`;}).join('');
   const sc={prospect:'var(--yellow)',active:'var(--lime)',completed:'var(--cyan)'};
   document.getElementById('clients-list').innerHTML=state.clients.length===0?'<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CLIENTS</span>':state.clients.map(c=>`<div class="node-card"><div class="node-header" style="background:${sc[c.status]||'#eee'};">${c.platform.toUpperCase()} <span onclick="deleteClient(${c.id})" style="cursor:pointer;margin-left:auto;">✕</span></div><div class="node-body"><div style="font-weight:700;font-size:16px;">${c.name}</div><div class="node-label" style="margin-top:4px;">${c.status.toUpperCase()}</div></div></div>`).join('');
 }
-function updateSocialCount(k,v){const n=parseInt(v)||0;if(k==='instagram')state.social.instagram.followers=n;if(k==='youtube')state.social.youtube.subscribers=n;if(k==='linkedin')state.social.linkedin.connections=n;scheduleSave();const cards=document.querySelectorAll('#network-stats .node-card .node-number');if(cards[1])cards[1].textContent=fmtN(state.social.instagram.followers);if(cards[2])cards[2].textContent=fmtN(state.social.youtube.subscribers);if(cards[3])cards[3].textContent=fmtN(state.social.linkedin.connections);}
+
+function updateSocialCount(k,v){const n=parseInt(v)||0;if(k==='instagram')state.social.instagram.followers=n;if(k==='youtube')state.social.youtube.subscribers=n;if(k==='linkedin')state.social.linkedin.connections=n;scheduleSave();}
 function updateSocialHandle(k,v){state.social[k].handle=v;scheduleSave();}
 function fmtN(n){n=parseInt(n)||0;if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'k';return n;}
-function addFriend(){const name=document.getElementById('fr-name').value.trim();const role=document.getElementById('fr-role').value.trim()||'Contact';if(!name){toast('ENTER NAME');return;}state.friends.push({id:state.nextId++,name,role});closeModal('modal-friend');scheduleSave();renderNetwork();toast('CONTACT ADDED');document.getElementById('fr-name').value='';document.getElementById('fr-role').value='';}
+
+function addFriend(){
+  const name=document.getElementById('fr-name').value.trim();
+  const role=document.getElementById('fr-role').value.trim()||'Contact';
+  const phone=document.getElementById('fr-phone').value.trim();
+  const dob=document.getElementById('fr-dob').value;
+  const guardian=document.getElementById('fr-guardian').value.trim();
+  const address=document.getElementById('fr-address').value.trim();
+  const notes=document.getElementById('fr-notes').value.trim();
+  if(!name){toast('ENTER NAME');return;}
+  state.friends.push({id:state.nextId++,name,role,phone,dob,guardian,address,notes});
+  closeModal('modal-friend');scheduleSave();renderNetwork();toast('CONTACT ADDED: '+name.toUpperCase());
+  ['fr-name','fr-role','fr-phone','fr-dob','fr-guardian','fr-address','fr-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+}
+
+function editFriend(id){
+  const f = state.friends.find(x=>x.id===id);
+  if(!f) return;
+  // Populate modal fields
+  document.getElementById('fr-name').value = f.name||'';
+  document.getElementById('fr-role').value = f.role||'';
+  document.getElementById('fr-phone').value = f.phone||'';
+  document.getElementById('fr-dob').value = f.dob||'';
+  document.getElementById('fr-guardian').value = f.guardian||'';
+  document.getElementById('fr-address').value = f.address||'';
+  document.getElementById('fr-notes').value = f.notes||'';
+  // Change the modal footer button to save as edit
+  const footer = document.querySelector('#modal-friend .modal-footer');
+  footer.innerHTML = `
+    <button class="btn" onclick="closeModal('modal-friend')">CANCEL</button>
+    <button class="btn btn-cyan" onclick="saveFriendEdit(${id})">SAVE CHANGES</button>`;
+  openModal('modal-friend');
+}
+
+function saveFriendEdit(id){
+  const f = state.friends.find(x=>x.id===id);
+  if(!f) return;
+  const name=document.getElementById('fr-name').value.trim();
+  if(!name){toast('ENTER NAME');return;}
+  f.name = name;
+  f.role = document.getElementById('fr-role').value.trim()||'Contact';
+  f.phone = document.getElementById('fr-phone').value.trim();
+  f.dob = document.getElementById('fr-dob').value;
+  f.guardian = document.getElementById('fr-guardian').value.trim();
+  f.address = document.getElementById('fr-address').value.trim();
+  f.notes = document.getElementById('fr-notes').value.trim();
+  // Restore modal footer
+  const footer = document.querySelector('#modal-friend .modal-footer');
+  footer.innerHTML = `<button class="btn" onclick="closeModal('modal-friend')">CANCEL</button><button class="btn btn-cyan" onclick="addFriend()">ADD CONTACT</button>`;
+  closeModal('modal-friend');
+  scheduleSave();renderNetwork();toast('CONTACT UPDATED: '+name.toUpperCase());
+}
+
 function deleteFriend(id){state.friends=state.friends.filter(x=>x.id!==id);scheduleSave();renderNetwork();}
 function addClient(){const name=document.getElementById('cl-name').value.trim();const platform=document.getElementById('cl-platform').value;const status=document.getElementById('cl-status').value;if(!name){toast('ENTER NAME');return;}state.clients.push({id:state.nextId++,name,platform,status});closeModal('modal-client');scheduleSave();renderNetwork();toast('CLIENT ADDED');document.getElementById('cl-name').value='';}
 function deleteClient(id){state.clients=state.clients.filter(x=>x.id!==id);scheduleSave();renderNetwork();}
@@ -999,211 +1147,213 @@ function saveUltimate(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PLANNING PAGE
+// PLANNING — Google Calendar style
+//
+// Data model:
+//   state.planning.lanes = [{
+//     id, name, colorIdx,
+//     events: [{id, startMonth (0-11), span (1-12), text, colorIdx}]
+//   }]
+//
+// Render approach:
+//   CSS Grid with explicit grid-template-columns (1 fixed col + N lane cols + 1 add-btn col)
+//   Grid rows: 1 header row + 12 month rows
+//   Each cell is a .cal-cell at grid-row=(m+2), grid-col=(laneIdx+2)
+//   Events are absolutely positioned inside their cell (startMonth row),
+//   with height spanning multiple rows via calc(N*80px + (N-1)*border)
 // ═══════════════════════════════════════════════════════════════
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-const COL_COLORS = ['var(--cyan)','var(--lime)','var(--pink)','var(--yellow)','var(--orange)','var(--violet)','var(--teal)','#f97316'];
+const LANE_COLORS = ['var(--cyan)','var(--lime)','var(--pink)','var(--yellow)','var(--orange)','var(--violet)','var(--teal)','#f97316'];
+const LANE_WIDTH = 220; // px per lane
+const ROW_HEIGHT = 80;  // px per month row
 
-let _qapColIdx = 0;     // pending event color
-let _qapTarget = null;  // {colId, monthIdx}
+// Color brightness helper
+function isLight(c){
+  const lights=['var(--cyan)','var(--lime)','var(--yellow)','#a2ef00','#00f0ff','#ffe500','#f97316'];
+  return lights.includes(c);
+}
+
+let _qapTarget = null; // {laneId, monthIdx}
+let _qapColorIdx = 0;
 
 function renderPlanning(){
   const p = state.planning;
   const year = p.year || new Date().getFullYear();
   document.getElementById('plan-year-badge').textContent = year;
-  const nowMonth = new Date().getMonth();
-  const nowYear  = new Date().getFullYear();
-  const area = document.getElementById('planning-area');
 
-  // Build the outer flex container
-  let html = `<div class="planning-layout" id="planning-layout">`;
+  const nowM = new Date().getMonth();
+  const nowY = new Date().getFullYear();
+  const lanes = p.lanes || [];
+  const nLanes = lanes.length;
 
-  // ── Left: month rail + scrollable body ──────────────────────
-  // We need a sticky left column while the rest scrolls horizontally.
-  // We do this with a fixed-width months column + a scrollable flex container.
-  html += `<div style="display:flex;flex-direction:column;flex-shrink:0;position:sticky;left:0;z-index:15;width:96px;">`;
-  // corner cell
-  html += `<div class="planning-corner" style="position:static;">MONTH</div>`;
-  // month labels
-  for(let m=0;m<12;m++){
-    const isCurrent = year===nowYear && m===nowMonth;
-    html += `<div class="month-label${isCurrent?' current-month':''}">
-      <span class="month-num">${String(m+1).padStart(2,'0')}</span>
-      <span class="month-name">${MONTHS[m]}</span>
+  // Grid: col 1 = month label (96px sticky), col 2..N+1 = lanes (220px each), col N+2 = add btn (72px)
+  const table = document.getElementById('cal-table');
+  const colTemplate = `96px ${lanes.map(()=>LANE_WIDTH+'px').join(' ')} 72px`;
+  table.style.gridTemplateColumns = colTemplate;
+  table.style.gridTemplateRows = `52px ${Array(12).fill(ROW_HEIGHT+'px').join(' ')}`;
+
+  let html = '';
+
+  // ── Corner ──────────────────────────────────────────────────
+  html += `<div class="cal-corner" style="grid-row:1;grid-column:1;">MONTH</div>`;
+
+  // ── Lane headers (row 1) ─────────────────────────────────────
+  lanes.forEach((lane, li) => {
+    const lc = LANE_COLORS[lane.colorIdx % LANE_COLORS.length];
+    const tc = isLight(lc) ? '#000' : '#fff';
+    html += `<div class="cal-lane-head" style="grid-row:1;grid-column:${li+2};background:${lc};color:${tc};">
+      <span style="overflow:hidden;text-overflow:ellipsis;">${lane.name}</span>
+      <button class="lane-del" onclick="planDeleteLane(${lane.id})" style="color:${tc};opacity:.5;">✕</button>
     </div>`;
-  }
-  html += `</div>`; // end sticky months rail
-
-  // ── Right: timelines ────────────────────────────────────────
-  html += `<div style="display:flex;flex:1;overflow-x:auto;">`;
-  html += `<div style="display:flex;flex-direction:row;min-width:max-content;">`;
-
-  // Render each timeline column
-  p.columns.forEach((col, ci) => {
-    const colColor = COL_COLORS[col.colorIdx % COL_COLORS.length];
-    html += `<div class="timeline-col" id="tcol-${col.id}">`;
-    // sticky header
-    html += `<div class="timeline-header" style="background:${colColor};border-bottom:var(--border);">
-      <span class="timeline-col-name" style="color:${isLightColor(colColor)?'#000':'#fff'}">${col.name}</span>
-      <button class="del-col-btn" onclick="planDeleteColumn(${col.id})" style="color:${isLightColor(colColor)?'rgba(0,0,0,.4)':'rgba(255,255,255,.5)'};">✕</button>
-    </div>`;
-    html += `<div class="timeline-body">`;
-    // 12 month bands
-    for(let m=0;m<12;m++){
-      const isCurrent = year===nowYear && m===nowMonth;
-      html += `<div class="month-band" id="band-${col.id}-${m}" style="${isCurrent?'background:rgba(0,240,255,0.07);border-left:3px solid var(--cyan);':''}" onclick="planBandClick(event,${col.id},${m})">`;
-      html += `<div class="band-add-zone" title="Click to add event"></div>`;
-      // events in this band
-      const events = (col.events||[]).filter(e=>e.monthIdx===m);
-      events.forEach(ev=>{
-        const evColor = EVENT_COLORS[ev.colorIdx%EVENT_COLORS.length];
-        const textColor = isLightColor(evColor)?'#000':'#fff';
-        html += `<div class="plan-event" style="background:${evColor};top:${ev.offsetY||8}px;color:${textColor};">
-          <span class="plan-event-text">${ev.text}</span>
-          <button class="plan-event-del" onclick="planDeleteEvent(event,${col.id},${ev.id})" style="color:${isLightColor(evColor)?'rgba(0,0,0,.4)':'rgba(255,255,255,.5)'};">✕</button>
-        </div>`;
-      });
-      html += `</div>`; // band
-    }
-    html += `</div>`; // timeline-body
-    html += `</div>`; // timeline-col
   });
 
-  // Add column button
-  html += `<div class="add-col-btn"><div class="add-col-inner">
-    <button class="add-col-circle" onclick="planAddColumn()" title="Add Timeline">+</button>
-    <span class="add-col-label">ADD<br>LANE</span>
-  </div></div>`;
+  // ── Add lane button (row 1, last col) ───────────────────────
+  html += `<div style="grid-row:1/span 13;grid-column:${nLanes+2};display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:60px;gap:6px;border-left:2px dashed #ddd;">
+    <button class="cal-add-lane-btn" onclick="planAddLane()" title="Add Timeline">+</button>
+    <span class="cal-add-lane-label">ADD<br>LANE</span>
+  </div>`;
 
-  html += `</div></div>`; // flex rows wrapper + scrollable
-  html += `</div>`; // planning-layout
+  // ── Month labels (rows 2–13, col 1) ─────────────────────────
+  for(let m=0;m<12;m++){
+    const isCur = year===nowY && m===nowM;
+    html += `<div class="cal-month-label${isCur?' now':''}" style="grid-row:${m+2};grid-column:1;">
+      <span class="m-num">${String(m+1).padStart(2,'0')}</span>
+      <span class="m-name">${MONTHS[m]}</span>
+    </div>`;
+  }
 
-  area.innerHTML = html;
-}
+  // ── Lane cells + events ─────────────────────────────────────
+  lanes.forEach((lane, li) => {
+    const gridCol = li + 2;
 
-function isLightColor(cssVar){
-  // map css vars to approximate lightness
-  const lightOnes = ['var(--cyan)','var(--lime)','var(--yellow)','#a2ef00','#00f0ff','#ffe500'];
-  return lightOnes.includes(cssVar);
+    for(let m=0;m<12;m++){
+      const isCur = year===nowY && m===nowM;
+      html += `<div class="cal-cell${isCur?' now-row':''}" style="grid-row:${m+2};grid-column:${gridCol};" onclick="planCellClick(event,${lane.id},${m})">`;
+
+      // Render events that START in this month
+      const events = (lane.events||[]).filter(e=>e.startMonth===m);
+      events.forEach((ev,ei) => {
+        const span = ev.span || 1;
+        const ec = EVENT_COLORS[ev.colorIdx % EVENT_COLORS.length];
+        const etc = isLight(ec) ? '#000' : '#fff';
+        // Height: span rows, minus gaps/borders
+        const evH = span * ROW_HEIGHT - 8; // 8px = top+bottom padding sum
+        const topOffset = 4 + ei * 0; // stack offset handled by absolute within cell
+        html += `<div class="cal-event" style="background:${ec};color:${etc};top:${topOffset}px;height:${evH}px;" 
+            title="${ev.text} (${MONTHS[m]}${span>1?' → '+MONTHS[Math.min(11,m+span-1)]:''})">
+          <span class="cal-event-text">${ev.text}${span>1?`<br><span style="font-size:8px;opacity:.7;">${MONTHS[m]} – ${MONTHS[Math.min(11,m+span-1)]}</span>`:''}</span>
+          <button class="cal-event-del" onclick="planDeleteEvent(event,${lane.id},${ev.id})" style="color:${etc};opacity:.5;">✕</button>
+        </div>`;
+      });
+
+      html += `</div>`;
+    }
+  });
+
+  table.innerHTML = html;
 }
 
 function planChangeYear(delta){
   state.planning.year = (state.planning.year||new Date().getFullYear()) + delta;
-  scheduleSave();
-  renderPlanning();
+  scheduleSave(); renderPlanning();
 }
 
-function planAddColumn(){
-  const name = prompt('TIMELINE NAME (e.g. CAREER, FITNESS, PROJECTS):');
+function planAddLane(){
+  const name = prompt('LANE NAME (e.g. CAREER, FITNESS, TRAVEL):');
   if(!name||!name.trim()) return;
-  const colorIdx = state.planning.columns.length % COL_COLORS.length;
-  state.planning.columns.push({
-    id: state.nextId++,
-    name: name.trim().toUpperCase(),
-    colorIdx,
-    events: []
-  });
-  scheduleSave();
-  renderPlanning();
-  toast('TIMELINE ADDED: ' + name.trim().toUpperCase());
+  if(!state.planning.lanes) state.planning.lanes = [];
+  const colorIdx = state.planning.lanes.length % LANE_COLORS.length;
+  state.planning.lanes.push({id:state.nextId++, name:name.trim().toUpperCase(), colorIdx, events:[]});
+  scheduleSave(); renderPlanning();
+  toast('LANE ADDED: '+name.trim().toUpperCase());
 }
 
-function planDeleteColumn(colId){
-  state.planning.columns = state.planning.columns.filter(c=>c.id!==colId);
-  scheduleSave();
-  renderPlanning();
-  toast('TIMELINE REMOVED');
+function planDeleteLane(laneId){
+  state.planning.lanes = (state.planning.lanes||[]).filter(l=>l.id!==laneId);
+  scheduleSave(); renderPlanning(); toast('LANE REMOVED');
 }
 
-// When user clicks a band, show the quick-add popup
-function planBandClick(e, colId, monthIdx){
-  // Don't fire if they clicked a delete button or event
-  if(e.target.closest('.plan-event-del')||e.target.closest('.plan-event')) return;
-  _qapTarget = { colId, monthIdx, offsetY: e.offsetY - 8 };
-  _qapColIdx = 0;
+function planCellClick(e, laneId, monthIdx){
+  if(e.target.closest('.cal-event-del')||e.target.closest('.cal-event')) return;
+  _qapTarget = {laneId, monthIdx};
+  _qapColorIdx = 0;
 
   const popup = document.getElementById('quick-add-popup');
-  const colName = (state.planning.columns.find(c=>c.id===colId)||{}).name||'';
-  document.getElementById('qap-label').textContent = `${MONTHS[monthIdx]} — ${colName}`;
+  const lane = (state.planning.lanes||[]).find(l=>l.id===laneId);
+  document.getElementById('qap-label').textContent = `${MONTHS[monthIdx]} — ${lane?lane.name:''}`;
   document.getElementById('qap-text').value = '';
+  document.getElementById('qap-span').value = '1';
 
-  // Color swatches
-  const colorsDiv = document.getElementById('qap-colors');
-  colorsDiv.innerHTML = EVENT_COLORS.map((c,i)=>
-    `<div class="color-swatch${i===0?' selected':''}" style="background:${c};" onclick="qapSelectColor(${i},this)"></div>`
+  // Build color swatches
+  document.getElementById('qap-colors').innerHTML = EVENT_COLORS.map((c,i)=>
+    `<div class="color-swatch${i===0?' selected':''}" style="background:${c};border:2px solid ${i===0?'#000':'transparent'};" onclick="qapSelectColor(${i},this)"></div>`
   ).join('');
 
   // Position popup near click
   const rect = e.currentTarget.getBoundingClientRect();
-  popup.style.top  = Math.min(window.innerHeight - 200, rect.top + e.offsetY) + 'px';
-  popup.style.left = Math.min(window.innerWidth  - 270, rect.left + 8) + 'px';
+  const popX = Math.min(window.innerWidth-280, rect.right+4);
+  const popY = Math.min(window.innerHeight-260, rect.top);
+  popup.style.left = popX+'px';
+  popup.style.top  = popY+'px';
   popup.style.display = 'block';
-  setTimeout(()=>document.getElementById('qap-text').focus(), 50);
+  setTimeout(()=>document.getElementById('qap-text').focus(), 40);
 }
 
 function qapSelectColor(idx, el){
-  _qapColIdx = idx;
-  document.querySelectorAll('#qap-colors .color-swatch').forEach(s=>s.classList.remove('selected'));
-  el.classList.add('selected');
+  _qapColorIdx = idx;
+  document.querySelectorAll('#qap-colors .color-swatch').forEach(s=>{s.style.borderColor='transparent';s.classList.remove('selected');});
+  el.style.borderColor='#000'; el.classList.add('selected');
 }
 
-function qapKeydown(e){
-  if(e.key==='Enter') qapConfirm();
-  if(e.key==='Escape') qapCancel();
-}
+function qapKeydown(e){ if(e.key==='Enter')qapConfirm(); if(e.key==='Escape')qapCancel(); }
 
 function qapConfirm(){
   const text = document.getElementById('qap-text').value.trim();
-  if(!text){toast('ENTER EVENT TEXT');return;}
-  const col = state.planning.columns.find(c=>c.id===_qapTarget.colId);
-  if(!col) return;
-  // Compute non-overlapping offsetY
-  const existing = (col.events||[]).filter(e=>e.monthIdx===_qapTarget.monthIdx);
-  const offsetY = existing.length > 0 ? Math.max(...existing.map(e=>e.offsetY||8)) + 36 : 8;
-  col.events.push({
-    id: state.nextId++,
-    monthIdx: _qapTarget.monthIdx,
-    text,
-    colorIdx: _qapColIdx,
-    offsetY: Math.min(offsetY, 84) // cap so it stays inside 120px band
-  });
-  scheduleSave();
-  qapCancel();
-  renderPlanning();
+  if(!text){toast('ENTER EVENT NAME');return;}
+  const span = Math.max(1,Math.min(12,parseInt(document.getElementById('qap-span').value)||1));
+  const lane = (state.planning.lanes||[]).find(l=>l.id===_qapTarget.laneId);
+  if(!lane) return;
+  // Clamp span so it doesn't exceed December
+  const clampedSpan = Math.min(span, 12 - _qapTarget.monthIdx);
+  lane.events.push({id:state.nextId++, startMonth:_qapTarget.monthIdx, span:clampedSpan, text, colorIdx:_qapColorIdx});
+  scheduleSave(); qapCancel(); renderPlanning();
   toast('EVENT ADDED: '+text.toUpperCase());
 }
 
 function qapCancel(){
-  document.getElementById('quick-add-popup').style.display = 'none';
+  document.getElementById('quick-add-popup').style.display='none';
   _qapTarget = null;
 }
 
-function planDeleteEvent(e, colId, eventId){
+function planDeleteEvent(e, laneId, eventId){
   e.stopPropagation();
-  const col = state.planning.columns.find(c=>c.id===colId);
-  if(!col) return;
-  col.events = col.events.filter(ev=>ev.id!==eventId);
-  scheduleSave();
-  renderPlanning();
-  toast('EVENT REMOVED');
+  const lane = (state.planning.lanes||[]).find(l=>l.id===laneId);
+  if(!lane) return;
+  lane.events = lane.events.filter(ev=>ev.id!==eventId);
+  scheduleSave(); renderPlanning(); toast('EVENT REMOVED');
 }
 
-// Close quick-add popup if clicking outside
+// Close popup on outside click
 document.addEventListener('click', e=>{
   const popup = document.getElementById('quick-add-popup');
-  if(popup.style.display!=='none' && !popup.contains(e.target) && !e.target.closest('.month-band')){
+  if(popup.style.display!=='none' && !popup.contains(e.target) && !e.target.closest('.cal-cell')){
     qapCancel();
   }
 });
 
 // ═══════════════════════════════════════════════════════════════
-// MODAL UTILS
+// MODALS
 // ═══════════════════════════════════════════════════════════════
 function openModal(id){
   if(id==='modal-ultimate'){
     document.getElementById('ult-name').value=state.ultimate.title;
     document.getElementById('ult-vision').value=state.ultimate.vision;
     document.getElementById('ult-prog').value=state.ultimate.progress;
+  }
+  // Reset friend modal footer in case it was in edit mode
+  if(id==='modal-friend'){
+    const footer = document.querySelector('#modal-friend .modal-footer');
+    footer.innerHTML = `<button class="btn" onclick="closeModal('modal-friend')">CANCEL</button><button class="btn btn-cyan" onclick="addFriend()">ADD CONTACT</button>`;
   }
   const m=document.getElementById(id);if(m)m.classList.add('open');
 }
