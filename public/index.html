@@ -86,26 +86,42 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .conquest-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
 .stat-pill{font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
   padding:6px 14px;border:2px solid #5a3e1b;background:#fdf6e3;box-shadow:3px 3px 0 #5a3e1b;color:#3a2800;}
-.skill-row{padding:16px;border:var(--border);background:var(--white);box-shadow:var(--shadow);margin-bottom:12px;}
-.skill-name-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;}
+
+/* ═══════════════════════════════════════
+   SKILLS — compact cards, 3-per-row
+   ═══════════════════════════════════════ */
+.skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
+.skill-row{padding:12px 14px;border:var(--border);background:var(--white);box-shadow:var(--shadow);}
+.skill-name-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
 .skill-name{font-family:var(--font-mono);font-size:12px;font-weight:700;text-transform:uppercase;}
 .skill-actions{display:flex;gap:4px;}
-.dual-bar-label{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:4px;margin-top:8px;display:flex;justify-content:space-between;}
-.skill-bar-wrap{width:100%;height:16px;border:var(--border);background:#e0e0e0;position:relative;}
+.dual-bar-label{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:3px;margin-top:6px;display:flex;justify-content:space-between;}
+.skill-bar-wrap{width:100%;height:12px;border:var(--border);background:#e0e0e0;position:relative;}
 .skill-bar{height:100%;position:absolute;left:0;top:0;transition:width .5s;}
-.skill-bar-label{position:absolute;right:8px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:9px;font-weight:700;}
-.manual-slider{width:100%;margin-top:4px;accent-color:var(--pink);}
-.intellect-grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
-.book-card{background:var(--white);border:var(--border);box-shadow:var(--shadow);padding:16px;margin-bottom:12px}
-.book-title{font-weight:700;font-size:15px;margin-bottom:4px}
-.book-author{font-family:var(--font-mono);font-size:11px;color:#666;margin-bottom:8px}
-.book-bar-wrap{width:100%;height:10px;border:1px solid #000;background:#eee;position:relative;margin-bottom:6px}
+.skill-bar-label{position:absolute;right:6px;top:50%;transform:translateY(-50%);font-family:var(--font-mono);font-size:8px;font-weight:700;}
+
+/* ── +/- confidence stepper buttons ── */
+.conf-stepper{display:flex;align-items:center;gap:6px;margin-top:6px;}
+.conf-btn{width:28px;height:28px;border:var(--border);font-family:var(--font-mono);font-size:16px;font-weight:700;
+  cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:2px 2px 0 #000;
+  background:var(--white);line-height:1;transition:background .1s,transform .08s,box-shadow .08s;flex-shrink:0;}
+.conf-btn:hover{box-shadow:3px 3px 0 #000;}
+.conf-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #000;}
+.conf-btn.minus:hover{background:var(--red);color:#fff;}
+.conf-btn.plus:hover{background:var(--lime);}
+.conf-value{font-family:var(--font-mono);font-size:12px;font-weight:700;min-width:36px;text-align:center;
+  background:var(--black);color:var(--white);padding:4px 8px;border:var(--border);}
+
+.book-card{background:var(--white);border:var(--border);box-shadow:var(--shadow);padding:14px;margin-bottom:10px}
+.book-title{font-weight:700;font-size:14px;margin-bottom:3px}
+.book-author{font-family:var(--font-mono);font-size:11px;color:#666;margin-bottom:6px}
+.book-bar-wrap{width:100%;height:10px;border:1px solid #000;background:#eee;position:relative;margin-bottom:4px}
 .book-bar-fill{height:100%;position:absolute;left:0;top:0;transition:width .4s}
 .book-status{font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;padding:3px 8px;border:1px solid #000;display:inline-block}
 .status-reading{background:var(--cyan)}.status-done{background:var(--lime)}.status-queue{background:#e0e0e0}
-.lang-row{padding:14px;background:var(--white);border:var(--border);box-shadow:var(--shadow);margin-bottom:10px}
-.lang-name{font-weight:700;font-size:14px;margin-bottom:10px;}
-.lang-bar-wrap{width:100%;height:14px;border:var(--border);background:#f0f0f0;position:relative;margin-bottom:4px;}
+.lang-row{padding:12px 14px;background:var(--white);border:var(--border);box-shadow:var(--shadow);margin-bottom:10px}
+.lang-name{font-weight:700;font-size:14px;margin-bottom:8px;}
+.lang-bar-wrap{width:100%;height:12px;border:var(--border);background:#f0f0f0;position:relative;margin-bottom:3px;}
 .lang-bar{height:100%;position:absolute;left:0;top:0;}
 .section-header{display:flex;align-items:center;justify-content:space-between;border-bottom:var(--border);padding-bottom:8px;margin-bottom:16px}
 .section-title{font-family:var(--font-mono);font-size:14px;font-weight:700;text-transform:uppercase;letter-spacing:.1em}
@@ -148,12 +164,92 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .save-indicator.saved{color:#aaa}
 .save-indicator.saving{color:var(--orange)}
 .save-indicator.error{color:var(--red)}
-/* DB status badge */
 #db-badge{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
   padding:3px 10px;border:1.5px solid #000;margin-right:8px;letter-spacing:.08em;}
 #db-badge.online{background:var(--lime);}
 #db-badge.offline{background:var(--red);color:#fff;}
 #db-badge.checking{background:var(--yellow);}
+
+/* ═══════════════════════════════════════
+   PLANNING PAGE
+   ═══════════════════════════════════════ */
+#page-planning{padding:48px}
+.planning-layout{display:flex;gap:0;overflow-x:auto;min-height:calc(100vh - 200px);position:relative;}
+
+/* months sidebar */
+.months-rail{flex-shrink:0;width:96px;border-right:var(--border);background:var(--black);position:sticky;left:0;z-index:10;}
+.month-label{height:120px;display:flex;flex-direction:column;align-items:center;justify-content:center;
+  border-bottom:1px solid #333;font-family:var(--font-mono);font-size:10px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.12em;cursor:default;position:relative;}
+.month-label:nth-child(1){border-top:none;}
+.month-num{font-size:22px;font-weight:700;line-height:1;color:var(--yellow);}
+.month-name{font-size:9px;color:#888;margin-top:2px;}
+.month-label.current-month .month-num{color:var(--cyan);}
+.month-label.current-month .month-name{color:var(--cyan);}
+.month-label.current-month::after{content:'NOW';position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+  background:var(--cyan);color:#000;font-family:var(--font-mono);font-size:7px;font-weight:700;
+  padding:2px 5px;letter-spacing:.1em;}
+
+/* timelines container */
+.timelines-wrap{display:flex;gap:0;flex:1;min-width:0;}
+.timeline-col{flex-shrink:0;width:220px;border-right:1px solid rgba(0,0,0,.15);position:relative;background:transparent;}
+.timeline-col:last-child{border-right:none;}
+.timeline-header{height:48px;background:var(--black);border-bottom:var(--border);display:flex;align-items:center;justify-content:space-between;
+  padding:0 10px;position:sticky;top:0;z-index:5;}
+.timeline-col-name{font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;color:var(--white);
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:140px;}
+.del-col-btn{background:none;border:none;cursor:pointer;color:#666;font-size:14px;font-family:var(--font-mono);line-height:1;transition:color .1s;}
+.del-col-btn:hover{color:var(--red);}
+.timeline-body{position:relative;}
+/* month bands in timeline */
+.month-band{height:120px;border-bottom:1px solid rgba(0,0,0,.08);position:relative;}
+.month-band:nth-child(even){background:rgba(0,0,0,.03);}
+
+/* event blocks */
+.plan-event{position:absolute;left:8px;right:8px;min-height:28px;border:var(--border);box-shadow:var(--shadow);
+  font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;
+  padding:5px 8px 5px 10px;cursor:pointer;display:flex;align-items:flex-start;gap:4px;
+  line-height:1.3;overflow:hidden;z-index:2;transition:box-shadow .1s,transform .1s;}
+.plan-event:hover{box-shadow:var(--shadow-lg);transform:translate(-2px,-2px);}
+.plan-event-text{flex:1;word-break:break-word;}
+.plan-event-del{cursor:pointer;color:rgba(0,0,0,.3);font-size:11px;flex-shrink:0;margin-top:1px;line-height:1;
+  background:none;border:none;font-family:var(--font-mono);padding:0;transition:color .1s;}
+.plan-event-del:hover{color:var(--red);}
+
+/* add event click zone inside each band */
+.band-add-zone{position:absolute;inset:0;cursor:crosshair;z-index:1;}
+
+/* add column button */
+.add-col-btn{flex-shrink:0;width:72px;display:flex;align-items:flex-start;padding-top:0;}
+.add-col-inner{width:100%;border-left:2px dashed #ccc;display:flex;flex-direction:column;align-items:center;padding-top:56px;gap:8px;}
+.add-col-circle{width:44px;height:44px;background:var(--black);border:var(--border);box-shadow:var(--shadow);
+  cursor:pointer;font-size:24px;font-weight:700;color:var(--cyan);display:flex;align-items:center;justify-content:center;
+  font-family:var(--font-mono);transition:background .12s;}
+.add-col-circle:hover{background:var(--cyan);color:#000;}
+.add-col-label{font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#aaa;}
+
+/* sticky top-left corner */
+.planning-corner{width:96px;height:48px;flex-shrink:0;background:var(--black);border-right:var(--border);border-bottom:var(--border);
+  display:flex;align-items:center;justify-content:center;font-family:var(--font-mono);font-size:8px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:#555;position:sticky;left:0;z-index:20;}
+
+/* planning top bar */
+.planning-topbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
+.plan-year-badge{font-family:var(--font-mono);font-size:32px;font-weight:700;line-height:1;
+  background:var(--yellow);border:var(--border);box-shadow:var(--shadow);padding:4px 16px;}
+
+/* event add modal */
+.quick-add-popup{position:fixed;z-index:600;background:var(--white);border:var(--border);box-shadow:var(--shadow-xl);
+  padding:16px;width:260px;}
+.quick-add-popup input{font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:var(--border);
+  background:#f8f8f8;width:100%;outline:none;margin-bottom:8px;}
+.quick-add-popup input:focus{outline:3px solid var(--cyan);outline-offset:0;}
+.quick-add-color-row{display:flex;gap:6px;margin-bottom:10px;}
+.color-swatch{width:22px;height:22px;border:2px solid transparent;cursor:pointer;transition:border-color .1s;}
+.color-swatch.selected{border-color:#000;box-shadow:2px 2px 0 #000;}
+.quick-add-btns{display:flex;gap:6px;}
+.quick-add-btns button{flex:1;font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
+  padding:8px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);}
 </style>
 </head>
 <body>
@@ -165,12 +261,14 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
     <button class="nav-item" onclick="showPage('skills',this)">SKILLS</button>
     <button class="nav-item" onclick="showPage('intellect',this)">INTELLECT</button>
     <button class="nav-item" onclick="showPage('network',this)">NETWORK</button>
+    <button class="nav-item" onclick="showPage('planning',this)">PLANNING</button>
     <button class="nav-item" onclick="showPage('ultimate',this)">ULTIMATE GOAL</button>
   </div>
   <div id="db-badge" class="checking">DB…</div>
   <div class="save-indicator saved" id="save-indicator">SAVED ✓</div>
 </nav>
 
+<!-- GOALS PAGE -->
 <div class="page active" id="page-goals">
   <div class="page-header">
     <div class="page-title">MISSION CONTROL</div>
@@ -179,18 +277,20 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   <div id="goals-area"></div>
 </div>
 
+<!-- SKILLS PAGE -->
 <div class="page" id="page-skills">
   <div class="page-header"><div class="page-title">SKILLS</div><div class="page-subtitle">// SKILL.MATRIX.ACTIVE</div></div>
   <div style="display:flex;gap:16px;margin-bottom:24px;"><button class="btn btn-cyan" onclick="openModal('modal-skill')">+ ADD SKILL</button></div>
   <div style="background:var(--white);border:var(--border);box-shadow:var(--shadow-lg);">
-    <div style="padding:8px 16px;border-bottom:var(--border);font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;background:var(--pink);color:#fff;">SKILL_MATRIX — BAR 1: GOAL PROGRESS · BAR 2: CONFIDENCE (DRAG TO SET)</div>
+    <div style="padding:8px 16px;border-bottom:var(--border);font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;background:var(--pink);color:#fff;">SKILL_MATRIX — BAR 1: GOAL PROGRESS · BAR 2: CONFIDENCE (USE +/- TO SET)</div>
     <div style="padding:20px;" id="skills-list"></div>
   </div>
 </div>
 
+<!-- INTELLECT PAGE -->
 <div class="page" id="page-intellect">
   <div class="page-header"><div class="page-title">INTELLECT</div><div class="page-subtitle">// BOOKS + LANGUAGES</div></div>
-  <div class="intellect-grid">
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
     <div>
       <div class="section-header"><div class="section-title">BOOKS</div><button class="btn btn-cyan btn-sm" onclick="openModal('modal-book')">+ ADD</button></div>
       <div id="books-list"></div>
@@ -202,6 +302,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
+<!-- NETWORK PAGE -->
 <div class="page" id="page-network">
   <div class="page-header"><div class="page-title">NETWORK</div><div class="page-subtitle">// NETWORK_NODES</div></div>
   <div class="network-nodes" id="network-stats"></div>
@@ -219,6 +320,23 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
+<!-- PLANNING PAGE -->
+<div class="page" id="page-planning">
+  <div class="page-header">
+    <div class="page-title">PLANNING</div>
+    <div class="page-subtitle">// YEAR.TIMELINE.MATRIX</div>
+  </div>
+  <div class="planning-topbar">
+    <div class="plan-year-badge" id="plan-year-badge">2025</div>
+    <button class="btn btn-dark btn-sm" onclick="planChangeYear(-1)">◀ PREV</button>
+    <button class="btn btn-dark btn-sm" onclick="planChangeYear(1)">NEXT ▶</button>
+    <button class="btn btn-cyan btn-sm" onclick="planAddColumn()">+ ADD TIMELINE</button>
+    <span style="font-family:var(--font-mono);font-size:10px;color:#888;text-transform:uppercase;">CLICK ANY MONTH CELL TO ADD AN EVENT</span>
+  </div>
+  <div id="planning-area" style="border:var(--border);box-shadow:var(--shadow-xl);overflow:hidden;background:#fff;"></div>
+</div>
+
+<!-- ULTIMATE PAGE -->
 <div class="page" id="page-ultimate">
   <div class="page-header"><div class="page-title">ULTIMATE GOAL</div><div class="page-subtitle">// ENDGAME.OBJECTIVE</div></div>
   <div class="ultimate-display">
@@ -250,6 +368,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
       <div class="field">
         <label class="label-field">CATEGORY</label>
         <select class="select" id="g-category" onchange="updateCategoryFields()">
+          <option value="goal">ONLY GOAL (standalone — no skill/book link)</option>
           <option value="skill">SKILL (links to Skills section)</option>
           <option value="book">BOOK (links to Intellect → Books)</option>
         </select>
@@ -364,18 +483,24 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
+<!-- PLANNING QUICK-ADD POPUP -->
+<div id="quick-add-popup" class="quick-add-popup" style="display:none;">
+  <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px;color:#444;" id="qap-label">ADD EVENT</div>
+  <input id="qap-text" placeholder="Event text…" maxlength="80" onkeydown="qapKeydown(event)"/>
+  <div class="quick-add-color-row" id="qap-colors"></div>
+  <div class="quick-add-btns">
+    <button style="background:var(--black);color:var(--white);" onclick="qapConfirm()">ADD</button>
+    <button style="background:#eee;" onclick="qapCancel()">CANCEL</button>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-// ██████████  MONGODB SYNC LAYER  ████████████████████████████
-// Replaces localStorage with API calls to the Express backend.
-// All existing game logic below is UNCHANGED.
+// MONGODB SYNC LAYER
 // ═══════════════════════════════════════════════════════════════
-
-const API = ''; // empty = same origin (served by Express)
-
-// ── Save state to MongoDB (debounced, mirrors old scheduleSave) ─
+const API = '';
 let _saveTimer = null;
 
 async function saveState() {
@@ -383,12 +508,8 @@ async function saveState() {
   try {
     ind.textContent = 'SAVING…';
     ind.className = 'save-indicator saving';
-
     const body = {
-      goals:   state.goals.map(g => ({
-        ...g,
-        doneSet: [...(g.doneSet || [])]
-      })),
+      goals:   state.goals.map(g => ({ ...g, doneSet: [...(g.doneSet || [])] })),
       skills:  state.skills,
       books:   state.books,
       langs:   state.langs,
@@ -397,14 +518,13 @@ async function saveState() {
       social:  state.social,
       ultimate: state.ultimate,
       nextId:  state.nextId,
+      planning: state.planning,
     };
-
     const res = await fetch(API + '/api/state/sync', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(body),
     });
-
     if (!res.ok) throw new Error('HTTP ' + res.status);
     ind.textContent = 'SAVED ✓';
     ind.className = 'save-indicator saved';
@@ -422,31 +542,23 @@ function scheduleSave() {
   _saveTimer = setTimeout(saveState, 600);
 }
 
-// ── Load state from MongoDB on page boot ────────────────────────
 async function loadStateFromDB() {
   const badge = document.getElementById('db-badge');
   try {
     const res = await fetch(API + '/api/state');
     if (!res.ok) throw new Error('HTTP ' + res.status);
     const data = await res.json();
-
-    // Re-inflate doneSet arrays into Sets
-    data.goals = (data.goals || []).map(g => ({
-      ...g,
-      doneSet: new Set(g.doneSet || [])
-    }));
-
-    // Merge loaded data into state with sensible fallbacks
+    data.goals = (data.goals || []).map(g => ({ ...g, doneSet: new Set(g.doneSet || []) }));
     state.goals   = data.goals   || [];
     state.skills  = data.skills  || state.skills;
     state.books   = data.books   || state.books;
     state.langs   = data.langs   || state.langs;
     state.friends = data.friends || state.friends;
     state.clients = data.clients || state.clients;
-    if (data.social)   state.social   = data.social;
-    if (data.ultimate) state.ultimate = data.ultimate;
-    if (data.nextId)   state.nextId   = data.nextId;
-
+    if (data.social)    state.social    = data.social;
+    if (data.ultimate)  state.ultimate  = data.ultimate;
+    if (data.nextId)    state.nextId    = data.nextId;
+    if (data.planning)  state.planning  = data.planning;
     badge.textContent = 'DB ✓';
     badge.className = 'online';
     document.getElementById('save-indicator').textContent = 'LOADED ✓';
@@ -461,169 +573,33 @@ async function loadStateFromDB() {
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ORIGINAL GOAL_ENGINE_V3 CODE (unmodified below this line)
+// CONSTANTS & MAP GENERATION (unchanged)
 // ═══════════════════════════════════════════════════════════════
-
-const GOAL_COLORS = [
-  '#c0392b','#2980b9','#27ae60','#8e44ad',
-  '#d35400','#16a085','#2c3e50','#c0392b',
-  '#1a5276','#6d4c41','#4a235a','#145a32'
-];
-const MAP_GOAL_COLORS = [
-  '#c0392b','#2980b9','#27ae60','#8e44ad',
-  '#d35400','#16a085','#5d4037','#ad1457',
-  '#1565c0','#558b2f','#6a1b9a','#00838f'
-];
-const ACCENT_COLORS = [
-  '#00f0ff','#a2ef00','#fe00fe','#ffe500',
-  '#ff6b00','#8b5cf6','#00d4aa','#f97316',
-  '#e879f9','#34d399','#fbbf24','#60a5fa'
-];
+const GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085','#2c3e50','#c0392b','#1a5276','#6d4c41','#4a235a','#145a32'];
+const MAP_GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085','#5d4037','#ad1457','#1565c0','#558b2f','#6a1b9a','#00838f'];
+const ACCENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316','#e879f9','#34d399','#fbbf24','#60a5fa'];
+const EVENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316'];
 
 const CONQUERED_COLOR = '#8b0000';
 const NEXUS_COLOR = '#8b0000';
 const MAP_BG = '#d4c09a';
 const MAP_GRID_LINE = 'rgba(90,62,27,0.18)';
 const WATER_COLORS = ['#4a7fa5','#3d6e93','#5588af','#3a6688','#2e5c80'];
-const MOUNTAIN_COLOR = '#9e8e7e';
-const FOREST_COLOR = '#5a7a3a';
-
-const PX = 24;
-const GAP = 1;
-const STEP = PX + GAP;
-const GRID = 51;
-const CX = 25;
-const CY = 25;
+const PX = 24, GAP = 1, STEP = PX + GAP, GRID = 51, CX = 25, CY = 25;
 const DIRS8 = [[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,1],[1,-1],[-1,-1]];
 
-function makePRNG(seed){
-  let s=seed>>>0;
-  return function(){
-    s|=0;s=s+0x6D2B79F5|0;
-    let t=Math.imul(s^s>>>15,1|s);
-    t=t+Math.imul(t^t>>>7,61|t)^t;
-    return((t^t>>>14)>>>0)/4294967296;
-  };
-}
-function seededShuffle(arr,rng){
-  const a=[...arr];
-  for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]];}
-  return a;
-}
-function bfsTerritory(startQ,startR,N,blockedSet,rng){
-  if(startQ<0||startQ>=GRID||startR<0||startR>=GRID)return[];
-  const key=(q,r)=>q+','+r;
-  const startKey=key(startQ,startR);
-  const visited=new Set([startKey]);
-  const result=[[startQ,startR]];
-  const queue=[[startQ,startR]];
-  let head=0;
-  const dirs=seededShuffle(DIRS8,rng);
-  while(result.length<N&&head<queue.length){
-    const[q,r]=queue[head++];
-    for(const[dq,dr]of dirs){
-      if(result.length>=N)break;
-      const nq=q+dq,nr=r+dr,nk=key(nq,nr);
-      if(nq<0||nq>=GRID||nr<0||nr>=GRID)continue;
-      if(visited.has(nk)||blockedSet.has(nk))continue;
-      visited.add(nk);queue.push([nq,nr]);result.push([nq,nr]);
-    }
-  }
-  return result;
-}
-
-function generateWater(rng){
-  const water=new Set();
-  const numSeeds=18;
-  for(let s=0;s<numSeeds;s++){
-    let q=Math.floor(rng()*GRID),r=Math.floor(rng()*GRID);
-    if(Math.abs(q-CX)<5&&Math.abs(r-CY)<5)continue;
-    const blobSize=3+Math.floor(rng()*6);
-    for(let b=0;b<blobSize;b++){
-      if(q<0||q>=GRID||r<0||r>=GRID)continue;
-      if(Math.abs(q-CX)<4&&Math.abs(r-CY)<4)continue;
-      water.add(q+','+r);
-      q+=Math.floor(rng()*3)-1;r+=Math.floor(rng()*3)-1;
-      q=Math.max(0,Math.min(GRID-1,q));r=Math.max(0,Math.min(GRID-1,r));
-    }
-  }
-  return water;
-}
-
+function makePRNG(seed){let s=seed>>>0;return function(){s|=0;s=s+0x6D2B79F5|0;let t=Math.imul(s^s>>>15,1|s);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296;};}
+function seededShuffle(arr,rng){const a=[...arr];for(let i=a.length-1;i>0;i--){const j=Math.floor(rng()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+function bfsTerritory(startQ,startR,N,blockedSet,rng){if(startQ<0||startQ>=GRID||startR<0||startR>=GRID)return[];const key=(q,r)=>q+','+r;const startKey=key(startQ,startR);const visited=new Set([startKey]);const result=[[startQ,startR]];const queue=[[startQ,startR]];let head=0;const dirs=seededShuffle(DIRS8,rng);while(result.length<N&&head<queue.length){const[q,r]=queue[head++];for(const[dq,dr]of dirs){if(result.length>=N)break;const nq=q+dq,nr=r+dr,nk=key(nq,nr);if(nq<0||nq>=GRID||nr<0||nr>=GRID)continue;if(visited.has(nk)||blockedSet.has(nk))continue;visited.add(nk);queue.push([nq,nr]);result.push([nq,nr]);}}return result;}
+function generateWater(rng){const water=new Set();const numSeeds=18;for(let s=0;s<numSeeds;s++){let q=Math.floor(rng()*GRID),r=Math.floor(rng()*GRID);if(Math.abs(q-CX)<5&&Math.abs(r-CY)<5)continue;const blobSize=3+Math.floor(rng()*6);for(let b=0;b<blobSize;b++){if(q<0||q>=GRID||r<0||r>=GRID)continue;if(Math.abs(q-CX)<4&&Math.abs(r-CY)<4)continue;water.add(q+','+r);q+=Math.floor(rng()*3)-1;r+=Math.floor(rng()*3)-1;q=Math.max(0,Math.min(GRID-1,q));r=Math.max(0,Math.min(GRID-1,r));}}return water;}
 const NEXUS_STARTS=[[CX+2,CY],[CX-2,CY],[CX,CY-2],[CX+2,CY-2]];
+function computeTerritory(goals,waterCells){const baseBlocked=new Set(waterCells);for(let dq=-1;dq<=1;dq++)for(let dr=-1;dr<=1;dr++)baseBlocked.add((CX+dq)+','+(CY+dr));const runningBlocked=new Set(baseBlocked);const claimedMap=new Map();const goalCells=new Map();goals.forEach((g,gi)=>{const rng=makePRNG(g.id*1000+42);let startQ,startR;if(gi<4){[startQ,startR]=NEXUS_STARTS[gi];const[dq,dr]=[startQ-CX,startR-CY];let attempts=0;while(runningBlocked.has(startQ+','+startR)&&attempts<10){startQ+=Math.sign(dq)||1;startR+=Math.sign(dr);startQ=Math.max(0,Math.min(GRID-1,startQ));startR=Math.max(0,Math.min(GRID-1,startR));attempts++;}}else{const parentIdx=gi%4;const parentId=goals[parentIdx].id;const parentCells=goalCells.get(parentId)||[];let bestStart=null,bestDist=-1;for(const cell of parentCells){const dist=Math.abs(cell[0]-CX)+Math.abs(cell[1]-CY);if(dist<=bestDist)continue;for(const[dq2,dr2]of DIRS8){const nq=cell[0]+dq2,nr=cell[1]+dr2,nk=nq+','+nr;if(nq>=0&&nq<GRID&&nr>=0&&nr<GRID&&!runningBlocked.has(nk)){bestDist=dist;bestStart=[nq,nr];break;}}}if(bestStart){[startQ,startR]=bestStart;}else{startQ=Math.min(GRID-2,CX+5+gi*2);startR=Math.max(1,CY-5-gi*2);while(runningBlocked.has(startQ+','+startR)&&startQ<GRID-1)startQ++;}}const territory=bfsTerritory(startQ,startR,g.total,runningBlocked,rng);const cells=[];territory.forEach((cell,ci)=>{const k=cell[0]+','+cell[1];claimedMap.set(k,{goalId:g.id,goalIdx:gi,cellIdx:ci});cells.push(cell);runningBlocked.add(k);});goalCells.set(g.id,cells);});return{claimedMap,goalCells};}
+const _featRng=makePRNG(99999);const MAP_MOUNTAINS=[];const MAP_FORESTS=[];(()=>{for(let i=0;i<30;i++){let q=Math.floor(_featRng()*GRID),r=Math.floor(_featRng()*GRID);if(Math.abs(q-CX)<6&&Math.abs(r-CY)<6)continue;MAP_MOUNTAINS.push([q,r]);}for(let i=0;i<25;i++){let q=Math.floor(_featRng()*GRID),r=Math.floor(_featRng()*GRID);if(Math.abs(q-CX)<6&&Math.abs(r-CY)<6)continue;MAP_FORESTS.push([q,r]);}})();
+const WATER_SEED=12345;const _waterRng=makePRNG(WATER_SEED);const WATER_CELLS=generateWater(_waterRng);
 
-function computeTerritory(goals,waterCells){
-  const baseBlocked=new Set(waterCells);
-  for(let dq=-1;dq<=1;dq++)
-    for(let dr=-1;dr<=1;dr++)
-      baseBlocked.add((CX+dq)+','+(CY+dr));
-  const runningBlocked=new Set(baseBlocked);
-  const claimedMap=new Map();
-  const goalCells=new Map();
-  goals.forEach((g,gi)=>{
-    const rng=makePRNG(g.id*1000+42);
-    let startQ,startR;
-    if(gi<4){
-      [startQ,startR]=NEXUS_STARTS[gi];
-      const[dq,dr]=[startQ-CX,startR-CY];
-      let attempts=0;
-      while(runningBlocked.has(startQ+','+startR)&&attempts<10){
-        startQ+=Math.sign(dq)||1;startR+=Math.sign(dr);
-        startQ=Math.max(0,Math.min(GRID-1,startQ));startR=Math.max(0,Math.min(GRID-1,startR));
-        attempts++;
-      }
-    } else {
-      const parentIdx=gi%4;const parentId=goals[parentIdx].id;
-      const parentCells=goalCells.get(parentId)||[];
-      let bestStart=null,bestDist=-1;
-      for(const cell of parentCells){
-        const dist=Math.abs(cell[0]-CX)+Math.abs(cell[1]-CY);
-        if(dist<=bestDist)continue;
-        for(const[dq2,dr2]of DIRS8){
-          const nq=cell[0]+dq2,nr=cell[1]+dr2,nk=nq+','+nr;
-          if(nq>=0&&nq<GRID&&nr>=0&&nr<GRID&&!runningBlocked.has(nk)){
-            bestDist=dist;bestStart=[nq,nr];break;
-          }
-        }
-      }
-      if(bestStart){[startQ,startR]=bestStart;}
-      else{
-        startQ=Math.min(GRID-2,CX+5+gi*2);startR=Math.max(1,CY-5-gi*2);
-        while(runningBlocked.has(startQ+','+startR)&&startQ<GRID-1)startQ++;
-      }
-    }
-    const territory=bfsTerritory(startQ,startR,g.total,runningBlocked,rng);
-    const cells=[];
-    territory.forEach((cell,ci)=>{
-      const k=cell[0]+','+cell[1];
-      claimedMap.set(k,{goalId:g.id,goalIdx:gi,cellIdx:ci});
-      cells.push(cell);runningBlocked.add(k);
-    });
-    goalCells.set(g.id,cells);
-  });
-  return{claimedMap,goalCells};
-}
-
-const _featRng=makePRNG(99999);
-const MAP_MOUNTAINS=[];
-const MAP_FORESTS=[];
-(()=>{
-  for(let i=0;i<30;i++){
-    let q=Math.floor(_featRng()*GRID),r=Math.floor(_featRng()*GRID);
-    if(Math.abs(q-CX)<6&&Math.abs(r-CY)<6)continue;
-    MAP_MOUNTAINS.push([q,r]);
-  }
-  for(let i=0;i<25;i++){
-    let q=Math.floor(_featRng()*GRID),r=Math.floor(_featRng()*GRID);
-    if(Math.abs(q-CX)<6&&Math.abs(r-CY)<6)continue;
-    MAP_FORESTS.push([q,r]);
-  }
-})();
-
-const WATER_SEED=12345;
-const _waterRng=makePRNG(WATER_SEED);
-const WATER_CELLS=generateWater(_waterRng);
-
+// ═══════════════════════════════════════════════════════════════
+// DEFAULT STATE  — now includes planning
+// ═══════════════════════════════════════════════════════════════
 function defaultState(){
   return{
     goals:[],
@@ -646,11 +622,12 @@ function defaultState(){
     social:{instagram:{followers:0,handle:''},youtube:{subscribers:0,handle:''},linkedin:{connections:0,handle:''}},
     clients:[],
     ultimate:{title:'YOUR ENDGAME',vision:'Define your ultimate mission',progress:0},
+    // planning: { year, columns: [{id, name, colorIdx, events:[{id,monthIdx,text,colorIdx,offsetY}]}] }
+    planning:{ year: new Date().getFullYear(), columns:[] },
     nextId:100,
   };
 }
 
-// Use defaultState as the in-memory state; DB load will overwrite it on init
 let state = defaultState();
 let selectedOutput = 'learning';
 let _territory = null, _territorySnapshot = '';
@@ -663,40 +640,12 @@ function getTerritory(){
   return _territory;
 }
 
-function syncSkillProgress(){
-  state.skills.forEach(sk=>{
-    const linked=state.goals.filter(g=>
-      g.category==='skill'&&
-      (g.catData&&g.catData['cf-s1']&&g.catData['cf-s1'].toUpperCase()===sk.name.toUpperCase())
-    );
-    if(linked.length===0)return;
-    const totalTasks=linked.reduce((s,g)=>s+g.total,0);
-    const doneTasks=linked.reduce((s,g)=>s+getDone(g),0);
-    sk.goalProgress=totalTasks>0?Math.round(doneTasks/totalTasks*100):0;
-  });
-}
-function syncLangProgress(){
-  state.langs.forEach(ln=>{
-    const linked=state.goals.filter(g=>
-      g.category==='skill'&&
-      (g.catData&&g.catData['cf-s1']&&g.catData['cf-s1'].toUpperCase()===ln.name.toUpperCase())
-    );
-    if(linked.length===0)return;
-    const totalTasks=linked.reduce((s,g)=>s+g.total,0);
-    const doneTasks=linked.reduce((s,g)=>s+getDone(g),0);
-    ln.goalProgress=totalTasks>0?Math.round(doneTasks/totalTasks*100):0;
-  });
-}
-function syncBookProgress(){
-  state.books.forEach(bk=>{
-    if(!bk.linkedGoalId)return;
-    const g=state.goals.find(x=>x.id===bk.linkedGoalId);
-    if(!g)return;
-    const pct=g.total>0?getDone(g)/g.total:0;
-    bk.read=Math.round(pct*(bk.pages||0));
-  });
-}
+// ── sync helpers ─────────────────────────────────────────────
+function syncSkillProgress(){state.skills.forEach(sk=>{const linked=state.goals.filter(g=>g.category==='skill'&&(g.catData&&g.catData['cf-s1']&&g.catData['cf-s1'].toUpperCase()===sk.name.toUpperCase()));if(linked.length===0)return;const totalTasks=linked.reduce((s,g)=>s+g.total,0);const doneTasks=linked.reduce((s,g)=>s+getDone(g),0);sk.goalProgress=totalTasks>0?Math.round(doneTasks/totalTasks*100):0;});}
+function syncLangProgress(){state.langs.forEach(ln=>{const linked=state.goals.filter(g=>g.category==='skill'&&(g.catData&&g.catData['cf-s1']&&g.catData['cf-s1'].toUpperCase()===ln.name.toUpperCase()));if(linked.length===0)return;const totalTasks=linked.reduce((s,g)=>s+g.total,0);const doneTasks=linked.reduce((s,g)=>s+getDone(g),0);ln.goalProgress=totalTasks>0?Math.round(doneTasks/totalTasks*100):0;});}
+function syncBookProgress(){state.books.forEach(bk=>{if(!bk.linkedGoalId)return;const g=state.goals.find(x=>x.id===bk.linkedGoalId);if(!g)return;const pct=g.total>0?getDone(g)/g.total:0;bk.read=Math.round(pct*(bk.pages||0));});}
 
+// ── nav ──────────────────────────────────────────────────────
 function showPage(name,el){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
@@ -708,10 +657,13 @@ function showPage(name,el){
   if(name==='skills'){syncSkillProgress();renderSkills();}
   if(name==='intellect'){syncBookProgress();renderBooks();renderLangs();}
   if(name==='network')renderNetwork();
+  if(name==='planning')renderPlanning();
   if(name==='ultimate')renderUltimate();
 }
 
+// ── category fields ──────────────────────────────────────────
 const catFieldDefs={
+  goal: [],
   skill:[{id:'cf-s1',label:'SKILL NAME (must match a skill in Skills page)',type:'text',ph:'E.g. Figma'}],
   book:[
     {id:'cf-b1',label:'BOOK TITLE',type:'text',ph:'Book title'},
@@ -719,7 +671,6 @@ const catFieldDefs={
     {id:'cf-b3',label:'TOTAL PAGES',type:'number',ph:'300'},
   ],
 };
-
 function updateCategoryFields(){
   const cat=document.getElementById('g-category').value;
   const wrap=document.getElementById('cat-dynamic-fields');
@@ -727,6 +678,10 @@ function updateCategoryFields(){
   wrap.innerHTML=defs.map(f=>
     `<div style="margin-bottom:12px;"><label class="label-field">${f.label}</label><input class="input" id="${f.id}" type="${f.type}" placeholder="${f.ph}"/></div>`
   ).join('');
+  if(cat==='goal'){
+    wrap.innerHTML=`<div style="font-family:var(--font-mono);font-size:10px;color:#888;padding:8px 12px;border:1px dashed #ccc;background:#fafafa;">
+      STANDALONE GOAL — no skill or book will be created. Tracks pixel progress independently.</div>`;
+  }
 }
 updateCategoryFields();
 
@@ -738,6 +693,7 @@ function selectOutput(t){
 
 function getDone(g){return g.doneSet?g.doneSet.size:(g.done||0);}
 
+// ── add goal ─────────────────────────────────────────────────
 function addGoal(){
   const name=document.getElementById('g-name').value.trim();
   const total=Math.min(60,parseInt(document.getElementById('g-total').value)||0);
@@ -748,10 +704,7 @@ function addGoal(){
   if(!deadline){toast('SET A DEADLINE');return;}
   const colorIdx=state.goals.length%ACCENT_COLORS.length;
   const catData={};
-  (catFieldDefs[cat]||[]).forEach(f=>{
-    const el=document.getElementById(f.id);
-    if(el)catData[f.id]=el.value.trim();
-  });
+  (catFieldDefs[cat]||[]).forEach(f=>{const el=document.getElementById(f.id);if(el)catData[f.id]=el.value.trim();});
   const goal={id:state.nextId++,name,total,output:selectedOutput,deadline,category:cat,catData,colorIdx,doneSet:new Set()};
   state.goals.push(goal);
   _territory=null;
@@ -777,159 +730,53 @@ function addGoal(){
   closeModal('modal-goal');
   scheduleSave();
   renderGoals();
-  toast('MISSION: '+name.toUpperCase());
+  toast('MISSION INITIALIZED: '+name.toUpperCase());
 }
 
-function toggleTask(goalId,cellIdx){
-  const g=state.goals.find(x=>x.id===goalId);
-  if(!g)return;
-  if(g.doneSet.has(cellIdx)){g.doneSet.delete(cellIdx);toast('TASK UNDONE ('+g.doneSet.size+'/'+g.total+')');}
-  else{g.doneSet.add(cellIdx);toast('PIXEL CONQUERED ('+g.doneSet.size+'/'+g.total+')');}
-  scheduleSave();drawPixelMap();updateCards();
-}
-
-function completeTask(goalId){
-  const g=state.goals.find(x=>x.id===goalId);
-  if(!g)return;
-  if(g.doneSet.size>=g.total){toast('ALL TASKS COMPLETE!');return;}
-  for(let i=0;i<g.total;i++){if(!g.doneSet.has(i)){g.doneSet.add(i);break;}}
-  scheduleSave();drawPixelMap();updateCards();
-  toast('TASK CONQUERED ('+g.doneSet.size+'/'+g.total+')');
-}
-
-function undoTask(goalId){
-  const g=state.goals.find(x=>x.id===goalId);
-  if(!g||g.doneSet.size===0)return;
-  const max=Math.max(...g.doneSet);
-  g.doneSet.delete(max);
-  scheduleSave();drawPixelMap();updateCards();
-  toast('TASK UNDONE');
-}
-
-function deleteGoal(goalId){
-  state.goals=state.goals.filter(x=>x.id!==goalId);
-  _territory=null;
-  scheduleSave();renderGoals();toast('GOAL REMOVED');
-}
+function toggleTask(goalId,cellIdx){const g=state.goals.find(x=>x.id===goalId);if(!g)return;if(g.doneSet.has(cellIdx)){g.doneSet.delete(cellIdx);toast('TASK UNDONE ('+g.doneSet.size+'/'+g.total+')');}else{g.doneSet.add(cellIdx);toast('PIXEL CONQUERED ('+g.doneSet.size+'/'+g.total+')');}scheduleSave();drawPixelMap();updateCards();}
+function completeTask(goalId){const g=state.goals.find(x=>x.id===goalId);if(!g)return;if(g.doneSet.size>=g.total){toast('ALL TASKS COMPLETE!');return;}for(let i=0;i<g.total;i++){if(!g.doneSet.has(i)){g.doneSet.add(i);break;}}scheduleSave();drawPixelMap();updateCards();toast('TASK CONQUERED ('+g.doneSet.size+'/'+g.total+')');}
+function undoTask(goalId){const g=state.goals.find(x=>x.id===goalId);if(!g||g.doneSet.size===0)return;const max=Math.max(...g.doneSet);g.doneSet.delete(max);scheduleSave();drawPixelMap();updateCards();toast('TASK UNDONE');}
+function deleteGoal(goalId){state.goals=state.goals.filter(x=>x.id!==goalId);_territory=null;scheduleSave();renderGoals();toast('GOAL REMOVED');}
 
 function renderGoals(){
   const wrap=document.getElementById('goals-area');
-  if(state.goals.length===0){
-    wrap.innerHTML=`<div class="empty-pixel-map">NO MISSIONS INITIALIZED<br><br><span style="font-size:10px;">PRESS + TO ADD YOUR FIRST GOAL — EACH GOAL WILL CONQUER TERRITORY AROUND THE RED NEXUS</span></div>`;
-    return;
-  }
+  if(state.goals.length===0){wrap.innerHTML=`<div class="empty-pixel-map">NO MISSIONS INITIALIZED<br><br><span style="font-size:10px;">PRESS + TO ADD YOUR FIRST GOAL — EACH GOAL WILL CONQUER TERRITORY AROUND THE RED NEXUS</span></div>`;return;}
   const W=GRID*STEP-GAP;const H=GRID*STEP-GAP;
-  const legendHtml=state.goals.map(g=>
-    `<div class="legend-chip"><div class="legend-dot" style="background:${MAP_GOAL_COLORS[g.colorIdx]};border-color:#5a3e1b;"></div>${g.name.toUpperCase()} <span style="opacity:.6;margin-left:4px;">${getDone(g)}/${g.total}</span></div>`
-  ).join('')
-  +`<div class="legend-chip"><div class="legend-dot" style="background:${CONQUERED_COLOR};border-color:#5a3e1b;"></div>CONQUERED</div>`
-  +`<div class="legend-chip"><div class="legend-dot" style="background:#4a7fa5;border-color:#5a3e1b;"></div>WATER</div>`;
-  const totalTasks=state.goals.reduce((s,g)=>s+g.total,0);
-  const totalDone=state.goals.reduce((s,g)=>s+getDone(g),0);
-  const pct=totalTasks>0?Math.round(totalDone/totalTasks*100):0;
-  const statsHtml=`<div class="conquest-stats">
-    <div class="stat-pill">TOTAL TASKS: ${totalTasks}</div>
-    <div class="stat-pill" style="background:#8b0000;color:#fdf6e3;border-color:#5a3e1b;">CONQUERED: ${totalDone}</div>
-    <div class="stat-pill" style="background:#b8860b;color:#fdf6e3;border-color:#5a3e1b;">TERRITORY: ${pct}%</div>
-    <div class="stat-pill">GOALS: ${state.goals.length}</div>
-  </div>`;
+  const legendHtml=state.goals.map(g=>`<div class="legend-chip"><div class="legend-dot" style="background:${MAP_GOAL_COLORS[g.colorIdx]};border-color:#5a3e1b;"></div>${g.name.toUpperCase()} <span style="opacity:.6;margin-left:4px;">${getDone(g)}/${g.total}</span></div>`).join('')
+    +`<div class="legend-chip"><div class="legend-dot" style="background:${CONQUERED_COLOR};border-color:#5a3e1b;"></div>CONQUERED</div>`
+    +`<div class="legend-chip"><div class="legend-dot" style="background:#4a7fa5;border-color:#5a3e1b;"></div>WATER</div>`;
+  const totalTasks=state.goals.reduce((s,g)=>s+g.total,0);const totalDone=state.goals.reduce((s,g)=>s+getDone(g),0);const pct=totalTasks>0?Math.round(totalDone/totalTasks*100):0;
+  const statsHtml=`<div class="conquest-stats"><div class="stat-pill">TOTAL TASKS: ${totalTasks}</div><div class="stat-pill" style="background:#8b0000;color:#fdf6e3;border-color:#5a3e1b;">CONQUERED: ${totalDone}</div><div class="stat-pill" style="background:#b8860b;color:#fdf6e3;border-color:#5a3e1b;">TERRITORY: ${pct}%</div><div class="stat-pill">GOALS: ${state.goals.length}</div></div>`;
   wrap.innerHTML=`<div class="pixel-legend">${legendHtml}</div>${statsHtml}<div id="pixel-canvas-wrap"><canvas id="pixel-canvas" width="${W}" height="${H}"></canvas></div><div id="goal-cards-wrap"></div>`;
   drawPixelMap();updateCards();attachCanvasEvents();
 }
 
 function attachCanvasEvents(){
-  const canvas=document.getElementById('pixel-canvas');
-  if(!canvas)return;
+  const canvas=document.getElementById('pixel-canvas');if(!canvas)return;
   const tooltip=document.getElementById('pixel-tooltip');
   const{claimedMap}=getTerritory();
-  canvas.addEventListener('mousemove',(e)=>{
-    const rect=canvas.getBoundingClientRect();
-    const scaleX=(GRID*STEP)/rect.width,scaleY=(GRID*STEP)/rect.height;
-    const q=Math.floor((e.clientX-rect.left)*scaleX/STEP);
-    const r=Math.floor((e.clientY-rect.top)*scaleY/STEP);
-    const k=q+','+r;
-    if(claimedMap.has(k)){
-      const info=claimedMap.get(k);const g=state.goals.find(x=>x.id===info.goalId);
-      if(g){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';
-        tooltip.textContent=g.name.toUpperCase()+' — TASK '+(info.cellIdx+1)+'/'+g.total+' '+(g.doneSet.has(info.cellIdx)?'✓ CONQUERED':'[ CLICK TO CONQUER ]');}
-    } else if(WATER_CELLS.has(k)){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';tooltip.textContent='WATER — UNCROSSABLE';}
-    else{tooltip.style.display='none';}
-  });
+  canvas.addEventListener('mousemove',(e)=>{const rect=canvas.getBoundingClientRect();const scaleX=(GRID*STEP)/rect.width,scaleY=(GRID*STEP)/rect.height;const q=Math.floor((e.clientX-rect.left)*scaleX/STEP);const r=Math.floor((e.clientY-rect.top)*scaleY/STEP);const k=q+','+r;if(claimedMap.has(k)){const info=claimedMap.get(k);const g=state.goals.find(x=>x.id===info.goalId);if(g){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';tooltip.textContent=g.name.toUpperCase()+' — TASK '+(info.cellIdx+1)+'/'+g.total+' '+(g.doneSet.has(info.cellIdx)?'✓ CONQUERED':'[ CLICK TO CONQUER ]');}}else if(WATER_CELLS.has(k)){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';tooltip.textContent='WATER — UNCROSSABLE';}else{tooltip.style.display='none';}});
   canvas.addEventListener('mouseleave',()=>{tooltip.style.display='none';});
-  canvas.addEventListener('click',(e)=>{
-    const rect=canvas.getBoundingClientRect();
-    const scaleX=(GRID*STEP)/rect.width,scaleY=(GRID*STEP)/rect.height;
-    const q=Math.floor((e.clientX-rect.left)*scaleX/STEP);
-    const r=Math.floor((e.clientY-rect.top)*scaleY/STEP);
-    const k=q+','+r;
-    if(claimedMap.has(k)){const info=claimedMap.get(k);toggleTask(info.goalId,info.cellIdx);}
-  });
+  canvas.addEventListener('click',(e)=>{const rect=canvas.getBoundingClientRect();const scaleX=(GRID*STEP)/rect.width,scaleY=(GRID*STEP)/rect.height;const q=Math.floor((e.clientX-rect.left)*scaleX/STEP);const r=Math.floor((e.clientY-rect.top)*scaleY/STEP);const k=q+','+r;if(claimedMap.has(k)){const info=claimedMap.get(k);toggleTask(info.goalId,info.cellIdx);}});
 }
 
 function drawPixelMap(){
   const canvas=document.getElementById('pixel-canvas');if(!canvas)return;
   const ctx=canvas.getContext('2d');const W=GRID*STEP-GAP;const H=GRID*STEP-GAP;
   ctx.fillStyle=MAP_BG;ctx.fillRect(0,0,W,H);
-  const vgr=ctx.createRadialGradient(W/2,H/2,W*0.2,W/2,H/2,W*0.75);
-  vgr.addColorStop(0,'rgba(0,0,0,0)');vgr.addColorStop(1,'rgba(60,30,0,0.25)');
-  ctx.fillStyle=vgr;ctx.fillRect(0,0,W,H);
-  ctx.strokeStyle=MAP_GRID_LINE;ctx.lineWidth=0.5;
-  for(let q=0;q<=GRID;q++){ctx.beginPath();ctx.moveTo(q*STEP-.5,0);ctx.lineTo(q*STEP-.5,H);ctx.stroke();}
-  for(let r=0;r<=GRID;r++){ctx.beginPath();ctx.moveTo(0,r*STEP-.5);ctx.lineTo(W,r*STEP-.5);ctx.stroke();}
-  MAP_FORESTS.forEach(([q,r])=>{
-    if(WATER_CELLS.has(q+','+r))return;
-    ctx.fillStyle='rgba(70,100,40,0.25)';ctx.fillRect(q*STEP+3,r*STEP+3,PX-6,PX-6);
-    ctx.fillStyle='rgba(70,100,40,0.18)';ctx.beginPath();ctx.arc(q*STEP+PX/2,r*STEP+PX/2,PX/3,0,Math.PI*2);ctx.fill();
-  });
-  MAP_MOUNTAINS.forEach(([q,r])=>{
-    if(WATER_CELLS.has(q+','+r))return;
-    ctx.fillStyle='rgba(100,80,60,0.22)';
-    const cx2=q*STEP+PX/2,cy2=r*STEP+PX*0.85;
-    ctx.beginPath();ctx.moveTo(cx2,r*STEP+3);ctx.lineTo(cx2+PX*0.42,cy2);ctx.lineTo(cx2-PX*0.42,cy2);ctx.closePath();ctx.fill();
-    ctx.fillStyle='rgba(200,180,160,0.25)';
-    ctx.beginPath();ctx.moveTo(cx2,r*STEP+3);ctx.lineTo(cx2+PX*0.2,cy2*0.6+r*STEP*0.4);ctx.lineTo(cx2-PX*0.15,cy2*0.6+r*STEP*0.4);ctx.closePath();ctx.fill();
-  });
-  let wi=0;
-  WATER_CELLS.forEach(k=>{
-    const[q,r]=k.split(',').map(Number);
-    ctx.fillStyle=WATER_COLORS[wi++%WATER_COLORS.length];ctx.fillRect(q*STEP+1,r*STEP+1,PX-1,PX-1);
-    ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(q*STEP+3,r*STEP+5,PX-8,1.5);
-    ctx.fillStyle='rgba(255,255,255,0.10)';ctx.fillRect(q*STEP+4,r*STEP+11,PX-10,1);
-    ctx.strokeStyle='rgba(30,90,140,0.4)';ctx.lineWidth=0.8;ctx.strokeRect(q*STEP+1,r*STEP+1,PX-1,PX-1);
-  });
+  const vgr=ctx.createRadialGradient(W/2,H/2,W*0.2,W/2,H/2,W*0.75);vgr.addColorStop(0,'rgba(0,0,0,0)');vgr.addColorStop(1,'rgba(60,30,0,0.25)');ctx.fillStyle=vgr;ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle=MAP_GRID_LINE;ctx.lineWidth=0.5;for(let q=0;q<=GRID;q++){ctx.beginPath();ctx.moveTo(q*STEP-.5,0);ctx.lineTo(q*STEP-.5,H);ctx.stroke();}for(let r=0;r<=GRID;r++){ctx.beginPath();ctx.moveTo(0,r*STEP-.5);ctx.lineTo(W,r*STEP-.5);ctx.stroke();}
+  MAP_FORESTS.forEach(([q,r])=>{if(WATER_CELLS.has(q+','+r))return;ctx.fillStyle='rgba(70,100,40,0.25)';ctx.fillRect(q*STEP+3,r*STEP+3,PX-6,PX-6);ctx.fillStyle='rgba(70,100,40,0.18)';ctx.beginPath();ctx.arc(q*STEP+PX/2,r*STEP+PX/2,PX/3,0,Math.PI*2);ctx.fill();});
+  MAP_MOUNTAINS.forEach(([q,r])=>{if(WATER_CELLS.has(q+','+r))return;ctx.fillStyle='rgba(100,80,60,0.22)';const cx2=q*STEP+PX/2,cy2=r*STEP+PX*0.85;ctx.beginPath();ctx.moveTo(cx2,r*STEP+3);ctx.lineTo(cx2+PX*0.42,cy2);ctx.lineTo(cx2-PX*0.42,cy2);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(200,180,160,0.25)';ctx.beginPath();ctx.moveTo(cx2,r*STEP+3);ctx.lineTo(cx2+PX*0.2,cy2*0.6+r*STEP*0.4);ctx.lineTo(cx2-PX*0.15,cy2*0.6+r*STEP*0.4);ctx.closePath();ctx.fill();});
+  let wi=0;WATER_CELLS.forEach(k=>{const[q,r]=k.split(',').map(Number);ctx.fillStyle=WATER_COLORS[wi++%WATER_COLORS.length];ctx.fillRect(q*STEP+1,r*STEP+1,PX-1,PX-1);ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(q*STEP+3,r*STEP+5,PX-8,1.5);ctx.fillStyle='rgba(255,255,255,0.10)';ctx.fillRect(q*STEP+4,r*STEP+11,PX-10,1);ctx.strokeStyle='rgba(30,90,140,0.4)';ctx.lineWidth=0.8;ctx.strokeRect(q*STEP+1,r*STEP+1,PX-1,PX-1);});
   const{claimedMap}=getTerritory();
-  claimedMap.forEach((info,k)=>{
-    const[q,r]=k.split(',').map(Number);
-    const g=state.goals.find(x=>x.id===info.goalId);if(!g)return;
-    const isDone=g.doneSet.has(info.cellIdx);
-    const baseColor=MAP_GOAL_COLORS[g.colorIdx];const fill=isDone?CONQUERED_COLOR:baseColor;
-    ctx.fillStyle=fill;ctx.globalAlpha=isDone?0.82:0.68;ctx.fillRect(q*STEP+1,r*STEP+1,PX-1,PX-1);ctx.globalAlpha=1;
-    ctx.fillStyle='rgba(255,240,200,0.12)';ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,PX-4);
-    ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,2);ctx.fillRect(q*STEP+2,r*STEP+2,2,PX-4);
-    ctx.strokeStyle='rgba(90,62,27,0.4)';ctx.lineWidth=0.7;ctx.strokeRect(q*STEP+1,r*STEP+1,PX-1,PX-1);
-    if(isDone){
-      ctx.strokeStyle='rgba(255,255,200,0.45)';ctx.lineWidth=1.5;
-      ctx.beginPath();ctx.moveTo(q*STEP+5,r*STEP+5);ctx.lineTo(q*STEP+PX-4,r*STEP+PX-4);ctx.stroke();
-      ctx.beginPath();ctx.moveTo(q*STEP+PX-4,r*STEP+5);ctx.lineTo(q*STEP+5,r*STEP+PX-4);ctx.stroke();
-    }
-  });
+  claimedMap.forEach((info,k)=>{const[q,r]=k.split(',').map(Number);const g=state.goals.find(x=>x.id===info.goalId);if(!g)return;const isDone=g.doneSet.has(info.cellIdx);const baseColor=MAP_GOAL_COLORS[g.colorIdx];const fill=isDone?CONQUERED_COLOR:baseColor;ctx.fillStyle=fill;ctx.globalAlpha=isDone?0.82:0.68;ctx.fillRect(q*STEP+1,r*STEP+1,PX-1,PX-1);ctx.globalAlpha=1;ctx.fillStyle='rgba(255,240,200,0.12)';ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,PX-4);ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,2);ctx.fillRect(q*STEP+2,r*STEP+2,2,PX-4);ctx.strokeStyle='rgba(90,62,27,0.4)';ctx.lineWidth=0.7;ctx.strokeRect(q*STEP+1,r*STEP+1,PX-1,PX-1);if(isDone){ctx.strokeStyle='rgba(255,255,200,0.45)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(q*STEP+5,r*STEP+5);ctx.lineTo(q*STEP+PX-4,r*STEP+PX-4);ctx.stroke();ctx.beginPath();ctx.moveTo(q*STEP+PX-4,r*STEP+5);ctx.lineTo(q*STEP+5,r*STEP+PX-4);ctx.stroke();}});
   const nx=(CX-1)*STEP+1,ny=(CY-1)*STEP+1;const ns=3*STEP-2;
-  ctx.fillStyle='rgba(0,0,0,0.35)';ctx.fillRect(nx+3,ny+3,ns,ns);
-  ctx.fillStyle=NEXUS_COLOR;ctx.fillRect(nx,ny,ns,ns);
-  ctx.strokeStyle='#b8860b';ctx.lineWidth=2.5;ctx.strokeRect(nx,ny,ns,ns);
-  ctx.strokeStyle='rgba(255,220,100,0.5)';ctx.lineWidth=1;ctx.strokeRect(nx+4,ny+4,ns-8,ns-8);
-  ctx.fillStyle='#fdf6e3';ctx.font='bold 8px "JetBrains Mono",monospace';ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('NEXUS',nx+ns/2,ny+ns/2-7);
-  ctx.font='6px "JetBrains Mono",monospace';ctx.fillStyle='rgba(253,246,227,0.8)';ctx.fillText(state.goals.length+' GOALS',nx+ns/2,ny+ns/2+7);
-  const totalTasks=state.goals.reduce((s,g)=>s+g.total,0);
-  const totalDone=state.goals.reduce((s,g)=>s+getDone(g),0);
-  const pct=totalTasks>0?Math.round(totalDone/totalTasks*100):0;
-  const pills=document.querySelectorAll('.stat-pill');
-  if(pills[1])pills[1].textContent='CONQUERED: '+totalDone;
-  if(pills[2])pills[2].textContent='TERRITORY: '+pct+'%';
-  document.querySelectorAll('.legend-chip span').forEach((span,i)=>{
-    if(state.goals[i])span.textContent=getDone(state.goals[i])+'/'+state.goals[i].total;
-  });
+  ctx.fillStyle='rgba(0,0,0,0.35)';ctx.fillRect(nx+3,ny+3,ns,ns);ctx.fillStyle=NEXUS_COLOR;ctx.fillRect(nx,ny,ns,ns);ctx.strokeStyle='#b8860b';ctx.lineWidth=2.5;ctx.strokeRect(nx,ny,ns,ns);ctx.strokeStyle='rgba(255,220,100,0.5)';ctx.lineWidth=1;ctx.strokeRect(nx+4,ny+4,ns-8,ns-8);
+  ctx.fillStyle='#fdf6e3';ctx.font='bold 8px "JetBrains Mono",monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('NEXUS',nx+ns/2,ny+ns/2-7);ctx.font='6px "JetBrains Mono",monospace';ctx.fillStyle='rgba(253,246,227,0.8)';ctx.fillText(state.goals.length+' GOALS',nx+ns/2,ny+ns/2+7);
+  const totalTasks=state.goals.reduce((s,g)=>s+g.total,0);const totalDone=state.goals.reduce((s,g)=>s+getDone(g),0);const pct=totalTasks>0?Math.round(totalDone/totalTasks*100):0;
+  const pills=document.querySelectorAll('.stat-pill');if(pills[1])pills[1].textContent='CONQUERED: '+totalDone;if(pills[2])pills[2].textContent='TERRITORY: '+pct+'%';
+  document.querySelectorAll('.legend-chip span').forEach((span,i)=>{if(state.goals[i])span.textContent=getDone(state.goals[i])+'/'+state.goals[i].total;});
 }
 
 function updateCards(){
@@ -946,15 +793,17 @@ function updateCards(){
     else{dlClass='dl-ok';dlLabel=diff+'D';}
     const dlDisplay=dl.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
     const fillColor=pct>=100?CONQUERED_COLOR:mapColor;
+    // category label
+    const catLabel = g.category==='goal'?'STANDALONE':g.category.toUpperCase();
     html+=`<div class="goal-card">
       <div class="goal-card-header" style="background:${accentColor};">
-        <span>#${i+1} — ${g.category.toUpperCase()}</span><span style="font-size:9px;">${g.output.toUpperCase()}</span>
+        <span>#${i+1} — ${catLabel}</span><span style="font-size:9px;">${g.output.toUpperCase()}</span>
       </div>
       <div class="goal-card-body">
         <div class="goal-card-name">${g.name}</div>
         <div class="goal-card-bar-label">TASK PROGRESS</div>
         <div class="goal-card-bar-wrap"><div class="goal-card-bar-fill" style="width:${pct}%;background:${fillColor};"></div><span class="goal-card-bar-txt">${done}/${g.total} · ${pct}%</span></div>
-        <div class="goal-card-meta"><span class="deadline-pill ${dlClass}">${dlDisplay} · ${dlLabel}</span><span class="goal-card-pill" style="background:${accentColor};">${g.category.toUpperCase()}</span></div>
+        <div class="goal-card-meta"><span class="deadline-pill ${dlClass}">${dlDisplay} · ${dlLabel}</span><span class="goal-card-pill" style="background:${accentColor};">${catLabel}</span></div>
         <div class="goal-card-actions">
           <button class="mark-task-btn" onclick="completeTask(${g.id})">+TASK</button>
           ${done>0?`<button class="mark-task-btn" style="opacity:.6;" onclick="undoTask(${g.id})">↩ UNDO</button>`:''}
@@ -966,22 +815,47 @@ function updateCards(){
   html+=`</div>`;wrap.innerHTML=html;
 }
 
+// ═══════════════════════════════════════════════════════════════
+// SKILLS — compact cards with +/- confidence stepper
+// ═══════════════════════════════════════════════════════════════
 function renderSkills(){
   const el=document.getElementById('skills-list');
   if(!state.skills.length){el.innerHTML='<div style="font-family:var(--font-mono);font-size:12px;color:#aaa;padding:16px;">NO SKILLS LOGGED</div>';return;}
-  el.innerHTML=state.skills.map(s=>{
+  el.innerHTML=`<div class="skills-grid">${state.skills.map(s=>{
     const gp=s.goalProgress||0;const cf=s.confidence||0;
     return`<div class="skill-row">
-      <div class="skill-name-row"><div class="skill-name">${s.name}</div><div class="skill-actions"><button class="btn btn-sm" onclick="deleteSkill(${s.id})" style="background:#ff4444;color:#fff;">X</button></div></div>
+      <div class="skill-name-row">
+        <div class="skill-name">${s.name}</div>
+        <button class="btn btn-sm" onclick="deleteSkill(${s.id})" style="background:#ff4444;color:#fff;padding:4px 8px;font-size:10px;">✕</button>
+      </div>
       <div class="dual-bar-label"><span>GOAL PROGRESS</span><span>${gp}%</span></div>
       <div class="skill-bar-wrap"><div class="skill-bar" style="width:${gp}%;background:${s.color||'var(--cyan)'};"></div><div class="skill-bar-label">${gp}%</div></div>
-      <div class="dual-bar-label"><span>CONFIDENCE (manual)</span><span>${cf}%</span></div>
+      <div class="dual-bar-label"><span>CONFIDENCE</span><span>${cf}%</span></div>
       <div class="skill-bar-wrap" style="background:#f0e0f0;"><div class="skill-bar" style="width:${cf}%;background:var(--pink);"></div><div class="skill-bar-label">${cf}%</div></div>
-      <input type="range" class="manual-slider" min="0" max="100" value="${cf}" oninput="setSkillConfidence(${s.id},this.value)" onchange="setSkillConfidence(${s.id},this.value)"/>
+      <div class="conf-stepper">
+        <button class="conf-btn minus" onclick="stepConfidence('skill',${s.id},-5)">−</button>
+        <button class="conf-btn minus" onclick="stepConfidence('skill',${s.id},-1)" style="font-size:11px;width:24px;height:24px;">-1</button>
+        <div class="conf-value">${cf}%</div>
+        <button class="conf-btn plus" onclick="stepConfidence('skill',${s.id},1)" style="font-size:11px;width:24px;height:24px;">+1</button>
+        <button class="conf-btn plus" onclick="stepConfidence('skill',${s.id},5)">+</button>
+      </div>
     </div>`;
-  }).join('');
+  }).join('')}</div>`;
 }
-function setSkillConfidence(id,v){const s=state.skills.find(x=>x.id===id);if(s){s.confidence=parseInt(v)||0;scheduleSave();renderSkills();}}
+
+function stepConfidence(type, id, delta){
+  if(type==='skill'){
+    const s=state.skills.find(x=>x.id===id);
+    if(s){s.confidence=Math.max(0,Math.min(100,(s.confidence||0)+delta));scheduleSave();renderSkills();}
+  } else if(type==='lang'){
+    const l=state.langs.find(x=>x.id===id);
+    if(l){l.confidence=Math.max(0,Math.min(100,(l.confidence||0)+delta));scheduleSave();renderLangs();}
+  } else if(type==='book'){
+    const b=state.books.find(x=>x.id===id);
+    if(b){b.remembrance=Math.max(0,Math.min(100,(b.remembrance||0)+delta));scheduleSave();renderBooks();}
+  }
+}
+
 function deleteSkill(id){state.skills=state.skills.filter(x=>x.id!==id);scheduleSave();renderSkills();}
 function addSkill(){
   const name=document.getElementById('sk-name').value.trim().toUpperCase();
@@ -993,6 +867,9 @@ function addSkill(){
   document.getElementById('sk-name').value='';document.getElementById('sk-confidence').value='';
 }
 
+// ═══════════════════════════════════════════════════════════════
+// BOOKS
+// ═══════════════════════════════════════════════════════════════
 function renderBooks(){
   const el=document.getElementById('books-list');
   if(!state.books.length){el.innerHTML='<div style="font-family:var(--font-mono);font-size:12px;color:#aaa;">NO BOOKS</div>';return;}
@@ -1001,23 +878,28 @@ function renderBooks(){
   el.innerHTML=state.books.map(b=>{
     const taskPct=b.pages>0?Math.min(100,Math.round(b.read/b.pages*100)):0;const rem=b.remembrance||0;
     let goalInfo='';
-    if(b.linkedGoalId){const g=state.goals.find(x=>x.id===b.linkedGoalId);if(g)goalInfo=`<div style="font-family:var(--font-mono);font-size:9px;color:#888;margin-bottom:6px;">LINKED GOAL: ${g.name.toUpperCase()}</div>`;}
+    if(b.linkedGoalId){const g=state.goals.find(x=>x.id===b.linkedGoalId);if(g)goalInfo=`<div style="font-family:var(--font-mono);font-size:9px;color:#888;margin-bottom:6px;">LINKED: ${g.name.toUpperCase()}</div>`;}
     return`<div class="book-card">
       <div class="book-title">${b.title}</div><div class="book-author">${b.author}</div>${goalInfo}
-      <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:3px;margin-top:4px;">TASK COMPLETION (${b.read}/${b.pages||'?'} pages)</div>
+      <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:3px;margin-top:4px;">PAGES (${b.read}/${b.pages||'?'})</div>
       <div class="book-bar-wrap"><div class="book-bar-fill" style="width:${taskPct}%;background:var(--lime);"></div></div>
-      <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:3px;margin-top:8px;">REMEMBRANCE (manual)</div>
+      <div style="font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;margin-bottom:3px;margin-top:6px;">REMEMBRANCE ${rem}%</div>
       <div class="book-bar-wrap"><div class="book-bar-fill" style="width:${rem}%;background:var(--violet);"></div></div>
-      <input type="range" style="width:100%;margin:4px 0 8px;accent-color:var(--violet);" min="0" max="100" value="${rem}" oninput="setBookRem(${b.id},this.value)" onchange="setBookRem(${b.id},this.value)"/>
+      <div class="conf-stepper" style="margin-top:4px;margin-bottom:8px;">
+        <button class="conf-btn minus" onclick="stepConfidence('book',${b.id},-5)">−</button>
+        <button class="conf-btn minus" onclick="stepConfidence('book',${b.id},-1)" style="font-size:11px;width:24px;height:24px;">-1</button>
+        <div class="conf-value" style="background:var(--violet);">${rem}%</div>
+        <button class="conf-btn plus" onclick="stepConfidence('book',${b.id},1)" style="font-size:11px;width:24px;height:24px;">+1</button>
+        <button class="conf-btn plus" onclick="stepConfidence('book',${b.id},5)">+</button>
+      </div>
       <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;">
         <span class="book-status ${sc[b.status]}">${sm[b.status]}</span>
-        ${!b.linkedGoalId?`<input type="number" class="input" style="width:80px;padding:4px 6px;font-size:11px;" value="${b.read}" min="0" max="${b.pages||9999}" onchange="updateBookRead(${b.id},this.value)"/>`:'<span style="font-family:var(--font-mono);font-size:9px;color:#aaa;">AUTO (linked)</span>'}
+        ${!b.linkedGoalId?`<input type="number" class="input" style="width:70px;padding:3px 6px;font-size:11px;" value="${b.read}" min="0" max="${b.pages||9999}" onchange="updateBookRead(${b.id},this.value)"/>`:'<span style="font-family:var(--font-mono);font-size:9px;color:#aaa;">AUTO</span>'}
       </div>
-      <div style="display:flex;gap:4px;"><button class="btn btn-sm" onclick="cycleBookStatus(${b.id})">CYCLE STATUS</button><button class="btn btn-sm" onclick="deleteBook(${b.id})" style="background:#ff4444;color:#fff;">X</button></div>
+      <div style="display:flex;gap:4px;"><button class="btn btn-sm" onclick="cycleBookStatus(${b.id})">CYCLE STATUS</button><button class="btn btn-sm" onclick="deleteBook(${b.id})" style="background:#ff4444;color:#fff;">✕</button></div>
     </div>`;
   }).join('');
 }
-function setBookRem(id,v){const b=state.books.find(x=>x.id===id);if(b){b.remembrance=parseInt(v)||0;scheduleSave();renderBooks();}}
 function updateBookRead(id,v){const b=state.books.find(x=>x.id===id);if(b){b.read=Math.max(0,parseInt(v)||0);scheduleSave();renderBooks();}}
 function cycleBookStatus(id){const b=state.books.find(x=>x.id===id);if(!b)return;b.status={queue:'reading',reading:'done',done:'queue'}[b.status];scheduleSave();renderBooks();}
 function deleteBook(id){state.books=state.books.filter(x=>x.id!==id);scheduleSave();renderBooks();}
@@ -1031,6 +913,9 @@ function addBook(){
   ['bk-title','bk-author','bk-pages','bk-read'].forEach(id=>document.getElementById(id).value='');
 }
 
+// ═══════════════════════════════════════════════════════════════
+// LANGUAGES
+// ═══════════════════════════════════════════════════════════════
 const langColors=['var(--cyan)','var(--pink)','var(--lime)','var(--yellow)','var(--orange)'];
 function renderLangs(){
   const el=document.getElementById('langs-list');
@@ -1038,16 +923,21 @@ function renderLangs(){
   el.innerHTML=state.langs.map((l,i)=>{
     const gp=l.goalProgress||0;const cf=l.confidence||0;const col=langColors[i%langColors.length];
     return`<div class="lang-row">
-      <div style="display:flex;align-items:center;justify-content:space-between;"><div class="lang-name">${l.name}</div><button class="btn btn-sm" onclick="deleteLang(${l.id})" style="background:#ff4444;color:#fff;">X</button></div>
+      <div style="display:flex;align-items:center;justify-content:space-between;"><div class="lang-name">${l.name}</div><button class="btn btn-sm" onclick="deleteLang(${l.id})" style="background:#ff4444;color:#fff;padding:4px 8px;font-size:10px;">✕</button></div>
       <div class="dual-bar-label"><span>GOAL PROGRESS</span><span>${gp}%</span></div>
       <div class="lang-bar-wrap"><div class="lang-bar" style="width:${gp}%;background:${col};"></div></div>
-      <div class="dual-bar-label"><span>CONFIDENCE (manual)</span><span>${cf}%</span></div>
+      <div class="dual-bar-label"><span>CONFIDENCE</span><span>${cf}%</span></div>
       <div class="lang-bar-wrap" style="background:#f0f0f0;"><div class="lang-bar" style="width:${cf}%;background:var(--pink);"></div></div>
-      <input type="range" style="width:100%;margin-top:4px;accent-color:var(--pink);" min="0" max="100" value="${cf}" oninput="setLangConfidence(${l.id},this.value)" onchange="setLangConfidence(${l.id},this.value)"/>
+      <div class="conf-stepper" style="margin-top:5px;">
+        <button class="conf-btn minus" onclick="stepConfidence('lang',${l.id},-5)">−</button>
+        <button class="conf-btn minus" onclick="stepConfidence('lang',${l.id},-1)" style="font-size:11px;width:24px;height:24px;">-1</button>
+        <div class="conf-value" style="background:var(--pink);">${cf}%</div>
+        <button class="conf-btn plus" onclick="stepConfidence('lang',${l.id},1)" style="font-size:11px;width:24px;height:24px;">+1</button>
+        <button class="conf-btn plus" onclick="stepConfidence('lang',${l.id},5)">+</button>
+      </div>
     </div>`;
   }).join('');
 }
-function setLangConfidence(id,v){const l=state.langs.find(x=>x.id===id);if(l){l.confidence=parseInt(v)||0;scheduleSave();renderLangs();}}
 function deleteLang(id){state.langs=state.langs.filter(x=>x.id!==id);scheduleSave();renderLangs();}
 function addLang(){
   const name=document.getElementById('ln-name').value.trim();const confidence=parseInt(document.getElementById('ln-confidence').value)||0;
@@ -1057,59 +947,32 @@ function addLang(){
   document.getElementById('ln-name').value='';document.getElementById('ln-confidence').value='';
 }
 
-const socialMeta={
-  instagram:{label:'INSTAGRAM',color:'var(--pink)',unit:'Followers',tw:true},
-  youtube:{label:'YOUTUBE',color:'var(--orange)',unit:'Subscribers'},
-  linkedin:{label:'LINKEDIN',color:'var(--cyan)',unit:'Connections'},
-};
+// ═══════════════════════════════════════════════════════════════
+// NETWORK (unchanged)
+// ═══════════════════════════════════════════════════════════════
+const socialMeta={instagram:{label:'INSTAGRAM',color:'var(--pink)',tw:true},youtube:{label:'YOUTUBE',color:'var(--orange)'},linkedin:{label:'LINKEDIN',color:'var(--cyan)'}};
 function renderNetwork(){
   document.getElementById('network-stats').innerHTML=`
     <div class="node-card"><div class="node-header" style="background:var(--cyan);">NODE 01</div><div class="node-body"><div class="node-number">${state.friends.length}</div><div class="node-label">FRIENDS</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--pink);color:#fff;">NODE 02</div><div class="node-body"><div class="node-number">${fmtN(state.social.instagram.followers)}</div><div class="node-label">INSTAGRAM</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--orange);">NODE 03</div><div class="node-body"><div class="node-number">${fmtN(state.social.youtube.subscribers)}</div><div class="node-label">YOUTUBE</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--lime);">NODE 04</div><div class="node-body"><div class="node-number">${fmtN(state.social.linkedin.connections)}</div><div class="node-label">LINKEDIN</div></div></div>`;
-  document.getElementById('friends-list').innerHTML=state.friends.length===0
-    ?'<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CONTACTS</span>'
-    :state.friends.map(f=>`<span class="friend-chip">${f.name} <span style="font-size:9px;color:#999;">${f.role}</span> <span onclick="deleteFriend(${f.id})" style="cursor:pointer;color:#999;margin-left:4px;">✕</span></span>`).join('');
-  document.getElementById('social-cards').innerHTML=Object.entries(socialMeta).map(([k,m])=>{
-    const pl=state.social[k];const val=pl.followers||pl.subscribers||pl.connections||0;
-    return`<div class="node-card"><div class="node-header" style="background:${m.color};${m.tw?'color:#fff':''}">${m.label}</div><div class="node-body"><div class="node-number" style="font-size:36px;">${fmtN(val)}</div><div class="node-label">${m.unit}</div><div style="display:flex;gap:6px;margin-top:10px;"><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="Count" type="number" min="0" oninput="updateSocialCount('${k}',this.value)"/><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="@handle" value="${pl.handle||''}" oninput="updateSocialHandle('${k}',this.value)"/></div></div></div>`;
-  }).join('');
+  document.getElementById('friends-list').innerHTML=state.friends.length===0?'<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CONTACTS</span>':state.friends.map(f=>`<span class="friend-chip">${f.name} <span style="font-size:9px;color:#999;">${f.role}</span> <span onclick="deleteFriend(${f.id})" style="cursor:pointer;color:#999;margin-left:4px;">✕</span></span>`).join('');
+  document.getElementById('social-cards').innerHTML=Object.entries(socialMeta).map(([k,m])=>{const pl=state.social[k];const val=pl.followers||pl.subscribers||pl.connections||0;return`<div class="node-card"><div class="node-header" style="background:${m.color};${m.tw?'color:#fff':''}">${m.label}</div><div class="node-body"><div class="node-number" style="font-size:36px;">${fmtN(val)}</div><div class="node-label">${{instagram:'Followers',youtube:'Subscribers',linkedin:'Connections'}[k]}</div><div style="display:flex;gap:6px;margin-top:10px;"><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="Count" type="number" min="0" oninput="updateSocialCount('${k}',this.value)"/><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="@handle" value="${pl.handle||''}" oninput="updateSocialHandle('${k}',this.value)"/></div></div></div>`;}).join('');
   const sc={prospect:'var(--yellow)',active:'var(--lime)',completed:'var(--cyan)'};
-  document.getElementById('clients-list').innerHTML=state.clients.length===0
-    ?'<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CLIENTS</span>'
-    :state.clients.map(c=>`<div class="node-card"><div class="node-header" style="background:${sc[c.status]||'#eee'};">${c.platform.toUpperCase()} <span onclick="deleteClient(${c.id})" style="cursor:pointer;margin-left:auto;">✕</span></div><div class="node-body"><div style="font-weight:700;font-size:16px;">${c.name}</div><div class="node-label" style="margin-top:4px;">${c.status.toUpperCase()}</div></div></div>`).join('');
+  document.getElementById('clients-list').innerHTML=state.clients.length===0?'<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CLIENTS</span>':state.clients.map(c=>`<div class="node-card"><div class="node-header" style="background:${sc[c.status]||'#eee'};">${c.platform.toUpperCase()} <span onclick="deleteClient(${c.id})" style="cursor:pointer;margin-left:auto;">✕</span></div><div class="node-body"><div style="font-weight:700;font-size:16px;">${c.name}</div><div class="node-label" style="margin-top:4px;">${c.status.toUpperCase()}</div></div></div>`).join('');
 }
-function updateSocialCount(k,v){
-  const n=parseInt(v)||0;
-  if(k==='instagram')state.social.instagram.followers=n;
-  if(k==='youtube')state.social.youtube.subscribers=n;
-  if(k==='linkedin')state.social.linkedin.connections=n;
-  scheduleSave();
-  const cards=document.querySelectorAll('#network-stats .node-card .node-number');
-  if(cards[1])cards[1].textContent=fmtN(state.social.instagram.followers);
-  if(cards[2])cards[2].textContent=fmtN(state.social.youtube.subscribers);
-  if(cards[3])cards[3].textContent=fmtN(state.social.linkedin.connections);
-}
+function updateSocialCount(k,v){const n=parseInt(v)||0;if(k==='instagram')state.social.instagram.followers=n;if(k==='youtube')state.social.youtube.subscribers=n;if(k==='linkedin')state.social.linkedin.connections=n;scheduleSave();const cards=document.querySelectorAll('#network-stats .node-card .node-number');if(cards[1])cards[1].textContent=fmtN(state.social.instagram.followers);if(cards[2])cards[2].textContent=fmtN(state.social.youtube.subscribers);if(cards[3])cards[3].textContent=fmtN(state.social.linkedin.connections);}
 function updateSocialHandle(k,v){state.social[k].handle=v;scheduleSave();}
 function fmtN(n){n=parseInt(n)||0;if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'k';return n;}
-function addFriend(){
-  const name=document.getElementById('fr-name').value.trim();const role=document.getElementById('fr-role').value.trim()||'Contact';
-  if(!name){toast('ENTER NAME');return;}
-  state.friends.push({id:state.nextId++,name,role});
-  closeModal('modal-friend');scheduleSave();renderNetwork();toast('CONTACT ADDED');
-  document.getElementById('fr-name').value='';document.getElementById('fr-role').value='';
-}
+function addFriend(){const name=document.getElementById('fr-name').value.trim();const role=document.getElementById('fr-role').value.trim()||'Contact';if(!name){toast('ENTER NAME');return;}state.friends.push({id:state.nextId++,name,role});closeModal('modal-friend');scheduleSave();renderNetwork();toast('CONTACT ADDED');document.getElementById('fr-name').value='';document.getElementById('fr-role').value='';}
 function deleteFriend(id){state.friends=state.friends.filter(x=>x.id!==id);scheduleSave();renderNetwork();}
-function addClient(){
-  const name=document.getElementById('cl-name').value.trim();const platform=document.getElementById('cl-platform').value;const status=document.getElementById('cl-status').value;
-  if(!name){toast('ENTER NAME');return;}
-  state.clients.push({id:state.nextId++,name,platform,status});
-  closeModal('modal-client');scheduleSave();renderNetwork();toast('CLIENT ADDED');
-  document.getElementById('cl-name').value='';
-}
+function addClient(){const name=document.getElementById('cl-name').value.trim();const platform=document.getElementById('cl-platform').value;const status=document.getElementById('cl-status').value;if(!name){toast('ENTER NAME');return;}state.clients.push({id:state.nextId++,name,platform,status});closeModal('modal-client');scheduleSave();renderNetwork();toast('CLIENT ADDED');document.getElementById('cl-name').value='';}
 function deleteClient(id){state.clients=state.clients.filter(x=>x.id!==id);scheduleSave();renderNetwork();}
 
+// ═══════════════════════════════════════════════════════════════
+// ULTIMATE
+// ═══════════════════════════════════════════════════════════════
 function renderUltimate(){
   const u=state.ultimate;
   document.getElementById('ultimate-title-big').textContent=u.title.toUpperCase();
@@ -1125,6 +988,207 @@ function saveUltimate(){
   closeModal('modal-ultimate');scheduleSave();renderUltimate();toast('ULTIMATE SAVED');
 }
 
+// ═══════════════════════════════════════════════════════════════
+// PLANNING PAGE
+// ═══════════════════════════════════════════════════════════════
+const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+const COL_COLORS = ['var(--cyan)','var(--lime)','var(--pink)','var(--yellow)','var(--orange)','var(--violet)','var(--teal)','#f97316'];
+
+let _qapColIdx = 0;     // pending event color
+let _qapTarget = null;  // {colId, monthIdx}
+
+function renderPlanning(){
+  const p = state.planning;
+  const year = p.year || new Date().getFullYear();
+  document.getElementById('plan-year-badge').textContent = year;
+  const nowMonth = new Date().getMonth();
+  const nowYear  = new Date().getFullYear();
+  const area = document.getElementById('planning-area');
+
+  // Build the outer flex container
+  let html = `<div class="planning-layout" id="planning-layout">`;
+
+  // ── Left: month rail + scrollable body ──────────────────────
+  // We need a sticky left column while the rest scrolls horizontally.
+  // We do this with a fixed-width months column + a scrollable flex container.
+  html += `<div style="display:flex;flex-direction:column;flex-shrink:0;position:sticky;left:0;z-index:15;width:96px;">`;
+  // corner cell
+  html += `<div class="planning-corner" style="position:static;">MONTH</div>`;
+  // month labels
+  for(let m=0;m<12;m++){
+    const isCurrent = year===nowYear && m===nowMonth;
+    html += `<div class="month-label${isCurrent?' current-month':''}">
+      <span class="month-num">${String(m+1).padStart(2,'0')}</span>
+      <span class="month-name">${MONTHS[m]}</span>
+    </div>`;
+  }
+  html += `</div>`; // end sticky months rail
+
+  // ── Right: timelines ────────────────────────────────────────
+  html += `<div style="display:flex;flex:1;overflow-x:auto;">`;
+  html += `<div style="display:flex;flex-direction:row;min-width:max-content;">`;
+
+  // Render each timeline column
+  p.columns.forEach((col, ci) => {
+    const colColor = COL_COLORS[col.colorIdx % COL_COLORS.length];
+    html += `<div class="timeline-col" id="tcol-${col.id}">`;
+    // sticky header
+    html += `<div class="timeline-header" style="background:${colColor};border-bottom:var(--border);">
+      <span class="timeline-col-name" style="color:${isLightColor(colColor)?'#000':'#fff'}">${col.name}</span>
+      <button class="del-col-btn" onclick="planDeleteColumn(${col.id})" style="color:${isLightColor(colColor)?'rgba(0,0,0,.4)':'rgba(255,255,255,.5)'};">✕</button>
+    </div>`;
+    html += `<div class="timeline-body">`;
+    // 12 month bands
+    for(let m=0;m<12;m++){
+      const isCurrent = year===nowYear && m===nowMonth;
+      html += `<div class="month-band" id="band-${col.id}-${m}" style="${isCurrent?'background:rgba(0,240,255,0.07);border-left:3px solid var(--cyan);':''}" onclick="planBandClick(event,${col.id},${m})">`;
+      html += `<div class="band-add-zone" title="Click to add event"></div>`;
+      // events in this band
+      const events = (col.events||[]).filter(e=>e.monthIdx===m);
+      events.forEach(ev=>{
+        const evColor = EVENT_COLORS[ev.colorIdx%EVENT_COLORS.length];
+        const textColor = isLightColor(evColor)?'#000':'#fff';
+        html += `<div class="plan-event" style="background:${evColor};top:${ev.offsetY||8}px;color:${textColor};">
+          <span class="plan-event-text">${ev.text}</span>
+          <button class="plan-event-del" onclick="planDeleteEvent(event,${col.id},${ev.id})" style="color:${isLightColor(evColor)?'rgba(0,0,0,.4)':'rgba(255,255,255,.5)'};">✕</button>
+        </div>`;
+      });
+      html += `</div>`; // band
+    }
+    html += `</div>`; // timeline-body
+    html += `</div>`; // timeline-col
+  });
+
+  // Add column button
+  html += `<div class="add-col-btn"><div class="add-col-inner">
+    <button class="add-col-circle" onclick="planAddColumn()" title="Add Timeline">+</button>
+    <span class="add-col-label">ADD<br>LANE</span>
+  </div></div>`;
+
+  html += `</div></div>`; // flex rows wrapper + scrollable
+  html += `</div>`; // planning-layout
+
+  area.innerHTML = html;
+}
+
+function isLightColor(cssVar){
+  // map css vars to approximate lightness
+  const lightOnes = ['var(--cyan)','var(--lime)','var(--yellow)','#a2ef00','#00f0ff','#ffe500'];
+  return lightOnes.includes(cssVar);
+}
+
+function planChangeYear(delta){
+  state.planning.year = (state.planning.year||new Date().getFullYear()) + delta;
+  scheduleSave();
+  renderPlanning();
+}
+
+function planAddColumn(){
+  const name = prompt('TIMELINE NAME (e.g. CAREER, FITNESS, PROJECTS):');
+  if(!name||!name.trim()) return;
+  const colorIdx = state.planning.columns.length % COL_COLORS.length;
+  state.planning.columns.push({
+    id: state.nextId++,
+    name: name.trim().toUpperCase(),
+    colorIdx,
+    events: []
+  });
+  scheduleSave();
+  renderPlanning();
+  toast('TIMELINE ADDED: ' + name.trim().toUpperCase());
+}
+
+function planDeleteColumn(colId){
+  state.planning.columns = state.planning.columns.filter(c=>c.id!==colId);
+  scheduleSave();
+  renderPlanning();
+  toast('TIMELINE REMOVED');
+}
+
+// When user clicks a band, show the quick-add popup
+function planBandClick(e, colId, monthIdx){
+  // Don't fire if they clicked a delete button or event
+  if(e.target.closest('.plan-event-del')||e.target.closest('.plan-event')) return;
+  _qapTarget = { colId, monthIdx, offsetY: e.offsetY - 8 };
+  _qapColIdx = 0;
+
+  const popup = document.getElementById('quick-add-popup');
+  const colName = (state.planning.columns.find(c=>c.id===colId)||{}).name||'';
+  document.getElementById('qap-label').textContent = `${MONTHS[monthIdx]} — ${colName}`;
+  document.getElementById('qap-text').value = '';
+
+  // Color swatches
+  const colorsDiv = document.getElementById('qap-colors');
+  colorsDiv.innerHTML = EVENT_COLORS.map((c,i)=>
+    `<div class="color-swatch${i===0?' selected':''}" style="background:${c};" onclick="qapSelectColor(${i},this)"></div>`
+  ).join('');
+
+  // Position popup near click
+  const rect = e.currentTarget.getBoundingClientRect();
+  popup.style.top  = Math.min(window.innerHeight - 200, rect.top + e.offsetY) + 'px';
+  popup.style.left = Math.min(window.innerWidth  - 270, rect.left + 8) + 'px';
+  popup.style.display = 'block';
+  setTimeout(()=>document.getElementById('qap-text').focus(), 50);
+}
+
+function qapSelectColor(idx, el){
+  _qapColIdx = idx;
+  document.querySelectorAll('#qap-colors .color-swatch').forEach(s=>s.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function qapKeydown(e){
+  if(e.key==='Enter') qapConfirm();
+  if(e.key==='Escape') qapCancel();
+}
+
+function qapConfirm(){
+  const text = document.getElementById('qap-text').value.trim();
+  if(!text){toast('ENTER EVENT TEXT');return;}
+  const col = state.planning.columns.find(c=>c.id===_qapTarget.colId);
+  if(!col) return;
+  // Compute non-overlapping offsetY
+  const existing = (col.events||[]).filter(e=>e.monthIdx===_qapTarget.monthIdx);
+  const offsetY = existing.length > 0 ? Math.max(...existing.map(e=>e.offsetY||8)) + 36 : 8;
+  col.events.push({
+    id: state.nextId++,
+    monthIdx: _qapTarget.monthIdx,
+    text,
+    colorIdx: _qapColIdx,
+    offsetY: Math.min(offsetY, 84) // cap so it stays inside 120px band
+  });
+  scheduleSave();
+  qapCancel();
+  renderPlanning();
+  toast('EVENT ADDED: '+text.toUpperCase());
+}
+
+function qapCancel(){
+  document.getElementById('quick-add-popup').style.display = 'none';
+  _qapTarget = null;
+}
+
+function planDeleteEvent(e, colId, eventId){
+  e.stopPropagation();
+  const col = state.planning.columns.find(c=>c.id===colId);
+  if(!col) return;
+  col.events = col.events.filter(ev=>ev.id!==eventId);
+  scheduleSave();
+  renderPlanning();
+  toast('EVENT REMOVED');
+}
+
+// Close quick-add popup if clicking outside
+document.addEventListener('click', e=>{
+  const popup = document.getElementById('quick-add-popup');
+  if(popup.style.display!=='none' && !popup.contains(e.target) && !e.target.closest('.month-band')){
+    qapCancel();
+  }
+});
+
+// ═══════════════════════════════════════════════════════════════
+// MODAL UTILS
+// ═══════════════════════════════════════════════════════════════
 function openModal(id){
   if(id==='modal-ultimate'){
     document.getElementById('ult-name').value=state.ultimate.title;
@@ -1135,13 +1199,10 @@ function openModal(id){
 }
 function closeModal(id){const m=document.getElementById(id);if(m)m.classList.remove('open');}
 document.addEventListener('click',e=>{if(e.target.classList.contains('modal-overlay'))e.target.classList.remove('open');});
-function toast(msg){
-  const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');
-  setTimeout(()=>el.classList.remove('show'),2800);
-}
+function toast(msg){const el=document.getElementById('toast');el.textContent=msg;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),2800);}
 
 // ═══════════════════════════════════════════════════════════════
-// INIT — load from MongoDB, then render
+// INIT
 // ═══════════════════════════════════════════════════════════════
 (async () => {
   await loadStateFromDB();
