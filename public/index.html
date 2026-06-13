@@ -5,6 +5,8 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GOAL_ENGINE_V3</title>
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 <style>
 :root{
   --cyan:#00f0ff;--pink:#fe00fe;--lime:#a2ef00;--yellow:#ffe500;
@@ -42,6 +44,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .btn:hover{box-shadow:var(--shadow-lg)}
 .btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000}
 .btn-cyan{background:var(--cyan)}.btn-lime{background:var(--lime)}.btn-dark{background:var(--black);color:var(--white)}
+.btn-yellow{background:var(--yellow)}.btn-pink{background:var(--pink);color:#fff}
 .btn-sm{padding:6px 12px;font-size:11px}
 .input{font-family:var(--font-mono);font-size:13px;padding:10px 12px;border:var(--border);
   background:var(--white);width:100%;outline:none}
@@ -125,8 +128,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .node-number{font-size:48px;font-weight:700;line-height:1;margin-bottom:4px}
 .node-label{font-family:var(--font-mono);font-size:11px;color:#666;text-transform:uppercase}
 .network-sub-section{margin-bottom:28px}
-
-/* ── FRIEND CARDS — expanded layout ── */
 .friends-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;}
 .friend-card{background:var(--white);border:var(--border);box-shadow:var(--shadow-lg);overflow:hidden;}
 .friend-card-header{padding:10px 14px;border-bottom:var(--border);font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;display:flex;align-items:center;justify-content:space-between;background:var(--cyan);}
@@ -137,7 +138,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .friend-detail-label{font-size:9px;font-weight:700;text-transform:uppercase;color:#888;min-width:68px;padding-top:1px;}
 .friend-detail-value{color:#222;word-break:break-word;}
 .friend-card-actions{display:flex;gap:6px;margin-top:10px;border-top:1px solid #eee;padding-top:10px;}
-
 .ultimate-display{max-width:720px;margin:0 auto;text-align:center;padding:64px 24px}
 .ultimate-title-big{font-size:80px;font-weight:700;text-transform:uppercase;line-height:1;margin-bottom:16px;text-shadow:6px 6px 0 var(--cyan),10px 10px 0 #000}
 .ultimate-desc{font-size:18px;line-height:1.6;margin-bottom:32px;font-family:var(--font-mono)}
@@ -173,23 +173,13 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 #db-badge.online{background:var(--lime);}
 #db-badge.offline{background:var(--red);color:#fff;}
 #db-badge.checking{background:var(--yellow);}
-
-/* ═══════════════════════════════════════════════════════════════
-   PLANNING PAGE — GOOGLE CALENDAR STYLE
-   Rows = months, Columns = timeline lanes
-   Blocks span multiple rows (months) with absolute positioning
-   ═══════════════════════════════════════════════════════════════ */
 #page-planning{padding:48px}
 .planning-topbar{display:flex;align-items:center;gap:12px;margin-bottom:20px;flex-wrap:wrap;}
 .plan-year-badge{font-family:var(--font-mono);font-size:32px;font-weight:700;line-height:1;
   background:var(--yellow);border:var(--border);box-shadow:var(--shadow);padding:4px 16px;}
-
-/* Main calendar grid */
 .cal-wrapper{border:var(--border);box-shadow:var(--shadow-xl);background:#fff;overflow:hidden;}
 .cal-scroll{overflow-x:auto;}
 .cal-table{display:grid;min-width:max-content;}
-
-/* Header row: blank corner + one cell per lane */
 .cal-header{display:contents;}
 .cal-corner{grid-row:1;grid-column:1;
   background:#111;border-right:var(--border);border-bottom:var(--border);
@@ -201,8 +191,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   position:sticky;top:0;z-index:20;font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;white-space:nowrap;}
 .cal-lane-head .lane-del{background:none;border:none;cursor:pointer;font-size:12px;font-family:var(--font-mono);opacity:.4;transition:opacity .1s,color .1s;padding:0 0 0 6px;}
 .cal-lane-head .lane-del:hover{opacity:1;color:var(--red);}
-
-/* Sticky month labels column */
 .cal-month-label{grid-column:1;
   background:var(--black);border-right:var(--border);border-bottom:1px solid #333;
   height:80px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1px;
@@ -215,21 +203,15 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .cal-month-label.now::after{content:'NOW';position:absolute;right:-1px;top:50%;transform:translateY(-50%);
   background:var(--cyan);color:#000;font-family:var(--font-mono);font-size:6px;font-weight:700;
   padding:2px 4px;letter-spacing:.08em;z-index:1;}
-
-/* Each lane's cells — one cell per month row, holds the events for that lane via relative container */
 .cal-cell{border-right:1px solid rgba(0,0,0,.1);border-bottom:1px solid rgba(0,0,0,.06);
   height:80px;position:relative;cursor:pointer;transition:background .1s;}
 .cal-cell:hover{background:rgba(0,240,255,.06);}
 .cal-cell.now-row{background:rgba(0,240,255,.04);border-left:2px solid var(--cyan);}
 .cal-cell.drag-over{background:rgba(0,240,255,.15);}
-
-/* The "+add" hint that shows on hover */
 .cal-cell::after{content:'+ ADD';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;
   font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;
   color:rgba(0,0,0,.15);opacity:0;transition:opacity .15s;pointer-events:none;}
 .cal-cell:hover::after{opacity:1;}
-
-/* EVENT BLOCK — Google Calendar style pill spanning one or more months */
 .cal-event{position:absolute;left:6px;right:6px;
   border:var(--border);box-shadow:var(--shadow);
   font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.04em;
@@ -240,19 +222,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .cal-event-del{cursor:pointer;background:none;border:none;font-family:var(--font-mono);font-size:12px;
   line-height:1;flex-shrink:0;opacity:.4;transition:opacity .1s;padding:0;}
 .cal-event-del:hover{opacity:1;}
-
-/* Resize handle at bottom of event */
 .cal-event-resize{position:absolute;bottom:0;left:0;right:0;height:6px;cursor:ns-resize;
   background:rgba(0,0,0,.1);display:none;}
 .cal-event:hover .cal-event-resize{display:block;}
-
-/* Spanning: top segment (has text+del), middle segments (empty), bottom segment (has resize) */
-.cal-event.span-top{border-bottom:none;}
-.cal-event.span-mid{border-top:1px dashed rgba(0,0,0,.3);border-bottom:none;padding-top:2px;padding-bottom:2px;}
-.cal-event.span-bot{border-top:1px dashed rgba(0,0,0,.3);}
-.cal-event.span-single{} /* no changes needed */
-
-/* Add-lane button */
 .cal-add-lane{grid-row:1/span 13;display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:8px;border-left:2px dashed #ddd;padding:0 12px;}
 .cal-add-lane-btn{width:44px;height:44px;background:var(--black);border:var(--border);box-shadow:var(--shadow);
@@ -261,8 +233,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .cal-add-lane-btn:hover{background:var(--cyan);color:#000;}
 .cal-add-lane-label{font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;
   letter-spacing:.1em;color:#aaa;text-align:center;}
-
-/* Quick-add popup */
 .quick-add-popup{position:fixed;z-index:700;background:var(--white);border:var(--border);
   box-shadow:var(--shadow-xl);padding:14px 16px;width:272px;}
 .quick-add-popup input{font-family:var(--font-mono);font-size:12px;padding:8px 10px;border:var(--border);
@@ -270,7 +240,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .quick-add-popup input:focus{outline:3px solid var(--cyan);outline-offset:0;}
 .quick-add-popup-label{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
   letter-spacing:.1em;color:#666;margin-bottom:8px;}
-/* Month span selector */
 .span-selector{display:flex;align-items:center;gap:6px;margin-bottom:10px;}
 .span-selector label{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;color:#666;}
 .span-selector select{font-family:var(--font-mono);font-size:11px;padding:4px 6px;border:var(--border);background:#fff;cursor:pointer;}
@@ -281,6 +250,123 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .quick-add-btns{display:flex;gap:6px;}
 .quick-add-btns button{flex:1;font-family:var(--font-mono);font-size:11px;font-weight:700;
   text-transform:uppercase;padding:7px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);}
+
+/* ═══════════════════════════════════════════════════════════════
+   ECONOMICS PAGE
+   ═══════════════════════════════════════════════════════════════ */
+#page-economics{padding:48px}
+
+/* Top bar */
+.econ-topbar{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
+.econ-mode-btn{font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;padding:8px 16px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);
+  background:var(--white);transition:background .1s,transform .08s,box-shadow .08s;}
+.econ-mode-btn:hover{box-shadow:var(--shadow-lg);}
+.econ-mode-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000;}
+.econ-mode-btn.active{background:var(--yellow);font-weight:700;}
+.econ-mode-badge{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
+  padding:4px 10px;border:1.5px solid #000;letter-spacing:.08em;background:var(--black);color:var(--yellow);}
+
+/* Map wrapper — square-ish, with thick brutalist border */
+.econ-map-wrapper{border:3px solid #000;box-shadow:var(--shadow-xl);background:#e8e0d0;
+  position:relative;overflow:hidden;margin-bottom:0;}
+#econ-map{width:100%;height:520px;}
+
+/* Map controls overlay */
+.map-controls-overlay{position:absolute;top:12px;right:12px;z-index:1000;display:flex;flex-direction:column;gap:6px;}
+.map-ctrl-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;
+  padding:6px 12px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);
+  background:var(--white);letter-spacing:.06em;transition:background .1s;}
+.map-ctrl-btn:hover{background:var(--yellow);}
+.map-ctrl-btn.active-mode{background:var(--yellow);box-shadow:var(--shadow-lg);}
+
+/* Highlight instruction banner */
+.econ-highlight-banner{background:var(--yellow);border:var(--border);border-top:none;
+  padding:10px 16px;font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;display:none;align-items:center;gap:12px;box-shadow:0 4px 0 #000;}
+.econ-highlight-banner.visible{display:flex;}
+
+/* Regions panels area */
+.econ-regions-area{margin-top:24px;}
+.econ-regions-header{display:flex;align-items:center;justify-content:space-between;
+  border-bottom:var(--border);padding-bottom:10px;margin-bottom:20px;}
+.econ-regions-title{font-family:var(--font-mono);font-size:14px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;}
+.econ-regions-count{font-family:var(--font-mono);font-size:10px;color:#888;
+  background:var(--black);color:var(--yellow);padding:2px 8px;letter-spacing:.06em;}
+
+/* Region cards grid */
+.econ-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
+
+/* Single region card — brutalist thick border, accent bar on left */
+.econ-card{background:var(--white);border:var(--border);box-shadow:var(--shadow-lg);
+  overflow:hidden;position:relative;}
+.econ-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;}
+
+/* Card header */
+.econ-card-head{padding:12px 14px 10px 20px;border-bottom:var(--border);
+  display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
+.econ-card-title{font-weight:700;font-size:15px;text-transform:uppercase;
+  letter-spacing:.04em;line-height:1.2;flex:1;}
+.econ-card-coords{font-family:var(--font-mono);font-size:8px;color:#888;
+  text-transform:uppercase;margin-top:3px;letter-spacing:.06em;}
+.econ-card-actions{display:flex;gap:4px;flex-shrink:0;}
+.econ-card-action-btn{font-family:var(--font-mono);font-size:9px;font-weight:700;
+  text-transform:uppercase;padding:4px 8px;border:1px solid #000;cursor:pointer;
+  background:var(--white);box-shadow:2px 2px 0 #000;transition:background .1s;}
+.econ-card-action-btn:hover{background:var(--cyan);}
+.econ-card-action-btn.del:hover{background:var(--red);color:#fff;}
+
+/* Data rows inside card */
+.econ-card-body{padding:12px 14px 14px 20px;}
+.econ-data-rows{list-style:none;margin-bottom:12px;}
+.econ-data-row{display:flex;align-items:baseline;gap:0;padding:6px 0;
+  border-bottom:1px solid #eee;font-family:var(--font-mono);}
+.econ-data-row:last-child{border-bottom:none;}
+.econ-data-key{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.08em;
+  color:#555;min-width:140px;flex-shrink:0;}
+.econ-data-val{font-size:13px;font-weight:700;color:var(--ink);word-break:break-word;}
+.econ-data-empty{font-family:var(--font-mono);font-size:10px;color:#bbb;
+  text-transform:uppercase;padding:8px 0;}
+
+/* Add data row form inside card */
+.econ-add-data-form{display:flex;gap:6px;align-items:center;flex-wrap:wrap;
+  border-top:1.5px dashed #ccc;padding-top:10px;margin-top:4px;}
+.econ-add-data-form input{font-family:var(--font-mono);font-size:11px;padding:5px 8px;
+  border:var(--border);background:#f8f8f8;outline:none;flex:1;min-width:80px;}
+.econ-add-data-form input:focus{outline:2px solid var(--cyan);outline-offset:0;}
+.econ-add-data-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;
+  text-transform:uppercase;padding:6px 10px;border:var(--border);cursor:pointer;
+  background:var(--lime);box-shadow:2px 2px 0 #000;white-space:nowrap;
+  transition:background .1s,transform .08s;}
+.econ-add-data-btn:hover{background:var(--cyan);}
+.econ-add-data-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #000;}
+
+/* Accent colors for cards — cycled */
+.econ-accent-0::before{background:var(--cyan);}
+.econ-accent-1::before{background:var(--yellow);}
+.econ-accent-2::before{background:var(--lime);}
+.econ-accent-3::before{background:var(--pink);}
+.econ-accent-4::before{background:var(--orange);}
+.econ-accent-5::before{background:var(--violet);}
+.econ-accent-6::before{background:var(--teal);}
+
+/* Empty state for regions */
+.econ-empty{font-family:var(--font-mono);font-size:12px;color:#aaa;padding:48px 32px;
+  text-align:center;border:2px dashed #ccc;background:rgba(255,255,255,.5);}
+
+/* Leaflet overrides for brutalist look */
+.leaflet-container{font-family:var(--font-mono)!important;}
+.leaflet-control-zoom a{font-family:var(--font-mono)!important;font-weight:700!important;}
+.leaflet-popup-content-wrapper{border:2px solid #000!important;border-radius:0!important;box-shadow:4px 4px 0 #000!important;}
+.leaflet-popup-tip-container{display:none;}
+.leaflet-popup-content{font-family:var(--font-mono)!important;font-size:11px!important;font-weight:700!important;text-transform:uppercase;}
+
+/* Highlight shape tooltip */
+.econ-highlight-popup{
+  font-family:var(--font-mono)!important;font-size:10px!important;font-weight:700!important;
+  text-transform:uppercase!important;background:#000!important;color:var(--yellow)!important;
+  border:2px solid var(--yellow)!important;border-radius:0!important;padding:6px 10px!important;}
 </style>
 </head>
 <body>
@@ -293,6 +379,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
     <button class="nav-item" onclick="showPage('intellect',this)">INTELLECT</button>
     <button class="nav-item" onclick="showPage('network',this)">NETWORK</button>
     <button class="nav-item" onclick="showPage('planning',this)">PLANNING</button>
+    <button class="nav-item" onclick="showPage('economics',this)">ECONOMICS</button>
     <button class="nav-item" onclick="showPage('ultimate',this)">ULTIMATE GOAL</button>
   </div>
   <div id="db-badge" class="checking">DB…</div>
@@ -366,6 +453,52 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   <div class="cal-wrapper">
     <div class="cal-scroll">
       <div class="cal-table" id="cal-table"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     ECONOMICS PAGE
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-economics">
+  <div class="page-header">
+    <div class="page-title">ECONOMICS</div>
+    <div class="page-subtitle">// GEO.INTEL.MAP — HIGHLIGHT REGIONS · ANNOTATE DATA</div>
+  </div>
+
+  <!-- Top bar -->
+  <div class="econ-topbar">
+    <span class="econ-mode-badge" id="econ-mode-badge">MODE: VIEW</span>
+    <button class="econ-mode-btn" id="econ-btn-view" onclick="econSetMode('view')" title="Pan &amp; zoom map normally">VIEW</button>
+    <button class="econ-mode-btn" id="econ-btn-highlight" onclick="econSetMode('highlight')" title="Click to place rectangle corners and highlight a region">HIGHLIGHT REGION</button>
+    <button class="econ-mode-btn" id="econ-btn-clear" onclick="econClearHighlights()" style="border-color:#ff2020;" title="Remove all highlights">CLEAR ALL</button>
+    <span style="font-family:var(--font-mono);font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;">
+      // <span id="econ-region-count">0</span> REGIONS MAPPED
+    </span>
+  </div>
+
+  <!-- Map -->
+  <div class="econ-map-wrapper">
+    <div id="econ-map"></div>
+  </div>
+
+  <!-- Banner shown in highlight mode -->
+  <div class="econ-highlight-banner" id="econ-highlight-banner">
+    <span style="font-size:14px;">▣</span>
+    <span id="econ-highlight-msg">CLICK TWO POINTS ON THE MAP TO DRAW A REGION RECTANGLE</span>
+    <button class="btn btn-sm" style="background:var(--black);color:var(--white);margin-left:auto;" onclick="econSetMode('view')">CANCEL</button>
+  </div>
+
+  <!-- Region cards -->
+  <div class="econ-regions-area" id="econ-regions-area">
+    <div class="econ-regions-header">
+      <div class="econ-regions-title">REGION INTEL</div>
+      <span class="econ-regions-count" id="econ-regions-count-badge">0 REGIONS</span>
+    </div>
+    <div class="econ-cards-grid" id="econ-cards-grid">
+      <div class="econ-empty">NO REGIONS MAPPED YET<br><br>
+        <span style="font-size:10px;">SWITCH TO "HIGHLIGHT REGION" MODE AND CLICK TWO POINTS ON THE MAP TO CREATE A DATA CARD</span>
+      </div>
     </div>
   </div>
 </div>
@@ -475,40 +608,19 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
-<!-- FRIEND MODAL — extended details -->
+<!-- FRIEND MODAL -->
 <div class="modal-overlay" id="modal-friend">
   <div class="modal">
     <div class="modal-header">ADD CONTACT <button class="modal-close" onclick="closeModal('modal-friend')">X</button></div>
     <div class="modal-body">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;">
-        <div class="field" style="margin-bottom:0;grid-column:1/3;">
-          <label class="label-field">FULL NAME *</label>
-          <input class="input" id="fr-name" placeholder="Contact name"/>
-        </div>
-        <div class="field" style="margin-bottom:0;">
-          <label class="label-field">ROLE / RELATIONSHIP</label>
-          <input class="input" id="fr-role" placeholder="E.g. Mentor, Friend"/>
-        </div>
-        <div class="field" style="margin-bottom:0;">
-          <label class="label-field">PHONE</label>
-          <input class="input" id="fr-phone" placeholder="+91 98765 43210" type="tel"/>
-        </div>
-        <div class="field" style="margin-bottom:0;">
-          <label class="label-field">DATE OF BIRTH</label>
-          <input class="input" id="fr-dob" type="date"/>
-        </div>
-        <div class="field" style="margin-bottom:0;">
-          <label class="label-field">GUARDIAN / PARENT</label>
-          <input class="input" id="fr-guardian" placeholder="Guardian's name"/>
-        </div>
-        <div class="field" style="margin-bottom:0;grid-column:1/3;">
-          <label class="label-field">ADDRESS</label>
-          <textarea class="input" id="fr-address" rows="2" placeholder="Street, City, State, PIN" style="resize:vertical;"></textarea>
-        </div>
-        <div class="field" style="margin-bottom:0;grid-column:1/3;">
-          <label class="label-field">NOTES</label>
-          <input class="input" id="fr-notes" placeholder="Any extra notes..."/>
-        </div>
+        <div class="field" style="margin-bottom:0;grid-column:1/3;"><label class="label-field">FULL NAME *</label><input class="input" id="fr-name" placeholder="Contact name"/></div>
+        <div class="field" style="margin-bottom:0;"><label class="label-field">ROLE / RELATIONSHIP</label><input class="input" id="fr-role" placeholder="E.g. Mentor, Friend"/></div>
+        <div class="field" style="margin-bottom:0;"><label class="label-field">PHONE</label><input class="input" id="fr-phone" placeholder="+91 98765 43210" type="tel"/></div>
+        <div class="field" style="margin-bottom:0;"><label class="label-field">DATE OF BIRTH</label><input class="input" id="fr-dob" type="date"/></div>
+        <div class="field" style="margin-bottom:0;"><label class="label-field">GUARDIAN / PARENT</label><input class="input" id="fr-guardian" placeholder="Guardian's name"/></div>
+        <div class="field" style="margin-bottom:0;grid-column:1/3;"><label class="label-field">ADDRESS</label><textarea class="input" id="fr-address" rows="2" placeholder="Street, City, State, PIN" style="resize:vertical;"></textarea></div>
+        <div class="field" style="margin-bottom:0;grid-column:1/3;"><label class="label-field">NOTES</label><input class="input" id="fr-notes" placeholder="Any extra notes..."/></div>
       </div>
     </div>
     <div class="modal-footer">
@@ -548,6 +660,26 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
+<!-- ECONOMICS — RENAME REGION MODAL -->
+<div class="modal-overlay" id="modal-econ-region">
+  <div class="modal" style="width:420px;">
+    <div class="modal-header" style="background:var(--yellow);color:#000;">NAME THIS REGION <button class="modal-close" onclick="closeModal('modal-econ-region')" style="color:#000;">X</button></div>
+    <div class="modal-body">
+      <div class="field">
+        <label class="label-field">REGION TITLE</label>
+        <input class="input" id="econ-region-name-input" placeholder="E.g. SOUTH EAST ASIA, EUROZONE, BRICS..."/>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;">
+        YOU CAN ADD DATA ROWS (NAME : VALUE PAIRS) TO THIS CARD AFTER CREATING IT.
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-econ-region')">CANCEL</button>
+      <button class="btn btn-yellow" onclick="econConfirmRegion()">CREATE REGION CARD</button>
+    </div>
+  </div>
+</div>
+
 <!-- QUICK-ADD EVENT POPUP (planning) -->
 <div id="quick-add-popup" class="quick-add-popup" style="display:none;">
   <div class="quick-add-popup-label" id="qap-label">ADD EVENT</div>
@@ -555,12 +687,9 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   <div class="span-selector">
     <label>SPANS</label>
     <select id="qap-span">
-      <option value="1">1 month</option>
-      <option value="2">2 months</option>
-      <option value="3">3 months</option>
-      <option value="4">4 months</option>
-      <option value="5">5 months</option>
-      <option value="6">6 months</option>
+      <option value="1">1 month</option><option value="2">2 months</option>
+      <option value="3">3 months</option><option value="4">4 months</option>
+      <option value="5">5 months</option><option value="6">6 months</option>
     </select>
   </div>
   <div class="color-swatch-row" id="qap-colors"></div>
@@ -595,6 +724,7 @@ async function saveState() {
       ultimate: state.ultimate,
       nextId:  state.nextId,
       planning: state.planning,
+      economics: state.economics,
     };
     const res = await fetch(API + '/api/state/sync', {
       method: 'POST',
@@ -635,6 +765,7 @@ async function loadStateFromDB() {
     if (data.ultimate)  state.ultimate  = data.ultimate;
     if (data.nextId)    state.nextId    = data.nextId;
     if (data.planning)  state.planning  = data.planning;
+    if (data.economics) state.economics = data.economics;
     badge.textContent = 'DB ✓';
     badge.className = 'online';
     document.getElementById('save-indicator').textContent = 'LOADED ✓';
@@ -655,6 +786,7 @@ const GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085'
 const MAP_GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085','#5d4037','#ad1457','#1565c0','#558b2f','#6a1b9a','#00838f'];
 const ACCENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316','#e879f9','#34d399','#fbbf24','#60a5fa'];
 const EVENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316','#34d399','#60a5fa'];
+const ECON_ACCENT_COLORS = ['#00f0ff','#ffe500','#a2ef00','#fe00fe','#ff6b00','#8b5cf6','#00d4aa'];
 
 const CONQUERED_COLOR = '#8b0000';
 const NEXUS_COLOR = '#8b0000';
@@ -701,8 +833,9 @@ function defaultState(){
     social:{instagram:{followers:0,handle:''},youtube:{subscribers:0,handle:''},linkedin:{connections:0,handle:''}},
     clients:[],
     ultimate:{title:'YOUR ENDGAME',vision:'Define your ultimate mission',progress:0},
-    // planning: { year, lanes: [{id, name, colorIdx, events:[{id, startMonth, span, text, colorIdx}]}] }
     planning:{ year: new Date().getFullYear(), lanes:[] },
+    // economics.regions = [{id, title, bounds:{sw:[lat,lng], ne:[lat,lng]}, colorIdx, data:[{key,val}]}]
+    economics:{ regions:[] },
     nextId:100,
   };
 }
@@ -735,6 +868,7 @@ function showPage(name,el){
   if(name==='intellect'){syncBookProgress();renderBooks();renderLangs();}
   if(name==='network')renderNetwork();
   if(name==='planning')renderPlanning();
+  if(name==='economics')renderEconomics();
   if(name==='ultimate')renderUltimate();
 }
 
@@ -771,7 +905,7 @@ function getDone(g){return g.doneSet?g.doneSet.size:(g.done||0);}
 
 function addGoal(){
   const name=document.getElementById('g-name').value.trim();
-  const total=Math.min(90,parseInt(document.getElementById('g-total').value)||0); // ← 90 limit
+  const total=Math.min(90,parseInt(document.getElementById('g-total').value)||0);
   const deadline=document.getElementById('g-deadline').value;
   const cat=document.getElementById('g-category').value;
   if(!name){toast('ENTER GOAL NAME');return;}
@@ -916,13 +1050,11 @@ function renderSkills(){
     </div>`;
   }).join('')}</div>`;
 }
-
 function stepConfidence(type, id, delta){
   if(type==='skill'){const s=state.skills.find(x=>x.id===id);if(s){s.confidence=Math.max(0,Math.min(100,(s.confidence||0)+delta));scheduleSave();renderSkills();}}
   else if(type==='lang'){const l=state.langs.find(x=>x.id===id);if(l){l.confidence=Math.max(0,Math.min(100,(l.confidence||0)+delta));scheduleSave();renderLangs();}}
   else if(type==='book'){const b=state.books.find(x=>x.id===id);if(b){b.remembrance=Math.max(0,Math.min(100,(b.remembrance||0)+delta));scheduleSave();renderBooks();}}
 }
-
 function deleteSkill(id){state.skills=state.skills.filter(x=>x.id!==id);scheduleSave();renderSkills();}
 function addSkill(){
   const name=document.getElementById('sk-name').value.trim().toUpperCase();
@@ -1015,63 +1147,46 @@ function addLang(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// NETWORK — extended friend cards
+// NETWORK
 // ═══════════════════════════════════════════════════════════════
 const socialMeta={instagram:{label:'INSTAGRAM',color:'var(--pink)',tw:true},youtube:{label:'YOUTUBE',color:'var(--orange)'},linkedin:{label:'LINKEDIN',color:'var(--cyan)'}};
-
-function formatDOB(dob){
-  if(!dob)return'';
-  const d=new Date(dob);if(isNaN(d))return dob;
-  return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
-}
-
+function formatDOB(dob){if(!dob)return'';const d=new Date(dob);if(isNaN(d))return dob;return d.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});}
 function renderNetwork(){
   document.getElementById('network-stats').innerHTML=`
     <div class="node-card"><div class="node-header" style="background:var(--cyan);">NODE 01</div><div class="node-body"><div class="node-number">${state.friends.length}</div><div class="node-label">FRIENDS</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--pink);color:#fff;">NODE 02</div><div class="node-body"><div class="node-number">${fmtN(state.social.instagram.followers)}</div><div class="node-label">INSTAGRAM</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--orange);">NODE 03</div><div class="node-body"><div class="node-number">${fmtN(state.social.youtube.subscribers)}</div><div class="node-label">YOUTUBE</div></div></div>
     <div class="node-card"><div class="node-header" style="background:var(--lime);">NODE 04</div><div class="node-body"><div class="node-number">${fmtN(state.social.linkedin.connections)}</div><div class="node-label">LINKEDIN</div></div></div>`;
-
-  // Friends — expanded cards
   const friendsWrap = document.getElementById('friends-list');
   if(!state.friends.length){
-    friendsWrap.innerHTML='<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CONTACTS YET — PRESS + ADD CONTACT</span>';
+    friendsWrap.innerHTML='<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CONTACTS YET</span>';
   } else {
     friendsWrap.innerHTML=`<div class="friends-grid">${state.friends.map(f=>{
       const dobFormatted = formatDOB(f.dob);
       const details = [
-        f.phone    ? `<div class="friend-detail-row"><span class="friend-detail-label">📞 PHONE</span><span class="friend-detail-value">${f.phone}</span></div>` : '',
-        dobFormatted ? `<div class="friend-detail-row"><span class="friend-detail-label">🎂 DOB</span><span class="friend-detail-value">${dobFormatted}</span></div>` : '',
-        f.guardian ? `<div class="friend-detail-row"><span class="friend-detail-label">👤 GUARDIAN</span><span class="friend-detail-value">${f.guardian}</span></div>` : '',
-        f.address  ? `<div class="friend-detail-row"><span class="friend-detail-label">📍 ADDRESS</span><span class="friend-detail-value">${f.address}</span></div>` : '',
-        f.notes    ? `<div class="friend-detail-row"><span class="friend-detail-label">📝 NOTES</span><span class="friend-detail-value">${f.notes}</span></div>` : '',
+        f.phone    ? `<div class="friend-detail-row"><span class="friend-detail-label">PHONE</span><span class="friend-detail-value">${f.phone}</span></div>` : '',
+        dobFormatted ? `<div class="friend-detail-row"><span class="friend-detail-label">DOB</span><span class="friend-detail-value">${dobFormatted}</span></div>` : '',
+        f.guardian ? `<div class="friend-detail-row"><span class="friend-detail-label">GUARDIAN</span><span class="friend-detail-value">${f.guardian}</span></div>` : '',
+        f.address  ? `<div class="friend-detail-row"><span class="friend-detail-label">ADDRESS</span><span class="friend-detail-value">${f.address}</span></div>` : '',
+        f.notes    ? `<div class="friend-detail-row"><span class="friend-detail-label">NOTES</span><span class="friend-detail-value">${f.notes}</span></div>` : '',
       ].join('');
       return`<div class="friend-card">
-        <div class="friend-card-header">
-          <span>CONTACT</span>
-          <button class="del-btn" onclick="deleteFriend(${f.id})" style="color:rgba(0,0,0,.5);border:none;" title="Delete">✕</button>
-        </div>
+        <div class="friend-card-header"><span>CONTACT</span><button class="del-btn" onclick="deleteFriend(${f.id})" style="color:rgba(0,0,0,.5);border:none;">✕</button></div>
         <div class="friend-card-body">
-          <div class="friend-name">${f.name}</div>
-          <div class="friend-role">${f.role||'—'}</div>
+          <div class="friend-name">${f.name}</div><div class="friend-role">${f.role||'—'}</div>
           ${details||'<div style="font-family:var(--font-mono);font-size:10px;color:#bbb;">No additional details</div>'}
-          <div class="friend-card-actions">
-            <button class="btn btn-sm btn-dark" onclick="editFriend(${f.id})">EDIT</button>
-          </div>
+          <div class="friend-card-actions"><button class="btn btn-sm btn-dark" onclick="editFriend(${f.id})">EDIT</button></div>
         </div>
       </div>`;
     }).join('')}</div>`;
   }
-
   document.getElementById('social-cards').innerHTML=Object.entries(socialMeta).map(([k,m])=>{const pl=state.social[k];const val=pl.followers||pl.subscribers||pl.connections||0;return`<div class="node-card"><div class="node-header" style="background:${m.color};${m.tw?'color:#fff':''}">${m.label}</div><div class="node-body"><div class="node-number" style="font-size:36px;">${fmtN(val)}</div><div class="node-label">${{instagram:'Followers',youtube:'Subscribers',linkedin:'Connections'}[k]}</div><div style="display:flex;gap:6px;margin-top:10px;"><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="Count" type="number" min="0" oninput="updateSocialCount('${k}',this.value)"/><input class="input" style="padding:5px 8px;font-size:11px;flex:1;" placeholder="@handle" value="${pl.handle||''}" oninput="updateSocialHandle('${k}',this.value)"/></div></div></div>`;}).join('');
   const sc={prospect:'var(--yellow)',active:'var(--lime)',completed:'var(--cyan)'};
   document.getElementById('clients-list').innerHTML=state.clients.length===0?'<span style="font-family:var(--font-mono);font-size:11px;color:#aaa;">NO CLIENTS</span>':state.clients.map(c=>`<div class="node-card"><div class="node-header" style="background:${sc[c.status]||'#eee'};">${c.platform.toUpperCase()} <span onclick="deleteClient(${c.id})" style="cursor:pointer;margin-left:auto;">✕</span></div><div class="node-body"><div style="font-weight:700;font-size:16px;">${c.name}</div><div class="node-label" style="margin-top:4px;">${c.status.toUpperCase()}</div></div></div>`).join('');
 }
-
 function updateSocialCount(k,v){const n=parseInt(v)||0;if(k==='instagram')state.social.instagram.followers=n;if(k==='youtube')state.social.youtube.subscribers=n;if(k==='linkedin')state.social.linkedin.connections=n;scheduleSave();}
 function updateSocialHandle(k,v){state.social[k].handle=v;scheduleSave();}
 function fmtN(n){n=parseInt(n)||0;if(n>=1e6)return(n/1e6).toFixed(1)+'M';if(n>=1e3)return(n/1e3).toFixed(1)+'k';return n;}
-
 function addFriend(){
   const name=document.getElementById('fr-name').value.trim();
   const role=document.getElementById('fr-role').value.trim()||'Contact';
@@ -1085,11 +1200,8 @@ function addFriend(){
   closeModal('modal-friend');scheduleSave();renderNetwork();toast('CONTACT ADDED: '+name.toUpperCase());
   ['fr-name','fr-role','fr-phone','fr-dob','fr-guardian','fr-address','fr-notes'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
 }
-
 function editFriend(id){
-  const f = state.friends.find(x=>x.id===id);
-  if(!f) return;
-  // Populate modal fields
+  const f = state.friends.find(x=>x.id===id);if(!f) return;
   document.getElementById('fr-name').value = f.name||'';
   document.getElementById('fr-role').value = f.role||'';
   document.getElementById('fr-phone').value = f.phone||'';
@@ -1097,33 +1209,20 @@ function editFriend(id){
   document.getElementById('fr-guardian').value = f.guardian||'';
   document.getElementById('fr-address').value = f.address||'';
   document.getElementById('fr-notes').value = f.notes||'';
-  // Change the modal footer button to save as edit
   const footer = document.querySelector('#modal-friend .modal-footer');
-  footer.innerHTML = `
-    <button class="btn" onclick="closeModal('modal-friend')">CANCEL</button>
-    <button class="btn btn-cyan" onclick="saveFriendEdit(${id})">SAVE CHANGES</button>`;
+  footer.innerHTML = `<button class="btn" onclick="closeModal('modal-friend')">CANCEL</button><button class="btn btn-cyan" onclick="saveFriendEdit(${id})">SAVE CHANGES</button>`;
   openModal('modal-friend');
 }
-
 function saveFriendEdit(id){
-  const f = state.friends.find(x=>x.id===id);
-  if(!f) return;
-  const name=document.getElementById('fr-name').value.trim();
-  if(!name){toast('ENTER NAME');return;}
-  f.name = name;
-  f.role = document.getElementById('fr-role').value.trim()||'Contact';
-  f.phone = document.getElementById('fr-phone').value.trim();
-  f.dob = document.getElementById('fr-dob').value;
-  f.guardian = document.getElementById('fr-guardian').value.trim();
-  f.address = document.getElementById('fr-address').value.trim();
-  f.notes = document.getElementById('fr-notes').value.trim();
-  // Restore modal footer
+  const f = state.friends.find(x=>x.id===id);if(!f) return;
+  const name=document.getElementById('fr-name').value.trim();if(!name){toast('ENTER NAME');return;}
+  f.name = name;f.role = document.getElementById('fr-role').value.trim()||'Contact';
+  f.phone = document.getElementById('fr-phone').value.trim();f.dob = document.getElementById('fr-dob').value;
+  f.guardian = document.getElementById('fr-guardian').value.trim();f.address = document.getElementById('fr-address').value.trim();f.notes = document.getElementById('fr-notes').value.trim();
   const footer = document.querySelector('#modal-friend .modal-footer');
   footer.innerHTML = `<button class="btn" onclick="closeModal('modal-friend')">CANCEL</button><button class="btn btn-cyan" onclick="addFriend()">ADD CONTACT</button>`;
-  closeModal('modal-friend');
-  scheduleSave();renderNetwork();toast('CONTACT UPDATED: '+name.toUpperCase());
+  closeModal('modal-friend');scheduleSave();renderNetwork();toast('CONTACT UPDATED: '+name.toUpperCase());
 }
-
 function deleteFriend(id){state.friends=state.friends.filter(x=>x.id!==id);scheduleSave();renderNetwork();}
 function addClient(){const name=document.getElementById('cl-name').value.trim();const platform=document.getElementById('cl-platform').value;const status=document.getElementById('cl-status').value;if(!name){toast('ENTER NAME');return;}state.clients.push({id:state.nextId++,name,platform,status});closeModal('modal-client');scheduleSave();renderNetwork();toast('CLIENT ADDED');document.getElementById('cl-name').value='';}
 function deleteClient(id){state.clients=state.clients.filter(x=>x.id!==id);scheduleSave();renderNetwork();}
@@ -1147,57 +1246,27 @@ function saveUltimate(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// PLANNING — Google Calendar style
-//
-// Data model:
-//   state.planning.lanes = [{
-//     id, name, colorIdx,
-//     events: [{id, startMonth (0-11), span (1-12), text, colorIdx}]
-//   }]
-//
-// Render approach:
-//   CSS Grid with explicit grid-template-columns (1 fixed col + N lane cols + 1 add-btn col)
-//   Grid rows: 1 header row + 12 month rows
-//   Each cell is a .cal-cell at grid-row=(m+2), grid-col=(laneIdx+2)
-//   Events are absolutely positioned inside their cell (startMonth row),
-//   with height spanning multiple rows via calc(N*80px + (N-1)*border)
+// PLANNING
 // ═══════════════════════════════════════════════════════════════
 const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
 const LANE_COLORS = ['var(--cyan)','var(--lime)','var(--pink)','var(--yellow)','var(--orange)','var(--violet)','var(--teal)','#f97316'];
-const LANE_WIDTH = 220; // px per lane
-const ROW_HEIGHT = 80;  // px per month row
-
-// Color brightness helper
-function isLight(c){
-  const lights=['var(--cyan)','var(--lime)','var(--yellow)','#a2ef00','#00f0ff','#ffe500','#f97316'];
-  return lights.includes(c);
-}
-
-let _qapTarget = null; // {laneId, monthIdx}
+const LANE_WIDTH = 220;
+const ROW_HEIGHT = 80;
+function isLight(c){const lights=['var(--cyan)','var(--lime)','var(--yellow)','#a2ef00','#00f0ff','#ffe500','#f97316'];return lights.includes(c);}
+let _qapTarget = null;
 let _qapColorIdx = 0;
-
 function renderPlanning(){
   const p = state.planning;
   const year = p.year || new Date().getFullYear();
   document.getElementById('plan-year-badge').textContent = year;
-
-  const nowM = new Date().getMonth();
-  const nowY = new Date().getFullYear();
-  const lanes = p.lanes || [];
-  const nLanes = lanes.length;
-
-  // Grid: col 1 = month label (96px sticky), col 2..N+1 = lanes (220px each), col N+2 = add btn (72px)
+  const nowM = new Date().getMonth();const nowY = new Date().getFullYear();
+  const lanes = p.lanes || [];const nLanes = lanes.length;
   const table = document.getElementById('cal-table');
   const colTemplate = `96px ${lanes.map(()=>LANE_WIDTH+'px').join(' ')} 72px`;
   table.style.gridTemplateColumns = colTemplate;
   table.style.gridTemplateRows = `52px ${Array(12).fill(ROW_HEIGHT+'px').join(' ')}`;
-
   let html = '';
-
-  // ── Corner ──────────────────────────────────────────────────
   html += `<div class="cal-corner" style="grid-row:1;grid-column:1;">MONTH</div>`;
-
-  // ── Lane headers (row 1) ─────────────────────────────────────
   lanes.forEach((lane, li) => {
     const lc = LANE_COLORS[lane.colorIdx % LANE_COLORS.length];
     const tc = isLight(lc) ? '#000' : '#fff';
@@ -1206,14 +1275,10 @@ function renderPlanning(){
       <button class="lane-del" onclick="planDeleteLane(${lane.id})" style="color:${tc};opacity:.5;">✕</button>
     </div>`;
   });
-
-  // ── Add lane button (row 1, last col) ───────────────────────
   html += `<div style="grid-row:1/span 13;grid-column:${nLanes+2};display:flex;flex-direction:column;align-items:center;justify-content:flex-start;padding-top:60px;gap:6px;border-left:2px dashed #ddd;">
-    <button class="cal-add-lane-btn" onclick="planAddLane()" title="Add Timeline">+</button>
+    <button class="cal-add-lane-btn" onclick="planAddLane()">+</button>
     <span class="cal-add-lane-label">ADD<br>LANE</span>
   </div>`;
-
-  // ── Month labels (rows 2–13, col 1) ─────────────────────────
   for(let m=0;m<12;m++){
     const isCur = year===nowY && m===nowM;
     html += `<div class="cal-month-label${isCur?' now':''}" style="grid-row:${m+2};grid-column:1;">
@@ -1221,125 +1286,346 @@ function renderPlanning(){
       <span class="m-name">${MONTHS[m]}</span>
     </div>`;
   }
-
-  // ── Lane cells + events ─────────────────────────────────────
   lanes.forEach((lane, li) => {
     const gridCol = li + 2;
-
     for(let m=0;m<12;m++){
       const isCur = year===nowY && m===nowM;
       html += `<div class="cal-cell${isCur?' now-row':''}" style="grid-row:${m+2};grid-column:${gridCol};" onclick="planCellClick(event,${lane.id},${m})">`;
-
-      // Render events that START in this month
       const events = (lane.events||[]).filter(e=>e.startMonth===m);
       events.forEach((ev,ei) => {
         const span = ev.span || 1;
         const ec = EVENT_COLORS[ev.colorIdx % EVENT_COLORS.length];
         const etc = isLight(ec) ? '#000' : '#fff';
-        // Height: span rows, minus gaps/borders
-        const evH = span * ROW_HEIGHT - 8; // 8px = top+bottom padding sum
-        const topOffset = 4 + ei * 0; // stack offset handled by absolute within cell
-        html += `<div class="cal-event" style="background:${ec};color:${etc};top:${topOffset}px;height:${evH}px;" 
-            title="${ev.text} (${MONTHS[m]}${span>1?' → '+MONTHS[Math.min(11,m+span-1)]:''})">
+        const evH = span * ROW_HEIGHT - 8;
+        html += `<div class="cal-event" style="background:${ec};color:${etc};top:4px;height:${evH}px;">
           <span class="cal-event-text">${ev.text}${span>1?`<br><span style="font-size:8px;opacity:.7;">${MONTHS[m]} – ${MONTHS[Math.min(11,m+span-1)]}</span>`:''}</span>
           <button class="cal-event-del" onclick="planDeleteEvent(event,${lane.id},${ev.id})" style="color:${etc};opacity:.5;">✕</button>
         </div>`;
       });
-
       html += `</div>`;
     }
   });
-
   table.innerHTML = html;
 }
-
-function planChangeYear(delta){
-  state.planning.year = (state.planning.year||new Date().getFullYear()) + delta;
-  scheduleSave(); renderPlanning();
-}
-
+function planChangeYear(delta){state.planning.year = (state.planning.year||new Date().getFullYear()) + delta;scheduleSave(); renderPlanning();}
 function planAddLane(){
   const name = prompt('LANE NAME (e.g. CAREER, FITNESS, TRAVEL):');
   if(!name||!name.trim()) return;
   if(!state.planning.lanes) state.planning.lanes = [];
   const colorIdx = state.planning.lanes.length % LANE_COLORS.length;
   state.planning.lanes.push({id:state.nextId++, name:name.trim().toUpperCase(), colorIdx, events:[]});
-  scheduleSave(); renderPlanning();
-  toast('LANE ADDED: '+name.trim().toUpperCase());
+  scheduleSave(); renderPlanning();toast('LANE ADDED: '+name.trim().toUpperCase());
 }
-
-function planDeleteLane(laneId){
-  state.planning.lanes = (state.planning.lanes||[]).filter(l=>l.id!==laneId);
-  scheduleSave(); renderPlanning(); toast('LANE REMOVED');
-}
-
+function planDeleteLane(laneId){state.planning.lanes = (state.planning.lanes||[]).filter(l=>l.id!==laneId);scheduleSave(); renderPlanning(); toast('LANE REMOVED');}
 function planCellClick(e, laneId, monthIdx){
   if(e.target.closest('.cal-event-del')||e.target.closest('.cal-event')) return;
-  _qapTarget = {laneId, monthIdx};
-  _qapColorIdx = 0;
-
+  _qapTarget = {laneId, monthIdx};_qapColorIdx = 0;
   const popup = document.getElementById('quick-add-popup');
   const lane = (state.planning.lanes||[]).find(l=>l.id===laneId);
   document.getElementById('qap-label').textContent = `${MONTHS[monthIdx]} — ${lane?lane.name:''}`;
-  document.getElementById('qap-text').value = '';
-  document.getElementById('qap-span').value = '1';
-
-  // Build color swatches
+  document.getElementById('qap-text').value = '';document.getElementById('qap-span').value = '1';
   document.getElementById('qap-colors').innerHTML = EVENT_COLORS.map((c,i)=>
     `<div class="color-swatch${i===0?' selected':''}" style="background:${c};border:2px solid ${i===0?'#000':'transparent'};" onclick="qapSelectColor(${i},this)"></div>`
   ).join('');
-
-  // Position popup near click
   const rect = e.currentTarget.getBoundingClientRect();
   const popX = Math.min(window.innerWidth-280, rect.right+4);
   const popY = Math.min(window.innerHeight-260, rect.top);
-  popup.style.left = popX+'px';
-  popup.style.top  = popY+'px';
-  popup.style.display = 'block';
+  popup.style.left = popX+'px';popup.style.top = popY+'px';popup.style.display = 'block';
   setTimeout(()=>document.getElementById('qap-text').focus(), 40);
 }
-
-function qapSelectColor(idx, el){
-  _qapColorIdx = idx;
-  document.querySelectorAll('#qap-colors .color-swatch').forEach(s=>{s.style.borderColor='transparent';s.classList.remove('selected');});
-  el.style.borderColor='#000'; el.classList.add('selected');
-}
-
+function qapSelectColor(idx, el){_qapColorIdx = idx;document.querySelectorAll('#qap-colors .color-swatch').forEach(s=>{s.style.borderColor='transparent';s.classList.remove('selected');});el.style.borderColor='#000'; el.classList.add('selected');}
 function qapKeydown(e){ if(e.key==='Enter')qapConfirm(); if(e.key==='Escape')qapCancel(); }
-
 function qapConfirm(){
   const text = document.getElementById('qap-text').value.trim();
   if(!text){toast('ENTER EVENT NAME');return;}
   const span = Math.max(1,Math.min(12,parseInt(document.getElementById('qap-span').value)||1));
-  const lane = (state.planning.lanes||[]).find(l=>l.id===_qapTarget.laneId);
-  if(!lane) return;
-  // Clamp span so it doesn't exceed December
+  const lane = (state.planning.lanes||[]).find(l=>l.id===_qapTarget.laneId);if(!lane) return;
   const clampedSpan = Math.min(span, 12 - _qapTarget.monthIdx);
   lane.events.push({id:state.nextId++, startMonth:_qapTarget.monthIdx, span:clampedSpan, text, colorIdx:_qapColorIdx});
-  scheduleSave(); qapCancel(); renderPlanning();
-  toast('EVENT ADDED: '+text.toUpperCase());
+  scheduleSave(); qapCancel(); renderPlanning();toast('EVENT ADDED: '+text.toUpperCase());
 }
-
-function qapCancel(){
-  document.getElementById('quick-add-popup').style.display='none';
-  _qapTarget = null;
-}
-
-function planDeleteEvent(e, laneId, eventId){
-  e.stopPropagation();
-  const lane = (state.planning.lanes||[]).find(l=>l.id===laneId);
-  if(!lane) return;
-  lane.events = lane.events.filter(ev=>ev.id!==eventId);
-  scheduleSave(); renderPlanning(); toast('EVENT REMOVED');
-}
-
-// Close popup on outside click
+function qapCancel(){document.getElementById('quick-add-popup').style.display='none';_qapTarget = null;}
 document.addEventListener('click', e=>{
   const popup = document.getElementById('quick-add-popup');
-  if(popup.style.display!=='none' && !popup.contains(e.target) && !e.target.closest('.cal-cell')){
-    qapCancel();
-  }
+  if(popup.style.display!=='none' && !popup.contains(e.target) && !e.target.closest('.cal-cell'))qapCancel();
 });
+
+// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// ECONOMICS — LEAFLET MAP + REGION CARDS
+// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+let _econMap = null;          // Leaflet map instance
+let _econMode = 'view';       // 'view' | 'highlight'
+let _econRectCorner1 = null;  // first click LatLng
+let _econRectPreview = null;  // preview rectangle layer
+let _econPendingBounds = null;// bounds waiting for name modal
+let _econLayers = {};         // regionId → Leaflet layer
+
+// Accent hex values for CSS variables (for inline border-left colors)
+const ECON_ACCENT_HEX = ['#00f0ff','#ffe500','#a2ef00','#fe00fe','#ff6b00','#8b5cf6','#00d4aa'];
+
+function renderEconomics(){
+  if(!_econMap){
+    _econMap = L.map('econ-map', {zoomControl:true}).setView([20, 0], 2);
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+      attribution:'&copy; OpenStreetMap contributors',
+      maxZoom:18,
+    }).addTo(_econMap);
+
+    _econMap.on('click', econMapClick);
+
+    // Style the Leaflet zoom controls to fit the brutalist look
+    setTimeout(()=>{
+      const zc = document.querySelector('.leaflet-control-zoom');
+      if(zc){zc.style.border='2px solid #000';zc.style.borderRadius='0';zc.style.boxShadow='4px 4px 0 #000';}
+    }, 200);
+  }
+
+  // Re-draw any existing regions from state
+  _econLayers = {};
+  // Remove existing non-tile layers
+  _econMap.eachLayer(layer => { if(!(layer instanceof L.TileLayer)) _econMap.removeLayer(layer); });
+  (state.economics.regions||[]).forEach(r => econDrawLayer(r));
+
+  econSetMode('view');
+  econRenderCards();
+}
+
+function econSetMode(mode){
+  _econMode = mode;
+  // Reset any in-progress highlight
+  if(mode !== 'highlight'){
+    _econRectCorner1 = null;
+    if(_econRectPreview){ _econMap.removeLayer(_econRectPreview); _econRectPreview = null; }
+  }
+  // Update button states
+  document.getElementById('econ-btn-view').classList.toggle('active', mode==='view');
+  document.getElementById('econ-btn-highlight').classList.toggle('active-mode', mode==='highlight');
+  // Update mode badge
+  const badge = document.getElementById('econ-mode-badge');
+  badge.textContent = mode==='highlight' ? 'MODE: HIGHLIGHT' : 'MODE: VIEW';
+  badge.style.background = mode==='highlight' ? 'var(--yellow)' : 'var(--black)';
+  badge.style.color = mode==='highlight' ? '#000' : 'var(--yellow)';
+  // Show/hide instruction banner
+  const banner = document.getElementById('econ-highlight-banner');
+  if(mode==='highlight'){
+    banner.classList.add('visible');
+    document.getElementById('econ-highlight-msg').textContent = 'STEP 1/2 — CLICK THE FIRST CORNER OF YOUR REGION ON THE MAP';
+    _econMap.getContainer().style.cursor = 'crosshair';
+  } else {
+    banner.classList.remove('visible');
+    _econMap.getContainer().style.cursor = '';
+  }
+}
+
+function econMapClick(e){
+  if(_econMode !== 'highlight') return;
+
+  if(!_econRectCorner1){
+    // First corner
+    _econRectCorner1 = e.latlng;
+    document.getElementById('econ-highlight-msg').textContent =
+      `STEP 2/2 — FIRST CORNER SET AT ${_econRectCorner1.lat.toFixed(2)}, ${_econRectCorner1.lng.toFixed(2)} — CLICK THE OPPOSITE CORNER`;
+    // Show a temporary dot marker at first click
+    if(_econRectPreview) _econMap.removeLayer(_econRectPreview);
+    _econRectPreview = L.circleMarker(_econRectCorner1, {
+      radius:7, color:'#000', weight:2, fillColor:'#ffe500', fillOpacity:1
+    }).addTo(_econMap);
+  } else {
+    // Second corner — form the bounding box
+    const corner2 = e.latlng;
+    const sw = L.latLng(Math.min(_econRectCorner1.lat, corner2.lat), Math.min(_econRectCorner1.lng, corner2.lng));
+    const ne = L.latLng(Math.max(_econRectCorner1.lat, corner2.lat), Math.max(_econRectCorner1.lng, corner2.lng));
+
+    // Remove preview dot
+    if(_econRectPreview){ _econMap.removeLayer(_econRectPreview); _econRectPreview = null; }
+
+    _econPendingBounds = { sw:[sw.lat, sw.lng], ne:[ne.lat, ne.lng] };
+    _econRectCorner1 = null;
+
+    // Open name modal
+    document.getElementById('econ-region-name-input').value = '';
+    openModal('modal-econ-region');
+    setTimeout(()=>document.getElementById('econ-region-name-input').focus(), 80);
+  }
+}
+
+function econConfirmRegion(){
+  const title = document.getElementById('econ-region-name-input').value.trim();
+  if(!title){ toast('ENTER REGION NAME'); return; }
+  if(!_econPendingBounds){ closeModal('modal-econ-region'); return; }
+
+  const colorIdx = (state.economics.regions||[]).length % ECON_ACCENT_HEX.length;
+  const region = {
+    id: state.nextId++,
+    title: title.toUpperCase(),
+    bounds: _econPendingBounds,
+    colorIdx,
+    data: [],
+  };
+
+  if(!state.economics.regions) state.economics.regions = [];
+  state.economics.regions.push(region);
+  _econPendingBounds = null;
+
+  econDrawLayer(region);
+  scheduleSave();
+  econSetMode('view');
+  closeModal('modal-econ-region');
+  econRenderCards();
+  toast('REGION CREATED: ' + region.title);
+}
+
+function econDrawLayer(region){
+  const sw = L.latLng(region.bounds.sw[0], region.bounds.sw[1]);
+  const ne = L.latLng(region.bounds.ne[0], region.bounds.ne[1]);
+  const color = ECON_ACCENT_HEX[region.colorIdx % ECON_ACCENT_HEX.length];
+
+  const rect = L.rectangle([sw, ne], {
+    color: '#000',
+    weight: 2.5,
+    fillColor: color,
+    fillOpacity: 0.22,
+    dashArray: null,
+  }).addTo(_econMap);
+
+  // Tooltip on hover
+  rect.bindTooltip(`<span class="econ-highlight-popup">${region.title}</span>`, {
+    sticky: true,
+    className: 'econ-highlight-popup',
+    opacity: 1,
+    permanent: false,
+  });
+
+  // Click to scroll to its card
+  rect.on('click', () => {
+    const card = document.getElementById('econ-card-'+region.id);
+    if(card){
+      card.scrollIntoView({behavior:'smooth', block:'center'});
+      card.style.outline = '3px solid #000';
+      card.style.outlineOffset = '3px';
+      setTimeout(()=>{ card.style.outline=''; card.style.outlineOffset=''; }, 1200);
+    }
+  });
+
+  _econLayers[region.id] = rect;
+}
+
+function econDeleteRegion(id){
+  state.economics.regions = (state.economics.regions||[]).filter(r=>r.id!==id);
+  if(_econLayers[id]){ _econMap.removeLayer(_econLayers[id]); delete _econLayers[id]; }
+  scheduleSave();
+  econRenderCards();
+  toast('REGION REMOVED');
+}
+
+function econClearHighlights(){
+  if(!confirm('CLEAR ALL REGIONS?')) return;
+  (state.economics.regions||[]).forEach(r=>{ if(_econLayers[r.id]) _econMap.removeLayer(_econLayers[r.id]); });
+  state.economics.regions = [];
+  _econLayers = {};
+  scheduleSave();
+  econRenderCards();
+  toast('ALL REGIONS CLEARED');
+}
+
+function econFlyToRegion(id){
+  const region = (state.economics.regions||[]).find(r=>r.id===id);
+  if(!region||!_econMap) return;
+  const sw = L.latLng(region.bounds.sw[0], region.bounds.sw[1]);
+  const ne = L.latLng(region.bounds.ne[0], region.bounds.ne[1]);
+  _econMap.flyToBounds([sw,ne], {padding:[40,40], duration:0.8});
+}
+
+// ── Data rows ────────────────────────────────────────────────
+function econAddDataRow(regionId){
+  const keyEl  = document.getElementById(`econ-key-${regionId}`);
+  const valEl  = document.getElementById(`econ-val-${regionId}`);
+  const key = keyEl.value.trim();
+  const val = valEl.value.trim();
+  if(!key){ toast('ENTER A FIELD NAME'); return; }
+  const region = (state.economics.regions||[]).find(r=>r.id===regionId);
+  if(!region) return;
+  if(!region.data) region.data = [];
+  region.data.push({ key, val });
+  keyEl.value = '';
+  valEl.value = '';
+  scheduleSave();
+  econRenderCards();
+  toast('DATA ADDED TO ' + region.title);
+}
+
+function econDeleteDataRow(regionId, rowIdx){
+  const region = (state.economics.regions||[]).find(r=>r.id===regionId);
+  if(!region||!region.data) return;
+  region.data.splice(rowIdx, 1);
+  scheduleSave();
+  econRenderCards();
+}
+
+function econDataKeydown(e, regionId){
+  if(e.key==='Enter') econAddDataRow(regionId);
+}
+
+// ── Render cards below map ────────────────────────────────────
+function econRenderCards(){
+  const regions = state.economics.regions || [];
+  const grid = document.getElementById('econ-cards-grid');
+  const countBadge = document.getElementById('econ-regions-count-badge');
+  const topCount = document.getElementById('econ-region-count');
+
+  countBadge.textContent = regions.length + ' REGION' + (regions.length!==1?'S':'');
+  topCount.textContent = regions.length;
+
+  if(!regions.length){
+    grid.innerHTML = `<div class="econ-empty">NO REGIONS MAPPED YET<br><br>
+      <span style="font-size:10px;">SWITCH TO "HIGHLIGHT REGION" MODE AND CLICK TWO POINTS ON THE MAP TO CREATE A DATA CARD</span>
+    </div>`;
+    return;
+  }
+
+  grid.innerHTML = regions.map(r => {
+    const accentHex = ECON_ACCENT_HEX[r.colorIdx % ECON_ACCENT_HEX.length];
+    const dataRows = (r.data||[]);
+    const sw = r.bounds.sw;
+    const ne = r.bounds.ne;
+    const coordStr = `SW ${sw[0].toFixed(1)},${sw[1].toFixed(1)} · NE ${ne[0].toFixed(1)},${ne[1].toFixed(1)}`;
+
+    return `<div class="econ-card econ-accent-${r.colorIdx % 7}" id="econ-card-${r.id}" style="border-left:6px solid ${accentHex};">
+      <div class="econ-card-head">
+        <div>
+          <div class="econ-card-title">${r.title}</div>
+          <div class="econ-card-coords">${coordStr}</div>
+        </div>
+        <div class="econ-card-actions">
+          <button class="econ-card-action-btn" onclick="econFlyToRegion(${r.id})" title="Zoom to region on map">◎ MAP</button>
+          <button class="econ-card-action-btn del" onclick="econDeleteRegion(${r.id})" title="Delete region">✕</button>
+        </div>
+      </div>
+      <div class="econ-card-body">
+        ${dataRows.length === 0
+          ? `<div class="econ-data-empty">NO DATA YET — ADD FIELDS BELOW</div>`
+          : `<ul class="econ-data-rows">
+              ${dataRows.map((row,ri)=>`
+                <li class="econ-data-row">
+                  <span class="econ-data-key">${row.key}</span>
+                  <span class="econ-data-val">${row.val}</span>
+                  <button onclick="econDeleteDataRow(${r.id},${ri})" style="margin-left:auto;background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:10px;color:#ccc;padding:0 0 0 8px;" title="Remove row">✕</button>
+                </li>`).join('')}
+            </ul>`
+        }
+        <div class="econ-add-data-form">
+          <input id="econ-key-${r.id}" placeholder="FIELD NAME" style="max-width:130px;"
+            onkeydown="econDataKeydown(event,${r.id})"/>
+          <input id="econ-val-${r.id}" placeholder="VALUE"
+            onkeydown="econDataKeydown(event,${r.id})"/>
+          <button class="econ-add-data-btn" onclick="econAddDataRow(${r.id})">+ ADD</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
 
 // ═══════════════════════════════════════════════════════════════
 // MODALS
@@ -1350,7 +1636,6 @@ function openModal(id){
     document.getElementById('ult-vision').value=state.ultimate.vision;
     document.getElementById('ult-prog').value=state.ultimate.progress;
   }
-  // Reset friend modal footer in case it was in edit mode
   if(id==='modal-friend'){
     const footer = document.querySelector('#modal-friend .modal-footer');
     footer.innerHTML = `<button class="btn" onclick="closeModal('modal-friend')">CANCEL</button><button class="btn btn-cyan" onclick="addFriend()">ADD CONTACT</button>`;
