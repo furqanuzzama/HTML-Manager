@@ -251,12 +251,8 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .quick-add-btns button{flex:1;font-family:var(--font-mono);font-size:11px;font-weight:700;
   text-transform:uppercase;padding:7px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);}
 
-/* ═══════════════════════════════════════════════════════════════
-   ECONOMICS PAGE
-   ═══════════════════════════════════════════════════════════════ */
+/* ═══ ECONOMICS PAGE ═══ */
 #page-economics{padding:48px}
-
-/* Top bar */
 .econ-topbar{display:flex;align-items:center;gap:12px;margin-bottom:24px;flex-wrap:wrap;}
 .econ-mode-btn{font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
   letter-spacing:.08em;padding:8px 16px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);
@@ -265,28 +261,20 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .econ-mode-btn:active{transform:translate(2px,2px);box-shadow:2px 2px 0 #000;}
 .econ-mode-btn.active{background:var(--yellow);font-weight:700;}
 .econ-mode-badge{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
-  padding:4px 10px;border:1.5px solid #000;letter-spacing:.08em;background:var(--black);color:var(--yellow);}
-
-/* Map wrapper — square-ish, with thick brutalist border */
+  padding:4px 10px;border:1.5px solid #000;margin-right:8px;letter-spacing:.08em;background:var(--black);color:var(--yellow);}
 .econ-map-wrapper{border:3px solid #000;box-shadow:var(--shadow-xl);background:#e8e0d0;
   position:relative;overflow:hidden;margin-bottom:0;}
 #econ-map{width:100%;height:520px;}
-
-/* Map controls overlay */
 .map-controls-overlay{position:absolute;top:12px;right:12px;z-index:1000;display:flex;flex-direction:column;gap:6px;}
 .map-ctrl-btn{font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;
   padding:6px 12px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);
   background:var(--white);letter-spacing:.06em;transition:background .1s;}
 .map-ctrl-btn:hover{background:var(--yellow);}
 .map-ctrl-btn.active-mode{background:var(--yellow);box-shadow:var(--shadow-lg);}
-
-/* Highlight instruction banner */
 .econ-highlight-banner{background:var(--yellow);border:var(--border);border-top:none;
   padding:10px 16px;font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
   letter-spacing:.08em;display:none;align-items:center;gap:12px;box-shadow:0 4px 0 #000;}
 .econ-highlight-banner.visible{display:flex;}
-
-/* Regions panels area */
 .econ-regions-area{margin-top:24px;}
 .econ-regions-header{display:flex;align-items:center;justify-content:space-between;
   border-bottom:var(--border);padding-bottom:10px;margin-bottom:20px;}
@@ -294,16 +282,10 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   text-transform:uppercase;letter-spacing:.1em;}
 .econ-regions-count{font-family:var(--font-mono);font-size:10px;color:#888;
   background:var(--black);color:var(--yellow);padding:2px 8px;letter-spacing:.06em;}
-
-/* Region cards grid */
 .econ-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
-
-/* Single region card — brutalist thick border, accent bar on left */
 .econ-card{background:var(--white);border:var(--border);box-shadow:var(--shadow-lg);
   overflow:hidden;position:relative;}
 .econ-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;}
-
-/* Card header */
 .econ-card-head{padding:12px 14px 10px 20px;border-bottom:var(--border);
   display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
 .econ-card-title{font-weight:700;font-size:15px;text-transform:uppercase;
@@ -316,8 +298,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   background:var(--white);box-shadow:2px 2px 0 #000;transition:background .1s;}
 .econ-card-action-btn:hover{background:var(--cyan);}
 .econ-card-action-btn.del:hover{background:var(--red);color:#fff;}
-
-/* Data rows inside card */
 .econ-card-body{padding:12px 14px 14px 20px;}
 .econ-data-rows{list-style:none;margin-bottom:12px;}
 .econ-data-row{display:flex;align-items:baseline;gap:0;padding:6px 0;
@@ -328,8 +308,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .econ-data-val{font-size:13px;font-weight:700;color:var(--ink);word-break:break-word;}
 .econ-data-empty{font-family:var(--font-mono);font-size:10px;color:#bbb;
   text-transform:uppercase;padding:8px 0;}
-
-/* Add data row form inside card */
 .econ-add-data-form{display:flex;gap:6px;align-items:center;flex-wrap:wrap;
   border-top:1.5px dashed #ccc;padding-top:10px;margin-top:4px;}
 .econ-add-data-form input{font-family:var(--font-mono);font-size:11px;padding:5px 8px;
@@ -341,8 +319,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   transition:background .1s,transform .08s;}
 .econ-add-data-btn:hover{background:var(--cyan);}
 .econ-add-data-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #000;}
-
-/* Accent colors for cards — cycled */
 .econ-accent-0::before{background:var(--cyan);}
 .econ-accent-1::before{background:var(--yellow);}
 .econ-accent-2::before{background:var(--lime);}
@@ -350,23 +326,290 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .econ-accent-4::before{background:var(--orange);}
 .econ-accent-5::before{background:var(--violet);}
 .econ-accent-6::before{background:var(--teal);}
-
-/* Empty state for regions */
 .econ-empty{font-family:var(--font-mono);font-size:12px;color:#aaa;padding:48px 32px;
   text-align:center;border:2px dashed #ccc;background:rgba(255,255,255,.5);}
-
-/* Leaflet overrides for brutalist look */
 .leaflet-container{font-family:var(--font-mono)!important;}
 .leaflet-control-zoom a{font-family:var(--font-mono)!important;font-weight:700!important;}
 .leaflet-popup-content-wrapper{border:2px solid #000!important;border-radius:0!important;box-shadow:4px 4px 0 #000!important;}
 .leaflet-popup-tip-container{display:none;}
 .leaflet-popup-content{font-family:var(--font-mono)!important;font-size:11px!important;font-weight:700!important;text-transform:uppercase;}
-
-/* Highlight shape tooltip */
 .econ-highlight-popup{
   font-family:var(--font-mono)!important;font-size:10px!important;font-weight:700!important;
   text-transform:uppercase!important;background:#000!important;color:var(--yellow)!important;
   border:2px solid var(--yellow)!important;border-radius:0!important;padding:6px 10px!important;}
+
+/* ═══════════════════════════════════════════════════════════════
+   LIFESTYLE PAGE
+   ═══════════════════════════════════════════════════════════════ */
+#page-lifestyle { padding: 48px; }
+
+/* Week navigation bar */
+.ls-week-nav {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  margin-bottom: 24px;
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  background: var(--black);
+  overflow: hidden;
+  width: fit-content;
+}
+.ls-prev-btn {
+  font-family: var(--font-mono);
+  font-size: 14px;
+  font-weight: 700;
+  padding: 0 18px;
+  height: 72px;
+  border: none;
+  border-right: var(--border);
+  cursor: pointer;
+  background: var(--yellow);
+  color: #000;
+  letter-spacing: .06em;
+  transition: background .1s, transform .08s;
+  flex-shrink: 0;
+}
+.ls-prev-btn:hover { background: var(--orange); }
+.ls-prev-btn:active { transform: translate(1px,1px); }
+
+.ls-day-btn {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  text-transform: uppercase;
+  border: none;
+  border-right: 1px solid rgba(255,255,255,.12);
+  cursor: pointer;
+  background: transparent;
+  color: rgba(255,255,255,.55);
+  padding: 0 20px;
+  height: 72px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background .12s;
+  min-width: 86px;
+  position: relative;
+}
+.ls-day-btn:last-of-type { border-right: none; }
+.ls-day-btn:hover { background: rgba(255,255,255,.08); }
+.ls-day-btn.active {
+  background: var(--cyan);
+  color: #000;
+}
+.ls-day-btn.today { background: var(--lime); color: #000; }
+.ls-day-btn.today.active { background: var(--cyan); }
+.ls-day-btn .ls-day-name {
+  font-size: 9px;
+  letter-spacing: .14em;
+}
+.ls-day-btn .ls-day-num {
+  font-size: 22px;
+  line-height: 1;
+}
+.ls-day-btn .ls-day-month {
+  font-size: 8px;
+  opacity: .7;
+  letter-spacing: .1em;
+}
+.ls-today-dot {
+  position: absolute;
+  top: 7px;
+  right: 8px;
+  width: 7px;
+  height: 7px;
+  background: var(--red);
+  border-radius: 50%;
+  border: 1.5px solid #000;
+}
+.ls-week-range {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: #888;
+  margin-bottom: 16px;
+}
+
+/* Activity canvas (the big display box) */
+.ls-canvas {
+  min-height: 320px;
+  border: var(--border);
+  box-shadow: var(--shadow-xl);
+  background: var(--white);
+  padding: 20px;
+  margin-bottom: 24px;
+  position: relative;
+}
+.ls-canvas-header {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #888;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ls-canvas-date {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--ink);
+  font-family: var(--font-main);
+  letter-spacing: -.01em;
+}
+.ls-canvas-empty {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: #bbb;
+  text-align: center;
+  padding: 60px 20px;
+  border: 2px dashed #e0e0e0;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+}
+
+/* Activity tiles */
+.ls-tiles-wrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+.ls-tile {
+  border: var(--border);
+  box-shadow: var(--shadow);
+  padding: 14px 16px;
+  min-width: 180px;
+  max-width: 260px;
+  position: relative;
+  background: var(--white);
+  transition: box-shadow .1s;
+}
+.ls-tile:hover { box-shadow: var(--shadow-lg); }
+.ls-tile-type {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  padding: 2px 8px;
+  border: 1px solid #000;
+  display: inline-block;
+  margin-bottom: 8px;
+}
+.ls-tile-main {
+  font-size: 17px;
+  font-weight: 700;
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.ls-tile-sub {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: #666;
+  text-transform: uppercase;
+  letter-spacing: .06em;
+}
+.ls-tile-del {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 12px;
+  color: #ccc;
+  font-family: var(--font-mono);
+  line-height: 1;
+  transition: color .1s;
+}
+.ls-tile-del:hover { color: var(--red); }
+
+/* Accent colors per type */
+.ls-tile-sleep   { border-left: 5px solid var(--violet); }
+.ls-tile-sleep   .ls-tile-type { background: var(--violet); color: #fff; }
+.ls-tile-wakeup  { border-left: 5px solid var(--yellow); }
+.ls-tile-wakeup  .ls-tile-type { background: var(--yellow); color: #000; }
+.ls-tile-learning{ border-left: 5px solid var(--cyan); }
+.ls-tile-learning .ls-tile-type { background: var(--cyan); color: #000; }
+.ls-tile-timewaste{ border-left: 5px solid var(--red); }
+.ls-tile-timewaste .ls-tile-type { background: var(--red); color: #fff; }
+.ls-tile-custom  { border-left: 5px solid var(--lime); }
+.ls-tile-custom  .ls-tile-type { background: var(--lime); color: #000; }
+
+/* Action buttons bar */
+.ls-actions-bar {
+  border: var(--border);
+  box-shadow: var(--shadow-lg);
+  background: var(--black);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.ls-actions-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: #666;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+.ls-action-btn {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .07em;
+  padding: 10px 16px;
+  border: var(--border);
+  cursor: pointer;
+  box-shadow: var(--shadow);
+  transition: transform .08s, box-shadow .08s, background .1s;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.ls-action-btn:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
+.ls-action-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #000; }
+.ls-action-btn.sleep-btn   { background: var(--violet); color: #fff; }
+.ls-action-btn.wakeup-btn  { background: var(--yellow); color: #000; }
+.ls-action-btn.learning-btn{ background: var(--cyan);   color: #000; }
+.ls-action-btn.waste-btn   { background: var(--red);    color: #fff; }
+.ls-action-btn.custom-btn  { background: var(--lime);   color: #000; }
+.ls-action-btn .ls-btn-icon { font-size: 14px; }
+
+/* Lock overlay on past-week-days actions */
+.ls-actions-bar.locked .ls-action-btn {
+  opacity: .35;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+.ls-locked-notice {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .08em;
+  background: var(--yellow);
+  border: var(--border);
+  padding: 6px 14px;
+  margin-left: auto;
+}
+
+/* Lifestyle modal (sm variant) */
+#modal-lifestyle .modal { width: 420px; }
 </style>
 </head>
 <body>
@@ -380,6 +623,7 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
     <button class="nav-item" onclick="showPage('network',this)">NETWORK</button>
     <button class="nav-item" onclick="showPage('planning',this)">PLANNING</button>
     <button class="nav-item" onclick="showPage('economics',this)">ECONOMICS</button>
+    <button class="nav-item" onclick="showPage('lifestyle',this)">LIFESTYLE</button>
     <button class="nav-item" onclick="showPage('ultimate',this)">ULTIMATE GOAL</button>
   </div>
   <div id="db-badge" class="checking">DB…</div>
@@ -457,16 +701,12 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     ECONOMICS PAGE
-     ═══════════════════════════════════════════════════════════════ -->
+<!-- ECONOMICS PAGE -->
 <div class="page" id="page-economics">
   <div class="page-header">
     <div class="page-title">ECONOMICS</div>
     <div class="page-subtitle">// GEO.INTEL.MAP — HIGHLIGHT REGIONS · ANNOTATE DATA</div>
   </div>
-
-  <!-- Top bar -->
   <div class="econ-topbar">
     <span class="econ-mode-badge" id="econ-mode-badge">MODE: VIEW</span>
     <button class="econ-mode-btn" id="econ-btn-view" onclick="econSetMode('view')" title="Pan &amp; zoom map normally">VIEW</button>
@@ -476,20 +716,14 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
       // <span id="econ-region-count">0</span> REGIONS MAPPED
     </span>
   </div>
-
-  <!-- Map -->
   <div class="econ-map-wrapper">
     <div id="econ-map"></div>
   </div>
-
-  <!-- Banner shown in highlight mode -->
   <div class="econ-highlight-banner" id="econ-highlight-banner">
     <span style="font-size:14px;">▣</span>
     <span id="econ-highlight-msg">CLICK TWO POINTS ON THE MAP TO DRAW A REGION RECTANGLE</span>
     <button class="btn btn-sm" style="background:var(--black);color:var(--white);margin-left:auto;" onclick="econSetMode('view')">CANCEL</button>
   </div>
-
-  <!-- Region cards -->
   <div class="econ-regions-area" id="econ-regions-area">
     <div class="econ-regions-header">
       <div class="econ-regions-title">REGION INTEL</div>
@@ -500,6 +734,45 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
         <span style="font-size:10px;">SWITCH TO "HIGHLIGHT REGION" MODE AND CLICK TWO POINTS ON THE MAP TO CREATE A DATA CARD</span>
       </div>
     </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════════
+     LIFESTYLE PAGE
+     ═══════════════════════════════════════════════════════════════ -->
+<div class="page" id="page-lifestyle">
+  <div class="page-header">
+    <div class="page-title">LIFESTYLE</div>
+    <div class="page-subtitle">// DAILY.LOG — TRACK SLEEP · LEARNING · TIME · HABITS</div>
+  </div>
+
+  <!-- Week navigation -->
+  <div class="ls-week-range" id="ls-week-range">WEEK OF …</div>
+  <div class="ls-week-nav" id="ls-week-nav">
+    <button class="ls-prev-btn" onclick="lsChangeWeek(-1)" title="Previous week">◀ PREV</button>
+    <!-- Day buttons injected by JS -->
+  </div>
+
+  <!-- Activity canvas -->
+  <div class="ls-canvas" id="ls-canvas">
+    <div class="ls-canvas-header">
+      <span id="ls-canvas-date-label">SELECT A DAY</span>
+      <span style="font-family:var(--font-mono);font-size:9px;color:#bbb;text-transform:uppercase;letter-spacing:.1em;" id="ls-canvas-count">0 ENTRIES</span>
+    </div>
+    <div id="ls-tiles-wrap" class="ls-tiles-wrap">
+      <div class="ls-canvas-empty">NO ACTIVITIES LOGGED FOR THIS DAY<br><br>USE THE BUTTONS BELOW TO LOG YOUR DAY</div>
+    </div>
+  </div>
+
+  <!-- Action buttons -->
+  <div class="ls-actions-bar" id="ls-actions-bar">
+    <span class="ls-actions-label">LOG →</span>
+    <button class="ls-action-btn sleep-btn"    onclick="lsOpenModal('sleep')"><span class="ls-btn-icon">🌙</span> SLEEP TIME</button>
+    <button class="ls-action-btn wakeup-btn"   onclick="lsOpenModal('wakeup')"><span class="ls-btn-icon">☀️</span> WAKE UP</button>
+    <button class="ls-action-btn learning-btn" onclick="lsOpenModal('learning')"><span class="ls-btn-icon">⚡</span> LEARNING</button>
+    <button class="ls-action-btn waste-btn"    onclick="lsOpenModal('timewaste')"><span class="ls-btn-icon">⏳</span> TIME WASTE</button>
+    <button class="ls-action-btn custom-btn"   onclick="lsOpenModal('custom')"><span class="ls-btn-icon">+</span> CUSTOM</button>
+    <span class="ls-locked-notice" id="ls-locked-notice" style="display:none;">VIEWING PAST — CANNOT ADD</span>
   </div>
 </div>
 
@@ -680,6 +953,23 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
+<!-- ═══ LIFESTYLE MODAL ═══ -->
+<div class="modal-overlay" id="modal-lifestyle">
+  <div class="modal" style="width:440px;">
+    <div class="modal-header" id="ls-modal-header">
+      LOG ACTIVITY
+      <button class="modal-close" onclick="closeModal('modal-lifestyle')">X</button>
+    </div>
+    <div class="modal-body" id="ls-modal-body">
+      <!-- Injected by lsOpenModal() -->
+    </div>
+    <div class="modal-footer">
+      <button class="btn" onclick="closeModal('modal-lifestyle')">CANCEL</button>
+      <button class="btn btn-dark" id="ls-modal-save-btn" onclick="lsSaveActivity()">LOG IT</button>
+    </div>
+  </div>
+</div>
+
 <!-- QUICK-ADD EVENT POPUP (planning) -->
 <div id="quick-add-popup" class="quick-add-popup" style="display:none;">
   <div class="quick-add-popup-label" id="qap-label">ADD EVENT</div>
@@ -725,6 +1015,7 @@ async function saveState() {
       nextId:  state.nextId,
       planning: state.planning,
       economics: state.economics,
+      lifestyle: state.lifestyle,
     };
     const res = await fetch(API + '/api/state/sync', {
       method: 'POST',
@@ -766,6 +1057,7 @@ async function loadStateFromDB() {
     if (data.nextId)    state.nextId    = data.nextId;
     if (data.planning)  state.planning  = data.planning;
     if (data.economics) state.economics = data.economics;
+    if (data.lifestyle) state.lifestyle = data.lifestyle;
     badge.textContent = 'DB ✓';
     badge.className = 'online';
     document.getElementById('save-indicator').textContent = 'LOADED ✓';
@@ -834,8 +1126,9 @@ function defaultState(){
     clients:[],
     ultimate:{title:'YOUR ENDGAME',vision:'Define your ultimate mission',progress:0},
     planning:{ year: new Date().getFullYear(), lanes:[] },
-    // economics.regions = [{id, title, bounds:{sw:[lat,lng], ne:[lat,lng]}, colorIdx, data:[{key,val}]}]
     economics:{ regions:[] },
+    // lifestyle.log = { 'YYYY-MM-DD': [ {id, type, ...data} ] }
+    lifestyle:{ log:{} },
     nextId:100,
   };
 }
@@ -869,6 +1162,7 @@ function showPage(name,el){
   if(name==='network')renderNetwork();
   if(name==='planning')renderPlanning();
   if(name==='economics')renderEconomics();
+  if(name==='lifestyle')renderLifestyle();
   if(name==='ultimate')renderUltimate();
 }
 
@@ -1351,63 +1645,46 @@ document.addEventListener('click', e=>{
 });
 
 // ═══════════════════════════════════════════════════════════════
+// ECONOMICS
 // ═══════════════════════════════════════════════════════════════
-// ECONOMICS — LEAFLET MAP + REGION CARDS
-// ═══════════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════
-let _econMap = null;          // Leaflet map instance
-let _econMode = 'view';       // 'view' | 'highlight'
-let _econRectCorner1 = null;  // first click LatLng
-let _econRectPreview = null;  // preview rectangle layer
-let _econPendingBounds = null;// bounds waiting for name modal
-let _econLayers = {};         // regionId → Leaflet layer
-
-// Accent hex values for CSS variables (for inline border-left colors)
+let _econMap = null;
+let _econMode = 'view';
+let _econRectCorner1 = null;
+let _econRectPreview = null;
+let _econPendingBounds = null;
+let _econLayers = {};
 const ECON_ACCENT_HEX = ['#00f0ff','#ffe500','#a2ef00','#fe00fe','#ff6b00','#8b5cf6','#00d4aa'];
 
 function renderEconomics(){
   if(!_econMap){
     _econMap = L.map('econ-map', {zoomControl:true}).setView([20, 0], 2);
     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-      attribution:'&copy; OpenStreetMap contributors',
-      maxZoom:18,
+      attribution:'&copy; OpenStreetMap contributors',maxZoom:18,
     }).addTo(_econMap);
-
     _econMap.on('click', econMapClick);
-
-    // Style the Leaflet zoom controls to fit the brutalist look
     setTimeout(()=>{
       const zc = document.querySelector('.leaflet-control-zoom');
       if(zc){zc.style.border='2px solid #000';zc.style.borderRadius='0';zc.style.boxShadow='4px 4px 0 #000';}
     }, 200);
   }
-
-  // Re-draw any existing regions from state
   _econLayers = {};
-  // Remove existing non-tile layers
   _econMap.eachLayer(layer => { if(!(layer instanceof L.TileLayer)) _econMap.removeLayer(layer); });
   (state.economics.regions||[]).forEach(r => econDrawLayer(r));
-
   econSetMode('view');
   econRenderCards();
 }
-
 function econSetMode(mode){
   _econMode = mode;
-  // Reset any in-progress highlight
   if(mode !== 'highlight'){
     _econRectCorner1 = null;
     if(_econRectPreview){ _econMap.removeLayer(_econRectPreview); _econRectPreview = null; }
   }
-  // Update button states
   document.getElementById('econ-btn-view').classList.toggle('active', mode==='view');
   document.getElementById('econ-btn-highlight').classList.toggle('active-mode', mode==='highlight');
-  // Update mode badge
   const badge = document.getElementById('econ-mode-badge');
   badge.textContent = mode==='highlight' ? 'MODE: HIGHLIGHT' : 'MODE: VIEW';
   badge.style.background = mode==='highlight' ? 'var(--yellow)' : 'var(--black)';
   badge.style.color = mode==='highlight' ? '#000' : 'var(--yellow)';
-  // Show/hide instruction banner
   const banner = document.getElementById('econ-highlight-banner');
   if(mode==='highlight'){
     banner.classList.add('visible');
@@ -1418,57 +1695,37 @@ function econSetMode(mode){
     _econMap.getContainer().style.cursor = '';
   }
 }
-
 function econMapClick(e){
   if(_econMode !== 'highlight') return;
-
   if(!_econRectCorner1){
-    // First corner
     _econRectCorner1 = e.latlng;
     document.getElementById('econ-highlight-msg').textContent =
       `STEP 2/2 — FIRST CORNER SET AT ${_econRectCorner1.lat.toFixed(2)}, ${_econRectCorner1.lng.toFixed(2)} — CLICK THE OPPOSITE CORNER`;
-    // Show a temporary dot marker at first click
     if(_econRectPreview) _econMap.removeLayer(_econRectPreview);
     _econRectPreview = L.circleMarker(_econRectCorner1, {
       radius:7, color:'#000', weight:2, fillColor:'#ffe500', fillOpacity:1
     }).addTo(_econMap);
   } else {
-    // Second corner — form the bounding box
     const corner2 = e.latlng;
     const sw = L.latLng(Math.min(_econRectCorner1.lat, corner2.lat), Math.min(_econRectCorner1.lng, corner2.lng));
     const ne = L.latLng(Math.max(_econRectCorner1.lat, corner2.lat), Math.max(_econRectCorner1.lng, corner2.lng));
-
-    // Remove preview dot
     if(_econRectPreview){ _econMap.removeLayer(_econRectPreview); _econRectPreview = null; }
-
     _econPendingBounds = { sw:[sw.lat, sw.lng], ne:[ne.lat, ne.lng] };
     _econRectCorner1 = null;
-
-    // Open name modal
     document.getElementById('econ-region-name-input').value = '';
     openModal('modal-econ-region');
     setTimeout(()=>document.getElementById('econ-region-name-input').focus(), 80);
   }
 }
-
 function econConfirmRegion(){
   const title = document.getElementById('econ-region-name-input').value.trim();
   if(!title){ toast('ENTER REGION NAME'); return; }
   if(!_econPendingBounds){ closeModal('modal-econ-region'); return; }
-
   const colorIdx = (state.economics.regions||[]).length % ECON_ACCENT_HEX.length;
-  const region = {
-    id: state.nextId++,
-    title: title.toUpperCase(),
-    bounds: _econPendingBounds,
-    colorIdx,
-    data: [],
-  };
-
+  const region = { id: state.nextId++, title: title.toUpperCase(), bounds: _econPendingBounds, colorIdx, data: [] };
   if(!state.economics.regions) state.economics.regions = [];
   state.economics.regions.push(region);
   _econPendingBounds = null;
-
   econDrawLayer(region);
   scheduleSave();
   econSetMode('view');
@@ -1476,155 +1733,454 @@ function econConfirmRegion(){
   econRenderCards();
   toast('REGION CREATED: ' + region.title);
 }
-
 function econDrawLayer(region){
   const sw = L.latLng(region.bounds.sw[0], region.bounds.sw[1]);
   const ne = L.latLng(region.bounds.ne[0], region.bounds.ne[1]);
   const color = ECON_ACCENT_HEX[region.colorIdx % ECON_ACCENT_HEX.length];
-
-  const rect = L.rectangle([sw, ne], {
-    color: '#000',
-    weight: 2.5,
-    fillColor: color,
-    fillOpacity: 0.22,
-    dashArray: null,
-  }).addTo(_econMap);
-
-  // Tooltip on hover
-  rect.bindTooltip(`<span class="econ-highlight-popup">${region.title}</span>`, {
-    sticky: true,
-    className: 'econ-highlight-popup',
-    opacity: 1,
-    permanent: false,
-  });
-
-  // Click to scroll to its card
+  const rect = L.rectangle([sw, ne], { color:'#000', weight:2.5, fillColor:color, fillOpacity:0.22 }).addTo(_econMap);
+  rect.bindTooltip(`<span class="econ-highlight-popup">${region.title}</span>`, { sticky:true, className:'econ-highlight-popup', opacity:1, permanent:false });
   rect.on('click', () => {
     const card = document.getElementById('econ-card-'+region.id);
-    if(card){
-      card.scrollIntoView({behavior:'smooth', block:'center'});
-      card.style.outline = '3px solid #000';
-      card.style.outlineOffset = '3px';
-      setTimeout(()=>{ card.style.outline=''; card.style.outlineOffset=''; }, 1200);
-    }
+    if(card){ card.scrollIntoView({behavior:'smooth', block:'center'}); card.style.outline='3px solid #000'; card.style.outlineOffset='3px'; setTimeout(()=>{ card.style.outline=''; card.style.outlineOffset=''; }, 1200); }
   });
-
   _econLayers[region.id] = rect;
 }
-
 function econDeleteRegion(id){
   state.economics.regions = (state.economics.regions||[]).filter(r=>r.id!==id);
   if(_econLayers[id]){ _econMap.removeLayer(_econLayers[id]); delete _econLayers[id]; }
-  scheduleSave();
-  econRenderCards();
-  toast('REGION REMOVED');
+  scheduleSave(); econRenderCards(); toast('REGION REMOVED');
 }
-
 function econClearHighlights(){
   if(!confirm('CLEAR ALL REGIONS?')) return;
   (state.economics.regions||[]).forEach(r=>{ if(_econLayers[r.id]) _econMap.removeLayer(_econLayers[r.id]); });
-  state.economics.regions = [];
-  _econLayers = {};
-  scheduleSave();
-  econRenderCards();
-  toast('ALL REGIONS CLEARED');
+  state.economics.regions = []; _econLayers = {};
+  scheduleSave(); econRenderCards(); toast('ALL REGIONS CLEARED');
 }
-
 function econFlyToRegion(id){
   const region = (state.economics.regions||[]).find(r=>r.id===id);
   if(!region||!_econMap) return;
-  const sw = L.latLng(region.bounds.sw[0], region.bounds.sw[1]);
-  const ne = L.latLng(region.bounds.ne[0], region.bounds.ne[1]);
-  _econMap.flyToBounds([sw,ne], {padding:[40,40], duration:0.8});
+  _econMap.flyToBounds([L.latLng(region.bounds.sw[0], region.bounds.sw[1]),L.latLng(region.bounds.ne[0], region.bounds.ne[1])], {padding:[40,40], duration:0.8});
 }
-
-// ── Data rows ────────────────────────────────────────────────
 function econAddDataRow(regionId){
-  const keyEl  = document.getElementById(`econ-key-${regionId}`);
-  const valEl  = document.getElementById(`econ-val-${regionId}`);
-  const key = keyEl.value.trim();
-  const val = valEl.value.trim();
+  const keyEl = document.getElementById(`econ-key-${regionId}`);
+  const valEl = document.getElementById(`econ-val-${regionId}`);
+  const key = keyEl.value.trim(); const val = valEl.value.trim();
   if(!key){ toast('ENTER A FIELD NAME'); return; }
   const region = (state.economics.regions||[]).find(r=>r.id===regionId);
   if(!region) return;
   if(!region.data) region.data = [];
   region.data.push({ key, val });
-  keyEl.value = '';
-  valEl.value = '';
-  scheduleSave();
-  econRenderCards();
-  toast('DATA ADDED TO ' + region.title);
+  keyEl.value = ''; valEl.value = '';
+  scheduleSave(); econRenderCards(); toast('DATA ADDED TO ' + region.title);
 }
-
 function econDeleteDataRow(regionId, rowIdx){
   const region = (state.economics.regions||[]).find(r=>r.id===regionId);
   if(!region||!region.data) return;
   region.data.splice(rowIdx, 1);
-  scheduleSave();
-  econRenderCards();
+  scheduleSave(); econRenderCards();
 }
-
-function econDataKeydown(e, regionId){
-  if(e.key==='Enter') econAddDataRow(regionId);
-}
-
-// ── Render cards below map ────────────────────────────────────
+function econDataKeydown(e, regionId){ if(e.key==='Enter') econAddDataRow(regionId); }
 function econRenderCards(){
   const regions = state.economics.regions || [];
   const grid = document.getElementById('econ-cards-grid');
   const countBadge = document.getElementById('econ-regions-count-badge');
   const topCount = document.getElementById('econ-region-count');
-
   countBadge.textContent = regions.length + ' REGION' + (regions.length!==1?'S':'');
   topCount.textContent = regions.length;
-
   if(!regions.length){
-    grid.innerHTML = `<div class="econ-empty">NO REGIONS MAPPED YET<br><br>
-      <span style="font-size:10px;">SWITCH TO "HIGHLIGHT REGION" MODE AND CLICK TWO POINTS ON THE MAP TO CREATE A DATA CARD</span>
-    </div>`;
+    grid.innerHTML = `<div class="econ-empty">NO REGIONS MAPPED YET<br><br><span style="font-size:10px;">SWITCH TO "HIGHLIGHT REGION" MODE AND CLICK TWO POINTS ON THE MAP TO CREATE A DATA CARD</span></div>`;
     return;
   }
-
   grid.innerHTML = regions.map(r => {
     const accentHex = ECON_ACCENT_HEX[r.colorIdx % ECON_ACCENT_HEX.length];
     const dataRows = (r.data||[]);
-    const sw = r.bounds.sw;
-    const ne = r.bounds.ne;
+    const sw = r.bounds.sw; const ne = r.bounds.ne;
     const coordStr = `SW ${sw[0].toFixed(1)},${sw[1].toFixed(1)} · NE ${ne[0].toFixed(1)},${ne[1].toFixed(1)}`;
-
     return `<div class="econ-card econ-accent-${r.colorIdx % 7}" id="econ-card-${r.id}" style="border-left:6px solid ${accentHex};">
       <div class="econ-card-head">
-        <div>
-          <div class="econ-card-title">${r.title}</div>
-          <div class="econ-card-coords">${coordStr}</div>
-        </div>
+        <div><div class="econ-card-title">${r.title}</div><div class="econ-card-coords">${coordStr}</div></div>
         <div class="econ-card-actions">
-          <button class="econ-card-action-btn" onclick="econFlyToRegion(${r.id})" title="Zoom to region on map">◎ MAP</button>
-          <button class="econ-card-action-btn del" onclick="econDeleteRegion(${r.id})" title="Delete region">✕</button>
+          <button class="econ-card-action-btn" onclick="econFlyToRegion(${r.id})">◎ MAP</button>
+          <button class="econ-card-action-btn del" onclick="econDeleteRegion(${r.id})">✕</button>
         </div>
       </div>
       <div class="econ-card-body">
         ${dataRows.length === 0
           ? `<div class="econ-data-empty">NO DATA YET — ADD FIELDS BELOW</div>`
-          : `<ul class="econ-data-rows">
-              ${dataRows.map((row,ri)=>`
-                <li class="econ-data-row">
-                  <span class="econ-data-key">${row.key}</span>
-                  <span class="econ-data-val">${row.val}</span>
-                  <button onclick="econDeleteDataRow(${r.id},${ri})" style="margin-left:auto;background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:10px;color:#ccc;padding:0 0 0 8px;" title="Remove row">✕</button>
-                </li>`).join('')}
-            </ul>`
-        }
+          : `<ul class="econ-data-rows">${dataRows.map((row,ri)=>`<li class="econ-data-row"><span class="econ-data-key">${row.key}</span><span class="econ-data-val">${row.val}</span><button onclick="econDeleteDataRow(${r.id},${ri})" style="margin-left:auto;background:none;border:none;cursor:pointer;font-family:var(--font-mono);font-size:10px;color:#ccc;padding:0 0 0 8px;">✕</button></li>`).join('')}</ul>`}
         <div class="econ-add-data-form">
-          <input id="econ-key-${r.id}" placeholder="FIELD NAME" style="max-width:130px;"
-            onkeydown="econDataKeydown(event,${r.id})"/>
-          <input id="econ-val-${r.id}" placeholder="VALUE"
-            onkeydown="econDataKeydown(event,${r.id})"/>
+          <input id="econ-key-${r.id}" placeholder="FIELD NAME" style="max-width:130px;" onkeydown="econDataKeydown(event,${r.id})"/>
+          <input id="econ-val-${r.id}" placeholder="VALUE" onkeydown="econDataKeydown(event,${r.id})"/>
           <button class="econ-add-data-btn" onclick="econAddDataRow(${r.id})">+ ADD</button>
         </div>
       </div>
     </div>`;
   }).join('');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+// LIFESTYLE PAGE
+// ═══════════════════════════════════════════════════════════════
+// ═══════════════════════════════════════════════════════════════
+
+const LS_DAYS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
+const LS_MONTHS_SHORT = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
+
+// Week offset: 0 = current week, -1 = previous, etc.
+let _lsWeekOffset = 0;
+let _lsSelectedDateKey = null; // 'YYYY-MM-DD'
+let _lsModalType = null; // current modal activity type
+
+// Returns 'YYYY-MM-DD' string for a Date
+function lsDateKey(d) {
+  return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
+}
+
+// Returns Monday of the week containing `d`
+function lsGetMonday(d) {
+  const copy = new Date(d);
+  const day = copy.getDay(); // 0=Sun
+  const diff = (day === 0) ? -6 : 1 - day;
+  copy.setDate(copy.getDate() + diff);
+  copy.setHours(0,0,0,0);
+  return copy;
+}
+
+// Get the Monday for the displayed week (offset from current)
+function lsGetDisplayMonday() {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const mon = lsGetMonday(today);
+  mon.setDate(mon.getDate() + _lsWeekOffset * 7);
+  return mon;
+}
+
+function lsTodayKey() { return lsDateKey(new Date()); }
+
+function lsIsCurrentWeek() { return _lsWeekOffset === 0; }
+
+function renderLifestyle() {
+  const mon = lsGetDisplayMonday();
+  const todayKey = lsTodayKey();
+
+  // Week range label
+  const sun = new Date(mon); sun.setDate(sun.getDate() + 6);
+  const rangeLabel = `${mon.getDate()} ${LS_MONTHS_SHORT[mon.getMonth()]} – ${sun.getDate()} ${LS_MONTHS_SHORT[sun.getMonth()]} ${sun.getFullYear()}`;
+  document.getElementById('ls-week-range').textContent = '// WEEK OF ' + rangeLabel;
+
+  // Build day buttons
+  const nav = document.getElementById('ls-week-nav');
+  let dayBtnsHtml = `<button class="ls-prev-btn" onclick="lsChangeWeek(-1)" title="Previous week">◀ PREV</button>`;
+
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(mon); d.setDate(d.getDate() + i);
+    const dk = lsDateKey(d);
+    const isToday = dk === todayKey;
+    const isSelected = dk === _lsSelectedDateKey;
+    const hasEntries = (state.lifestyle.log[dk]||[]).length > 0;
+
+    let cls = 'ls-day-btn';
+    if (isToday) cls += ' today';
+    if (isSelected) cls += ' active';
+
+    dayBtnsHtml += `<button class="${cls}" onclick="lsSelectDay('${dk}')">
+      <span class="ls-day-name">${LS_DAYS[i]}</span>
+      <span class="ls-day-num">${d.getDate()}</span>
+      <span class="ls-day-month">${LS_MONTHS_SHORT[d.getMonth()]}</span>
+      ${isToday ? '<span class="ls-today-dot"></span>' : ''}
+      ${hasEntries ? `<span style="font-family:var(--font-mono);font-size:7px;font-weight:700;background:var(--lime);color:#000;padding:1px 5px;border:1px solid #000;margin-top:1px;">${(state.lifestyle.log[dk]||[]).length}</span>` : ''}
+    </button>`;
+  }
+
+  // Next week button only if there's a future week to show? Always allow for data review.
+  dayBtnsHtml += `<button class="ls-prev-btn" onclick="lsChangeWeek(1)" style="background:var(--cyan);color:#000;" title="Next week">NEXT ▶</button>`;
+
+  nav.innerHTML = dayBtnsHtml;
+
+  // If no day selected yet, auto-select today if in current week
+  if (!_lsSelectedDateKey || !_isInDisplayedWeek(_lsSelectedDateKey)) {
+    if (lsIsCurrentWeek()) {
+      _lsSelectedDateKey = todayKey;
+    } else {
+      // select monday of shown week
+      _lsSelectedDateKey = lsDateKey(mon);
+    }
+  }
+
+  lsRenderCanvas();
+  lsUpdateActionsBar();
+}
+
+function _isInDisplayedWeek(dk) {
+  const mon = lsGetDisplayMonday();
+  for (let i = 0; i < 7; i++) {
+    const d = new Date(mon); d.setDate(d.getDate() + i);
+    if (lsDateKey(d) === dk) return true;
+  }
+  return false;
+}
+
+function lsChangeWeek(delta) {
+  _lsWeekOffset += delta;
+  // Don't allow going past current week into future
+  if (_lsWeekOffset > 0) _lsWeekOffset = 0;
+  _lsSelectedDateKey = null;
+  renderLifestyle();
+}
+
+function lsSelectDay(dk) {
+  _lsSelectedDateKey = dk;
+  lsRenderCanvas();
+  lsUpdateActionsBar();
+  // Re-render nav to update active state
+  renderLifestyle();
+}
+
+function lsRenderCanvas() {
+  if (!_lsSelectedDateKey) return;
+  const entries = state.lifestyle.log[_lsSelectedDateKey] || [];
+  const d = new Date(_lsSelectedDateKey+'T00:00:00');
+  const dayName = LS_DAYS[((d.getDay()+6)%7)];
+  const dateStr = `${dayName} · ${d.getDate()} ${LS_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
+
+  document.getElementById('ls-canvas-date-label').textContent = dateStr;
+  document.getElementById('ls-canvas-count').textContent = entries.length + ' ENTR' + (entries.length === 1 ? 'Y' : 'IES');
+
+  const wrap = document.getElementById('ls-tiles-wrap');
+  if (!entries.length) {
+    wrap.innerHTML = `<div class="ls-canvas-empty">NO ACTIVITIES LOGGED FOR THIS DAY<br><br>USE THE BUTTONS BELOW TO LOG YOUR DAY</div>`;
+    return;
+  }
+
+  wrap.innerHTML = entries.map((entry, idx) => lsBuildTileHTML(entry, idx)).join('');
+}
+
+function lsBuildTileHTML(entry, idx) {
+  const delBtn = `<button class="ls-tile-del" onclick="lsDeleteEntry('${_lsSelectedDateKey}',${idx})" title="Remove">✕</button>`;
+
+  if (entry.type === 'sleep') {
+    return `<div class="ls-tile ls-tile-sleep">
+      ${delBtn}
+      <div class="ls-tile-type">SLEEP TIME</div>
+      <div class="ls-tile-main">${entry.time}</div>
+      <div class="ls-tile-sub">WENT TO BED</div>
+    </div>`;
+  }
+  if (entry.type === 'wakeup') {
+    return `<div class="ls-tile ls-tile-wakeup">
+      ${delBtn}
+      <div class="ls-tile-type">WAKE UP</div>
+      <div class="ls-tile-main">${entry.time}</div>
+      <div class="ls-tile-sub">WOKE UP AT</div>
+    </div>`;
+  }
+  if (entry.type === 'learning') {
+    const dur = entry.hours + 'h ' + (entry.mins ? entry.mins + 'm' : '');
+    return `<div class="ls-tile ls-tile-learning">
+      ${delBtn}
+      <div class="ls-tile-type">LEARNING</div>
+      <div class="ls-tile-main">${entry.topic}</div>
+      <div class="ls-tile-sub">⏱ ${dur}</div>
+    </div>`;
+  }
+  if (entry.type === 'timewaste') {
+    return `<div class="ls-tile ls-tile-timewaste">
+      ${delBtn}
+      <div class="ls-tile-type">TIME WASTE</div>
+      <div class="ls-tile-main">${entry.platform}</div>
+      <div class="ls-tile-sub">⏱ ${entry.hours}h ${entry.mins ? entry.mins+'m' : ''}</div>
+    </div>`;
+  }
+  if (entry.type === 'custom') {
+    return `<div class="ls-tile ls-tile-custom">
+      ${delBtn}
+      <div class="ls-tile-type">${entry.label}</div>
+      <div class="ls-tile-main">${entry.value}</div>
+      ${entry.note ? `<div class="ls-tile-sub">${entry.note}</div>` : ''}
+    </div>`;
+  }
+  return '';
+}
+
+function lsDeleteEntry(dk, idx) {
+  if (!state.lifestyle.log[dk]) return;
+  state.lifestyle.log[dk].splice(idx, 1);
+  scheduleSave();
+  lsRenderCanvas();
+  renderLifestyle();
+  toast('ENTRY REMOVED');
+}
+
+function lsUpdateActionsBar() {
+  const todayKey = lsTodayKey();
+  const isToday = _lsSelectedDateKey === todayKey;
+  const bar = document.getElementById('ls-actions-bar');
+  const notice = document.getElementById('ls-locked-notice');
+  if (isToday) {
+    bar.classList.remove('locked');
+    notice.style.display = 'none';
+  } else {
+    bar.classList.add('locked');
+    notice.style.display = 'flex';
+  }
+}
+
+// ── Modal system ───────────────────────────────────────────────
+const LS_WASTE_PRESETS = ['INSTAGRAM','YOUTUBE','WHATSAPP','TWITTER/X','NETFLIX','REELS','OTHER'];
+
+function lsOpenModal(type) {
+  // Block if not today
+  if (_lsSelectedDateKey !== lsTodayKey()) { toast('CAN ONLY LOG TO TODAY'); return; }
+
+  _lsModalType = type;
+  const header = document.getElementById('ls-modal-header');
+  const body = document.getElementById('ls-modal-body');
+
+  const headerColors = {
+    sleep:     'background:var(--violet);color:#fff;',
+    wakeup:    'background:var(--yellow);color:#000;',
+    learning:  'background:var(--cyan);color:#000;',
+    timewaste: 'background:var(--red);color:#fff;',
+    custom:    'background:var(--lime);color:#000;',
+  };
+  const titles = {
+    sleep:'LOG SLEEP TIME', wakeup:'LOG WAKE UP TIME',
+    learning:'LOG LEARNING SESSION', timewaste:'LOG TIME WASTE', custom:'LOG CUSTOM ACTIVITY',
+  };
+
+  header.style.cssText = headerColors[type] || '';
+  header.innerHTML = titles[type] + ` <button class="modal-close" onclick="closeModal('modal-lifestyle')" style="color:inherit;">X</button>`;
+
+  if (type === 'sleep' || type === 'wakeup') {
+    body.innerHTML = `
+      <div class="field">
+        <label class="label-field">${type === 'sleep' ? 'SLEEP TIME' : 'WAKE UP TIME'}</label>
+        <input class="input" id="ls-time-input" type="time" style="font-size:28px;padding:12px;text-align:center;letter-spacing:.1em;"/>
+      </div>
+      <div style="font-family:var(--font-mono);font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;">
+        ${type === 'sleep' ? 'WHAT TIME DID YOU GO TO BED?' : 'WHAT TIME DID YOU WAKE UP?'}
+      </div>`;
+    // Pre-fill with current time
+    const now = new Date();
+    document.getElementById('ls-time-input') && setTimeout(()=>{
+      const el = document.getElementById('ls-time-input');
+      if(el) el.value = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
+    }, 20);
+  }
+
+  else if (type === 'learning') {
+    body.innerHTML = `
+      <div class="field">
+        <label class="label-field">WHAT DID YOU LEARN?</label>
+        <input class="input" id="ls-learn-topic" placeholder="E.g. React Hooks, Chapter 3, Spanish vocab…"/>
+      </div>
+      <div class="field" style="display:flex;gap:12px;">
+        <div style="flex:1;">
+          <label class="label-field">HOURS</label>
+          <input class="input" id="ls-learn-hours" type="number" min="0" max="24" placeholder="0" style="text-align:center;font-size:20px;"/>
+        </div>
+        <div style="flex:1;">
+          <label class="label-field">MINUTES</label>
+          <input class="input" id="ls-learn-mins" type="number" min="0" max="59" placeholder="0" style="text-align:center;font-size:20px;"/>
+        </div>
+      </div>`;
+  }
+
+  else if (type === 'timewaste') {
+    body.innerHTML = `
+      <div class="field">
+        <label class="label-field">PLATFORM / APP</label>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;" id="ls-waste-presets">
+          ${LS_WASTE_PRESETS.map(p=>`<button onclick="lsSelectWastePreset('${p}',this)" style="font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border:var(--border);cursor:pointer;box-shadow:2px 2px 0 #000;background:var(--white);transition:background .1s;">${p}</button>`).join('')}
+        </div>
+        <input class="input" id="ls-waste-platform" placeholder="OR TYPE CUSTOM…" style="margin-top:4px;"/>
+      </div>
+      <div class="field" style="display:flex;gap:12px;">
+        <div style="flex:1;">
+          <label class="label-field">HOURS</label>
+          <input class="input" id="ls-waste-hours" type="number" min="0" max="24" placeholder="0" style="text-align:center;font-size:20px;"/>
+        </div>
+        <div style="flex:1;">
+          <label class="label-field">MINUTES</label>
+          <input class="input" id="ls-waste-mins" type="number" min="0" max="59" placeholder="0" style="text-align:center;font-size:20px;"/>
+        </div>
+      </div>`;
+  }
+
+  else if (type === 'custom') {
+    body.innerHTML = `
+      <div class="field">
+        <label class="label-field">ACTIVITY LABEL (button name)</label>
+        <input class="input" id="ls-custom-label" placeholder="E.g. GYM, MEDITATION, CODING…"/>
+      </div>
+      <div class="field">
+        <label class="label-field">VALUE / AMOUNT</label>
+        <input class="input" id="ls-custom-value" placeholder="E.g. 45 MIN, 10KM, 3 SETS…"/>
+      </div>
+      <div class="field">
+        <label class="label-field">NOTES (optional)</label>
+        <input class="input" id="ls-custom-note" placeholder="Any extra context…"/>
+      </div>`;
+  }
+
+  openModal('modal-lifestyle');
+  // Focus first input
+  setTimeout(()=>{ const f = body.querySelector('input'); if(f)f.focus(); }, 80);
+}
+
+function lsSelectWastePreset(name, btn) {
+  document.getElementById('ls-waste-platform').value = name;
+  document.querySelectorAll('#ls-waste-presets button').forEach(b=>b.style.background='var(--white)');
+  btn.style.background = 'var(--red)';
+  btn.style.color = '#fff';
+}
+
+function lsSaveActivity() {
+  if (!_lsSelectedDateKey) { toast('SELECT A DAY FIRST'); return; }
+  if (_lsSelectedDateKey !== lsTodayKey()) { toast('CAN ONLY LOG TO TODAY'); return; }
+  if (!state.lifestyle.log[_lsSelectedDateKey]) state.lifestyle.log[_lsSelectedDateKey] = [];
+
+  const type = _lsModalType;
+  let entry = null;
+
+  if (type === 'sleep' || type === 'wakeup') {
+    const t = document.getElementById('ls-time-input').value;
+    if (!t) { toast('SET A TIME'); return; }
+    entry = { type, time: t };
+  }
+  else if (type === 'learning') {
+    const topic = document.getElementById('ls-learn-topic').value.trim();
+    const hours = parseInt(document.getElementById('ls-learn-hours').value)||0;
+    const mins  = parseInt(document.getElementById('ls-learn-mins').value)||0;
+    if (!topic) { toast('ENTER WHAT YOU LEARNT'); return; }
+    if (hours === 0 && mins === 0) { toast('ENTER TIME SPENT'); return; }
+    entry = { type, topic, hours, mins };
+  }
+  else if (type === 'timewaste') {
+    const platform = document.getElementById('ls-waste-platform').value.trim();
+    const hours = parseInt(document.getElementById('ls-waste-hours').value)||0;
+    const mins  = parseInt(document.getElementById('ls-waste-mins').value)||0;
+    if (!platform) { toast('SELECT OR ENTER PLATFORM'); return; }
+    if (hours === 0 && mins === 0) { toast('ENTER TIME WASTED'); return; }
+    entry = { type, platform, hours, mins };
+  }
+  else if (type === 'custom') {
+    const label = document.getElementById('ls-custom-label').value.trim().toUpperCase();
+    const value = document.getElementById('ls-custom-value').value.trim();
+    const note  = document.getElementById('ls-custom-note').value.trim();
+    if (!label) { toast('ENTER ACTIVITY LABEL'); return; }
+    if (!value) { toast('ENTER A VALUE'); return; }
+    entry = { type, label, value, note };
+  }
+
+  if (entry) {
+    state.lifestyle.log[_lsSelectedDateKey].push(entry);
+    scheduleSave();
+    closeModal('modal-lifestyle');
+    lsRenderCanvas();
+    renderLifestyle();
+    toast('LOGGED ✓');
+  }
 }
 
 // ═══════════════════════════════════════════════════════════════
