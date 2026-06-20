@@ -114,11 +114,11 @@ nav{position:sticky;top:0;z-index:1000;background:rgba(244,244,240,0.97);backdro
 .dsphere-container{
   position:relative;width:72px;height:72px;
   border:3px solid #000;border-radius:50%;
-  box-shadow:4px 4px 0 #000;
+  /* box-shadow:4px 4px 0 #000; */
   overflow:hidden;background:#1a1a1a;
   cursor:default;
 }
-.dsphere-container:hover{box-shadow:6px 6px 0 #000;}
+/* .dsphere-container:hover{box-shadow:6px 6px 0 #000;} */
 
 /* liquid fill inside sphere */
 .dsphere-fill{
@@ -142,7 +142,7 @@ nav{position:sticky;top:0;z-index:1000;background:rgba(244,244,240,0.97);backdro
 /* sphere glass sheen */
 .dsphere-sheen{
   position:absolute;inset:0;
-  background:radial-gradient(ellipse at 35% 28%, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 60%);
+  background: white;
   pointer-events:none;border-radius:50%;z-index:2;
 }
 /* days left number inside sphere */
@@ -153,12 +153,12 @@ nav{position:sticky;top:0;z-index:1000;background:rgba(244,244,240,0.97);backdro
 }
 .dsphere-days-num{
   font-family:var(--font-mono);font-weight:700;font-size:15px;
-  line-height:1;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);
+  line-height:1;color:#000000;text-shadow:0 1px 4px rgba(0,0,0,.8);
   letter-spacing:-.01em;
 }
 .dsphere-days-unit{
   font-family:var(--font-mono);font-size:7px;font-weight:700;
-  text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.8);
+  text-transform:uppercase;letter-spacing:.1em;color:rgba(0, 0, 0, 0.8);
   text-shadow:0 1px 3px rgba(0,0,0,.7);margin-top:1px;
 }
 .dsphere-name{
