@@ -102,7 +102,7 @@ nav{position:sticky;top:0;z-index:1000;background:rgba(244,244,240,0.97);backdro
   padding-bottom:8px;margin-bottom:16px;display:flex;align-items:center;gap:10px;
 }
 .deadline-spheres-label::before{
-  content:'◉';color:var(--red);font-size:12px;
+  content:'';color:var(--red);font-size:12px;
 }
 .deadline-spheres-wrap{
   display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end;padding:8px 0;
@@ -1217,11 +1217,11 @@ function renderDeadlineSpheres() {
     const isOverdue = days < 0;
     const absDays = Math.abs(days);
 
-    // Fill level: 100% when deadline is today or overdue, 0% when far away
-    // As days decrease toward 0, fill goes UP (liquid rises = less time)
+    // Fill level: 100% when far away, 0% when deadline is today or overdue
+    // As days decrease toward 0, fill goes DOWN (liquid drains = less time)
     const fillPct = isOverdue
-      ? 100
-      : Math.max(5, Math.round((1 - Math.min(days, MAX_DAYS) / MAX_DAYS) * 100));
+      ? 0
+      : Math.round((Math.min(days, MAX_DAYS) / MAX_DAYS) * 100);
 
     // Pick sphere color from palette by original colorIdx
     const sphereColor = SPHERE_FILLS[g.colorIdx % SPHERE_FILLS.length];
@@ -1266,7 +1266,6 @@ function renderDeadlineSpheres() {
   html += `</div></div>`;
   return html;
 }
-
 // ═══════════════════════════════════════════════════════════════
 // GOALS RENDER
 // ═══════════════════════════════════════════════════════════════
