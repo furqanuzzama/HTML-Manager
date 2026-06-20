@@ -2036,18 +2036,23 @@ function lsDeleteEntry(dk, idx) {
   state.lifestyle.log[dk].splice(idx, 1);
   scheduleSave(); lsRenderCanvas(); renderLifestyle(); toast('ENTRY REMOVED');
 }
+
 function lsUpdateActionsBar() {
   const todayKey = lsTodayKey();
-  const isToday = _lsSelectedDateKey === todayKey;
+  const isToday = _lsSelectedDateKey === todayKey; // Variable kept as requested
   const bar = document.getElementById('ls-actions-bar');
   const notice = document.getElementById('ls-locked-notice');
-  if (isToday) { bar.classList.remove('locked'); notice.style.display = 'none'; }
-  else { bar.classList.add('locked'); notice.style.display = 'flex'; }
+  
+  // Always allow actions, removing the lock constraint for past/future days
+  if (bar) bar.classList.remove('locked'); 
+  if (notice) notice.style.display = 'none'; 
 }
 
 const LS_WASTE_PRESETS = ['INSTAGRAM','YOUTUBE','WHATSAPP','TWITTER/X','NETFLIX','REELS','OTHER'];
+
 function lsOpenModal(type) {
-  if (_lsSelectedDateKey !== lsTodayKey()) { toast('CAN ONLY LOG TO TODAY'); return; }
+  if (!_lsSelectedDateKey) { toast('SELECT A DAY FIRST'); return; }
+  
   _lsModalType = type;
   const header = document.getElementById('ls-modal-header');
   const body = document.getElementById('ls-modal-body');
@@ -2069,14 +2074,16 @@ function lsOpenModal(type) {
   openModal('modal-lifestyle');
   setTimeout(()=>{ const f = body.querySelector('input'); if(f)f.focus(); }, 80);
 }
+
 function lsSelectWastePreset(name, btn) {
   document.getElementById('ls-waste-platform').value = name;
   document.querySelectorAll('#ls-waste-presets button').forEach(b=>b.style.background='var(--white)');
   btn.style.background = 'var(--red)'; btn.style.color = '#fff';
 }
+
 function lsSaveActivity() {
   if (!_lsSelectedDateKey) { toast('SELECT A DAY FIRST'); return; }
-  if (_lsSelectedDateKey !== lsTodayKey()) { toast('CAN ONLY LOG TO TODAY'); return; }
+  
   if (!state.lifestyle.log[_lsSelectedDateKey]) state.lifestyle.log[_lsSelectedDateKey] = [];
   const type = _lsModalType; let entry = null;
   if (type === 'sleep' || type === 'wakeup') {
@@ -2107,7 +2114,6 @@ function lsSaveActivity() {
   }
   if (entry) { state.lifestyle.log[_lsSelectedDateKey].push(entry); scheduleSave(); closeModal('modal-lifestyle'); lsRenderCanvas(); renderLifestyle(); toast('LOGGED ✓'); }
 }
-
 // ═══════════════════════════════════════════════════════════════
 // MODALS
 // ═══════════════════════════════════════════════════════════════
