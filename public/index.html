@@ -89,6 +89,103 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .conquest-stats{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
 .stat-pill{font-family:var(--font-mono);font-size:11px;font-weight:700;text-transform:uppercase;
   padding:6px 14px;border:2px solid #5a3e1b;background:#fdf6e3;box-shadow:3px 3px 0 #5a3e1b;color:#3a2800;}
+
+/* ═══════════════════════════════════════════════════════════════
+   DEADLINE SPHERES — new section above pixel board
+   ═══════════════════════════════════════════════════════════════ */
+.deadline-spheres-section{
+  margin-bottom:28px;
+}
+.deadline-spheres-label{
+  font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.12em;color:#888;border-bottom:1px solid rgba(0,0,0,.1);
+  padding-bottom:8px;margin-bottom:16px;display:flex;align-items:center;gap:10px;
+}
+.deadline-spheres-label::before{
+  content:'◉';color:var(--red);font-size:12px;
+}
+.deadline-spheres-wrap{
+  display:flex;gap:20px;flex-wrap:wrap;align-items:flex-end;padding:8px 0;
+}
+.dsphere-unit{
+  display:flex;flex-direction:column;align-items:center;gap:8px;
+  min-width:72px;
+}
+.dsphere-container{
+  position:relative;width:72px;height:72px;
+  border:3px solid #000;border-radius:50%;
+  box-shadow:4px 4px 0 #000;
+  overflow:hidden;background:#1a1a1a;
+  cursor:default;
+}
+.dsphere-container:hover{box-shadow:6px 6px 0 #000;}
+
+/* liquid fill inside sphere */
+.dsphere-fill{
+  position:absolute;bottom:0;left:0;right:0;
+  transition:height 1s cubic-bezier(.4,0,.2,1);
+  border-radius:0 0 100px 100px;
+}
+/* liquid wave top */
+.dsphere-fill::before{
+  content:'';
+  position:absolute;top:-6px;left:-20%;right:-20%;
+  height:12px;
+  background:inherit;
+  border-radius:50%;
+  animation:wave 2.2s ease-in-out infinite alternate;
+}
+@keyframes wave{
+  from{transform:scaleX(1) translateY(0);}
+  to{transform:scaleX(1.08) translateY(3px);}
+}
+/* sphere glass sheen */
+.dsphere-sheen{
+  position:absolute;inset:0;
+  background:radial-gradient(ellipse at 35% 28%, rgba(255,255,255,.35) 0%, rgba(255,255,255,0) 60%);
+  pointer-events:none;border-radius:50%;z-index:2;
+}
+/* days left number inside sphere */
+.dsphere-inner-text{
+  position:absolute;inset:0;display:flex;flex-direction:column;
+  align-items:center;justify-content:center;z-index:3;
+  pointer-events:none;
+}
+.dsphere-days-num{
+  font-family:var(--font-mono);font-weight:700;font-size:15px;
+  line-height:1;color:#fff;text-shadow:0 1px 4px rgba(0,0,0,.8);
+  letter-spacing:-.01em;
+}
+.dsphere-days-unit{
+  font-family:var(--font-mono);font-size:7px;font-weight:700;
+  text-transform:uppercase;letter-spacing:.1em;color:rgba(255,255,255,.8);
+  text-shadow:0 1px 3px rgba(0,0,0,.7);margin-top:1px;
+}
+.dsphere-name{
+  font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.06em;color:#333;text-align:center;max-width:80px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+}
+.dsphere-deadline{
+  font-family:var(--font-mono);font-size:8px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.05em;color:#888;text-align:center;
+}
+/* urgency ring pulse for <=3 days */
+.dsphere-container.urgent{
+  animation:urgentPulse 1.2s ease-in-out infinite;
+}
+@keyframes urgentPulse{
+  0%,100%{box-shadow:4px 4px 0 #000,0 0 0 0 rgba(255,32,32,.5);}
+  50%{box-shadow:4px 4px 0 #000,0 0 0 6px rgba(255,32,32,0);}
+}
+/* overdue style */
+.dsphere-container.overdue{
+  border-color:var(--red);
+  box-shadow:4px 4px 0 #000;
+}
+.dsphere-container.overdue .dsphere-days-num{color:var(--red);}
+.dsphere-container.overdue .dsphere-fill{opacity:.25;}
+
 .skills-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;}
 .skill-row{padding:12px 14px;border:var(--border);background:var(--white);box-shadow:var(--shadow);}
 .skill-name-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px;}
@@ -283,22 +380,43 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .econ-regions-count{font-family:var(--font-mono);font-size:10px;color:#888;
   background:var(--black);color:var(--yellow);padding:2px 8px;letter-spacing:.06em;}
 .econ-cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:20px;}
-.econ-card{background:var(--white);border:var(--border);box-shadow:var(--shadow-lg);
-  overflow:hidden;position:relative;}
-.econ-card::before{content:'';position:absolute;left:0;top:0;bottom:0;width:6px;}
-.econ-card-head{padding:12px 14px 10px 20px;border-bottom:var(--border);
-  display:flex;align-items:flex-start;justify-content:space-between;gap:8px;}
-.econ-card-title{font-weight:700;font-size:15px;text-transform:uppercase;
-  letter-spacing:.04em;line-height:1.2;flex:1;}
-.econ-card-coords{font-family:var(--font-mono);font-size:8px;color:#888;
-  text-transform:uppercase;margin-top:3px;letter-spacing:.06em;}
+
+/* ── IMPROVED ECON CARD — color on header, not left border ── */
+.econ-card{
+  background:var(--white);
+  border:var(--border);
+  box-shadow:var(--shadow-lg);
+  overflow:hidden;
+  position:relative;
+}
+/* Remove the left color strip, now color goes to header */
+.econ-card::before{ display:none; }
+
+.econ-card-head{
+  padding:12px 14px 10px 14px;
+  border-bottom:var(--border);
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:8px;
+  /* background set inline per card via JS */
+}
+.econ-card-title{
+  font-weight:700;font-size:15px;text-transform:uppercase;
+  letter-spacing:.04em;line-height:1.2;flex:1;
+}
+.econ-card-coords{
+  font-family:var(--font-mono);font-size:8px;
+  text-transform:uppercase;margin-top:3px;letter-spacing:.06em;
+  opacity:.7;
+}
 .econ-card-actions{display:flex;gap:4px;flex-shrink:0;}
 .econ-card-action-btn{font-family:var(--font-mono);font-size:9px;font-weight:700;
-  text-transform:uppercase;padding:4px 8px;border:1px solid #000;cursor:pointer;
-  background:var(--white);box-shadow:2px 2px 0 #000;transition:background .1s;}
-.econ-card-action-btn:hover{background:var(--cyan);}
-.econ-card-action-btn.del:hover{background:var(--red);color:#fff;}
-.econ-card-body{padding:12px 14px 14px 20px;}
+  text-transform:uppercase;padding:4px 8px;border:1px solid rgba(0,0,0,.4);cursor:pointer;
+  background:rgba(255,255,255,.3);box-shadow:2px 2px 0 rgba(0,0,0,.3);transition:background .1s;}
+.econ-card-action-btn:hover{background:rgba(255,255,255,.6);}
+.econ-card-action-btn.del:hover{background:var(--red);color:#fff;border-color:#000;}
+.econ-card-body{padding:12px 14px 14px 14px;}
 .econ-data-rows{list-style:none;margin-bottom:12px;}
 .econ-data-row{display:flex;align-items:baseline;gap:0;padding:6px 0;
   border-bottom:1px solid #eee;font-family:var(--font-mono);}
@@ -319,13 +437,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   transition:background .1s,transform .08s;}
 .econ-add-data-btn:hover{background:var(--cyan);}
 .econ-add-data-btn:active{transform:translate(1px,1px);box-shadow:1px 1px 0 #000;}
-.econ-accent-0::before{background:var(--cyan);}
-.econ-accent-1::before{background:var(--yellow);}
-.econ-accent-2::before{background:var(--lime);}
-.econ-accent-3::before{background:var(--pink);}
-.econ-accent-4::before{background:var(--orange);}
-.econ-accent-5::before{background:var(--violet);}
-.econ-accent-6::before{background:var(--teal);}
 .econ-empty{font-family:var(--font-mono);font-size:12px;color:#aaa;padding:48px 32px;
   text-align:center;border:2px dashed #ccc;background:rgba(255,255,255,.5);}
 .leaflet-container{font-family:var(--font-mono)!important;}
@@ -342,197 +453,70 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
    LIFESTYLE PAGE
    ═══════════════════════════════════════════════════════════════ */
 #page-lifestyle { padding: 48px; }
-
-/* Week navigation bar */
 .ls-week-nav {
-  display: flex;
-  align-items: center;
-  gap: 0;
-  margin-bottom: 24px;
-  border: var(--border);
-  box-shadow: var(--shadow-lg);
-  background: var(--black);
-  overflow: hidden;
-  width: fit-content;
+  display: flex;align-items: center;gap: 0;margin-bottom: 24px;border: var(--border);
+  box-shadow: var(--shadow-lg);background: var(--black);overflow: hidden;width: fit-content;
 }
 .ls-prev-btn {
-  font-family: var(--font-mono);
-  font-size: 14px;
-  font-weight: 700;
-  padding: 0 18px;
-  height: 72px;
-  border: none;
-  border-right: var(--border);
-  cursor: pointer;
-  background: var(--yellow);
-  color: #000;
-  letter-spacing: .06em;
-  transition: background .1s, transform .08s;
-  flex-shrink: 0;
+  font-family: var(--font-mono);font-size: 14px;font-weight: 700;padding: 0 18px;height: 72px;
+  border: none;border-right: var(--border);cursor: pointer;background: var(--yellow);color: #000;
+  letter-spacing: .06em;transition: background .1s, transform .08s;flex-shrink: 0;
 }
 .ls-prev-btn:hover { background: var(--orange); }
 .ls-prev-btn:active { transform: translate(1px,1px); }
-
 .ls-day-btn {
-  font-family: var(--font-mono);
-  font-weight: 700;
-  text-transform: uppercase;
-  border: none;
-  border-right: 1px solid rgba(255,255,255,.12);
-  cursor: pointer;
-  background: transparent;
-  color: rgba(255,255,255,.55);
-  padding: 0 20px;
-  height: 72px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  transition: background .12s;
-  min-width: 86px;
-  position: relative;
+  font-family: var(--font-mono);font-weight: 700;text-transform: uppercase;border: none;
+  border-right: 1px solid rgba(255,255,255,.12);cursor: pointer;background: transparent;
+  color: rgba(255,255,255,.55);padding: 0 20px;height: 72px;display: flex;flex-direction: column;
+  align-items: center;justify-content: center;gap: 4px;transition: background .12s;min-width: 86px;position: relative;
 }
 .ls-day-btn:last-of-type { border-right: none; }
 .ls-day-btn:hover { background: rgba(255,255,255,.08); }
-.ls-day-btn.active {
-  background: var(--cyan);
-  color: #000;
-}
+.ls-day-btn.active { background: var(--cyan); color: #000; }
 .ls-day-btn.today { background: var(--lime); color: #000; }
 .ls-day-btn.today.active { background: var(--cyan); }
-.ls-day-btn .ls-day-name {
-  font-size: 9px;
-  letter-spacing: .14em;
-}
-.ls-day-btn .ls-day-num {
-  font-size: 22px;
-  line-height: 1;
-}
-.ls-day-btn .ls-day-month {
-  font-size: 8px;
-  opacity: .7;
-  letter-spacing: .1em;
-}
+.ls-day-btn .ls-day-name { font-size: 9px; letter-spacing: .14em; }
+.ls-day-btn .ls-day-num { font-size: 22px; line-height: 1; }
+.ls-day-btn .ls-day-month { font-size: 8px; opacity: .7; letter-spacing: .1em; }
 .ls-today-dot {
-  position: absolute;
-  top: 7px;
-  right: 8px;
-  width: 7px;
-  height: 7px;
-  background: var(--red);
-  border-radius: 50%;
-  border: 1.5px solid #000;
+  position: absolute;top: 7px;right: 8px;width: 7px;height: 7px;
+  background: var(--red);border-radius: 50%;border: 1.5px solid #000;
 }
 .ls-week-range {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .1em;
-  color: #888;
-  margin-bottom: 16px;
+  font-family: var(--font-mono);font-size: 10px;font-weight: 700;text-transform: uppercase;
+  letter-spacing: .1em;color: #888;margin-bottom: 16px;
 }
-
-/* Activity canvas (the big display box) */
 .ls-canvas {
-  min-height: 320px;
-  border: var(--border);
-  box-shadow: var(--shadow-xl);
-  background: var(--white);
-  padding: 20px;
-  margin-bottom: 24px;
-  position: relative;
+  min-height: 320px;border: var(--border);box-shadow: var(--shadow-xl);background: var(--white);
+  padding: 20px;margin-bottom: 24px;position: relative;
 }
 .ls-canvas-header {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: #888;
-  border-bottom: 1px solid #eee;
-  padding-bottom: 10px;
-  margin-bottom: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+  font-family: var(--font-mono);font-size: 10px;font-weight: 700;text-transform: uppercase;
+  letter-spacing: .12em;color: #888;border-bottom: 1px solid #eee;padding-bottom: 10px;
+  margin-bottom: 16px;display: flex;align-items: center;justify-content: space-between;
 }
-.ls-canvas-date {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--ink);
-  font-family: var(--font-main);
-  letter-spacing: -.01em;
-}
+.ls-canvas-date { font-size: 18px;font-weight: 700;color: var(--ink);font-family: var(--font-main);letter-spacing: -.01em; }
 .ls-canvas-empty {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  color: #bbb;
-  text-align: center;
-  padding: 60px 20px;
-  border: 2px dashed #e0e0e0;
-  text-transform: uppercase;
-  letter-spacing: .08em;
+  font-family: var(--font-mono);font-size: 11px;color: #bbb;text-align: center;padding: 60px 20px;
+  border: 2px dashed #e0e0e0;text-transform: uppercase;letter-spacing: .08em;
 }
-
-/* Activity tiles */
-.ls-tiles-wrap {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 12px;
-}
+.ls-tiles-wrap { display: flex;flex-wrap: wrap;gap: 12px; }
 .ls-tile {
-  border: var(--border);
-  box-shadow: var(--shadow);
-  padding: 14px 16px;
-  min-width: 180px;
-  max-width: 260px;
-  position: relative;
-  background: var(--white);
-  transition: box-shadow .1s;
+  border: var(--border);box-shadow: var(--shadow);padding: 14px 16px;min-width: 180px;
+  max-width: 260px;position: relative;background: var(--white);transition: box-shadow .1s;
 }
 .ls-tile:hover { box-shadow: var(--shadow-lg); }
 .ls-tile-type {
-  font-family: var(--font-mono);
-  font-size: 8px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  padding: 2px 8px;
-  border: 1px solid #000;
-  display: inline-block;
-  margin-bottom: 8px;
+  font-family: var(--font-mono);font-size: 8px;font-weight: 700;text-transform: uppercase;
+  letter-spacing: .12em;padding: 2px 8px;border: 1px solid #000;display: inline-block;margin-bottom: 8px;
 }
-.ls-tile-main {
-  font-size: 17px;
-  font-weight: 700;
-  line-height: 1.2;
-  margin-bottom: 4px;
-}
-.ls-tile-sub {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  color: #666;
-  text-transform: uppercase;
-  letter-spacing: .06em;
-}
+.ls-tile-main { font-size: 17px;font-weight: 700;line-height: 1.2;margin-bottom: 4px; }
+.ls-tile-sub { font-family: var(--font-mono);font-size: 10px;color: #666;text-transform: uppercase;letter-spacing: .06em; }
 .ls-tile-del {
-  position: absolute;
-  top: 8px;
-  right: 8px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 12px;
-  color: #ccc;
-  font-family: var(--font-mono);
-  line-height: 1;
-  transition: color .1s;
+  position: absolute;top: 8px;right: 8px;background: none;border: none;cursor: pointer;
+  font-size: 12px;color: #ccc;font-family: var(--font-mono);line-height: 1;transition: color .1s;
 }
 .ls-tile-del:hover { color: var(--red); }
-
-/* Accent colors per type */
 .ls-tile-sleep   { border-left: 5px solid var(--violet); }
 .ls-tile-sleep   .ls-tile-type { background: var(--violet); color: #fff; }
 .ls-tile-wakeup  { border-left: 5px solid var(--yellow); }
@@ -543,43 +527,18 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .ls-tile-timewaste .ls-tile-type { background: var(--red); color: #fff; }
 .ls-tile-custom  { border-left: 5px solid var(--lime); }
 .ls-tile-custom  .ls-tile-type { background: var(--lime); color: #000; }
-
-/* Action buttons bar */
 .ls-actions-bar {
-  border: var(--border);
-  box-shadow: var(--shadow-lg);
-  background: var(--black);
-  padding: 16px 20px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  border: var(--border);box-shadow: var(--shadow-lg);background: var(--black);padding: 16px 20px;
+  display: flex;align-items: center;gap: 10px;flex-wrap: wrap;
 }
 .ls-actions-label {
-  font-family: var(--font-mono);
-  font-size: 9px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .12em;
-  color: #666;
-  margin-right: 4px;
-  white-space: nowrap;
+  font-family: var(--font-mono);font-size: 9px;font-weight: 700;text-transform: uppercase;
+  letter-spacing: .12em;color: #666;margin-right: 4px;white-space: nowrap;
 }
 .ls-action-btn {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .07em;
-  padding: 10px 16px;
-  border: var(--border);
-  cursor: pointer;
-  box-shadow: var(--shadow);
-  transition: transform .08s, box-shadow .08s, background .1s;
-  white-space: nowrap;
-  display: flex;
-  align-items: center;
-  gap: 7px;
+  font-family: var(--font-mono);font-size: 11px;font-weight: 700;text-transform: uppercase;
+  letter-spacing: .07em;padding: 10px 16px;border: var(--border);cursor: pointer;box-shadow: var(--shadow);
+  transition: transform .08s, box-shadow .08s, background .1s;white-space: nowrap;display: flex;align-items: center;gap: 7px;
 }
 .ls-action-btn:hover { box-shadow: var(--shadow-lg); transform: translateY(-1px); }
 .ls-action-btn:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 #000; }
@@ -589,26 +548,11 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
 .ls-action-btn.waste-btn   { background: var(--red);    color: #fff; }
 .ls-action-btn.custom-btn  { background: var(--lime);   color: #000; }
 .ls-action-btn .ls-btn-icon { font-size: 14px; }
-
-/* Lock overlay on past-week-days actions */
-.ls-actions-bar.locked .ls-action-btn {
-  opacity: .35;
-  pointer-events: none;
-  cursor: not-allowed;
-}
+.ls-actions-bar.locked .ls-action-btn { opacity: .35; pointer-events: none; cursor: not-allowed; }
 .ls-locked-notice {
-  font-family: var(--font-mono);
-  font-size: 10px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: .08em;
-  background: var(--yellow);
-  border: var(--border);
-  padding: 6px 14px;
-  margin-left: auto;
+  font-family: var(--font-mono);font-size: 10px;font-weight: 700;text-transform: uppercase;
+  letter-spacing: .08em;background: var(--yellow);border: var(--border);padding: 6px 14px;margin-left: auto;
 }
-
-/* Lifestyle modal (sm variant) */
 #modal-lifestyle .modal { width: 420px; }
 </style>
 </head>
@@ -737,23 +681,16 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
-<!-- ═══════════════════════════════════════════════════════════════
-     LIFESTYLE PAGE
-     ═══════════════════════════════════════════════════════════════ -->
+<!-- LIFESTYLE PAGE -->
 <div class="page" id="page-lifestyle">
   <div class="page-header">
     <div class="page-title">LIFESTYLE</div>
     <div class="page-subtitle">// DAILY.LOG — TRACK SLEEP · LEARNING · TIME · HABITS</div>
   </div>
-
-  <!-- Week navigation -->
   <div class="ls-week-range" id="ls-week-range">WEEK OF …</div>
   <div class="ls-week-nav" id="ls-week-nav">
     <button class="ls-prev-btn" onclick="lsChangeWeek(-1)" title="Previous week">◀ PREV</button>
-    <!-- Day buttons injected by JS -->
   </div>
-
-  <!-- Activity canvas -->
   <div class="ls-canvas" id="ls-canvas">
     <div class="ls-canvas-header">
       <span id="ls-canvas-date-label">SELECT A DAY</span>
@@ -763,8 +700,6 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
       <div class="ls-canvas-empty">NO ACTIVITIES LOGGED FOR THIS DAY<br><br>USE THE BUTTONS BELOW TO LOG YOUR DAY</div>
     </div>
   </div>
-
-  <!-- Action buttons -->
   <div class="ls-actions-bar" id="ls-actions-bar">
     <span class="ls-actions-label">LOG →</span>
     <button class="ls-action-btn sleep-btn"    onclick="lsOpenModal('sleep')"><span class="ls-btn-icon">🌙</span> SLEEP TIME</button>
@@ -953,16 +888,14 @@ nav{position:sticky;top:0;z-index:100;background:rgba(244,244,240,0.97);backdrop
   </div>
 </div>
 
-<!-- ═══ LIFESTYLE MODAL ═══ -->
+<!-- LIFESTYLE MODAL -->
 <div class="modal-overlay" id="modal-lifestyle">
   <div class="modal" style="width:440px;">
     <div class="modal-header" id="ls-modal-header">
       LOG ACTIVITY
       <button class="modal-close" onclick="closeModal('modal-lifestyle')">X</button>
     </div>
-    <div class="modal-body" id="ls-modal-body">
-      <!-- Injected by lsOpenModal() -->
-    </div>
+    <div class="modal-body" id="ls-modal-body"></div>
     <div class="modal-footer">
       <button class="btn" onclick="closeModal('modal-lifestyle')">CANCEL</button>
       <button class="btn btn-dark" id="ls-modal-save-btn" onclick="lsSaveActivity()">LOG IT</button>
@@ -1078,7 +1011,23 @@ const GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085'
 const MAP_GOAL_COLORS = ['#c0392b','#2980b9','#27ae60','#8e44ad','#d35400','#16a085','#5d4037','#ad1457','#1565c0','#558b2f','#6a1b9a','#00838f'];
 const ACCENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316','#e879f9','#34d399','#fbbf24','#60a5fa'];
 const EVENT_COLORS = ['#00f0ff','#a2ef00','#fe00fe','#ffe500','#ff6b00','#8b5cf6','#00d4aa','#f97316','#34d399','#60a5fa'];
-const ECON_ACCENT_COLORS = ['#00f0ff','#ffe500','#a2ef00','#fe00fe','#ff6b00','#8b5cf6','#00d4aa'];
+const ECON_ACCENT_HEX = ['#00f0ff','#ffe500','#a2ef00','#fe00fe','#ff6b00','#8b5cf6','#00d4aa'];
+
+// Sphere colors — vibrant retro palette per goal slot
+const SPHERE_FILLS = [
+  ['#ff2020','#ff6b6b'],  // 0 - red
+  ['#ff6b00','#ffab40'],  // 1 - orange
+  ['#ffe500','#fff176'],  // 2 - yellow
+  ['#a2ef00','#ccff33'],  // 3 - lime
+  ['#00f0ff','#80f8ff'],  // 4 - cyan
+  ['#8b5cf6','#c084fc'],  // 5 - violet
+  ['#fe00fe','#ff80ff'],  // 6 - pink
+  ['#00d4aa','#5effe0'],  // 7 - teal
+  ['#f97316','#fdba74'],  // 8 - amber
+  ['#60a5fa','#bfdbfe'],  // 9 - blue
+  ['#34d399','#86efac'],  // 10 - green
+  ['#e879f9','#f5d0fe'],  // 11 - fuchsia
+];
 
 const CONQUERED_COLOR = '#8b0000';
 const NEXUS_COLOR = '#8b0000';
@@ -1127,7 +1076,6 @@ function defaultState(){
     ultimate:{title:'YOUR ENDGAME',vision:'Define your ultimate mission',progress:0},
     planning:{ year: new Date().getFullYear(), lanes:[] },
     economics:{ regions:[] },
-    // lifestyle.log = { 'YYYY-MM-DD': [ {id, type, ...data} ] }
     lifestyle:{ log:{} },
     nextId:100,
   };
@@ -1197,6 +1145,13 @@ function selectOutput(t){
 
 function getDone(g){return g.doneSet?g.doneSet.size:(g.done||0);}
 
+// Helper: days left from today to a deadline string 'YYYY-MM-DD'
+function getDaysLeft(deadlineStr) {
+  const today = new Date(); today.setHours(0,0,0,0);
+  const dl = new Date(deadlineStr + 'T00:00:00');
+  return Math.ceil((dl - today) / 864e5);
+}
+
 function addGoal(){
   const name=document.getElementById('g-name').value.trim();
   const total=Math.min(90,parseInt(document.getElementById('g-total').value)||0);
@@ -1241,6 +1196,80 @@ function completeTask(goalId){const g=state.goals.find(x=>x.id===goalId);if(!g)r
 function undoTask(goalId){const g=state.goals.find(x=>x.id===goalId);if(!g||g.doneSet.size===0)return;const max=Math.max(...g.doneSet);g.doneSet.delete(max);scheduleSave();drawPixelMap();updateCards();toast('TASK UNDONE');}
 function deleteGoal(goalId){state.goals=state.goals.filter(x=>x.id!==goalId);_territory=null;scheduleSave();renderGoals();toast('GOAL REMOVED');}
 
+// ═══════════════════════════════════════════════════════════════
+// DEADLINE SPHERES — NEW
+// ═══════════════════════════════════════════════════════════════
+function renderDeadlineSpheres() {
+  if (!state.goals.length) return '';
+
+  // Sort goals by days left (least first, overdue at front)
+  const sorted = [...state.goals].sort((a, b) => getDaysLeft(a.deadline) - getDaysLeft(b.deadline));
+
+  // Max days for fill calculation — use 365 as ceiling
+  const MAX_DAYS = 365;
+
+  let html = `<div class="deadline-spheres-section">
+    <div class="deadline-spheres-label">DEADLINE COUNTDOWNS — SORTED URGENCY FIRST</div>
+    <div class="deadline-spheres-wrap">`;
+
+  sorted.forEach((g, si) => {
+    const days = getDaysLeft(g.deadline);
+    const isOverdue = days < 0;
+    const absDays = Math.abs(days);
+
+    // Fill level: 100% when deadline is today or overdue, 0% when far away
+    // As days decrease toward 0, fill goes UP (liquid rises = less time)
+    const fillPct = isOverdue
+      ? 100
+      : Math.max(5, Math.round((1 - Math.min(days, MAX_DAYS) / MAX_DAYS) * 100));
+
+    // Pick sphere color from palette by original colorIdx
+    const sphereColor = SPHERE_FILLS[g.colorIdx % SPHERE_FILLS.length];
+    const fillColor = isOverdue ? '#ff2020' : sphereColor[0];
+    const fillColorLight = isOverdue ? '#ff6b6b' : sphereColor[1];
+
+    // Urgency classes
+    const urgentClass = !isOverdue && days <= 3 ? ' urgent' : '';
+    const overdueClass = isOverdue ? ' overdue' : '';
+
+    // Display text inside sphere
+    let innerNum, innerUnit;
+    if (isOverdue) {
+      innerNum = absDays;
+      innerUnit = 'D AGO';
+    } else if (days === 0) {
+      innerNum = 'DUE';
+      innerUnit = 'TODAY';
+    } else {
+      innerNum = days;
+      innerUnit = days === 1 ? 'DAY' : 'DAYS';
+    }
+
+    // Deadline date string short
+    const dl = new Date(g.deadline + 'T00:00:00');
+    const dlShort = dl.getDate() + '/' + String(dl.getMonth()+1).padStart(2,'0');
+
+    html += `<div class="dsphere-unit">
+      <div class="dsphere-container${urgentClass}${overdueClass}" title="${g.name} — ${isOverdue ? absDays+'d overdue' : days+'d left'}">
+        <div class="dsphere-fill" style="height:${fillPct}%;background:linear-gradient(180deg, ${fillColorLight} 0%, ${fillColor} 100%);"></div>
+        <div class="dsphere-sheen"></div>
+        <div class="dsphere-inner-text">
+          <div class="dsphere-days-num">${innerNum}</div>
+          <div class="dsphere-days-unit">${innerUnit}</div>
+        </div>
+      </div>
+      <div class="dsphere-name" title="${g.name}">${g.name.length > 10 ? g.name.substring(0,9)+'…' : g.name}</div>
+      <div class="dsphere-deadline">${dlShort}</div>
+    </div>`;
+  });
+
+  html += `</div></div>`;
+  return html;
+}
+
+// ═══════════════════════════════════════════════════════════════
+// GOALS RENDER
+// ═══════════════════════════════════════════════════════════════
 function renderGoals(){
   const wrap=document.getElementById('goals-area');
   if(state.goals.length===0){wrap.innerHTML=`<div class="empty-pixel-map">NO MISSIONS INITIALIZED<br><br><span style="font-size:10px;">PRESS + TO ADD YOUR FIRST GOAL — EACH GOAL WILL CONQUER TERRITORY AROUND THE RED NEXUS</span></div>`;return;}
@@ -1250,7 +1279,11 @@ function renderGoals(){
     +`<div class="legend-chip"><div class="legend-dot" style="background:#4a7fa5;border-color:#5a3e1b;"></div>WATER</div>`;
   const totalTasks=state.goals.reduce((s,g)=>s+g.total,0);const totalDone=state.goals.reduce((s,g)=>s+getDone(g),0);const pct=totalTasks>0?Math.round(totalDone/totalTasks*100):0;
   const statsHtml=`<div class="conquest-stats"><div class="stat-pill">TOTAL TASKS: ${totalTasks}</div><div class="stat-pill" style="background:#8b0000;color:#fdf6e3;border-color:#5a3e1b;">CONQUERED: ${totalDone}</div><div class="stat-pill" style="background:#b8860b;color:#fdf6e3;border-color:#5a3e1b;">TERRITORY: ${pct}%</div><div class="stat-pill">GOALS: ${state.goals.length}</div></div>`;
-  wrap.innerHTML=`<div class="pixel-legend">${legendHtml}</div>${statsHtml}<div id="pixel-canvas-wrap"><canvas id="pixel-canvas" width="${W}" height="${H}"></canvas></div><div id="goal-cards-wrap"></div>`;
+
+  // Spheres injected before canvas
+  const spheresHtml = renderDeadlineSpheres();
+
+  wrap.innerHTML=`<div class="pixel-legend">${legendHtml}</div>${statsHtml}${spheresHtml}<div id="pixel-canvas-wrap"><canvas id="pixel-canvas" width="${W}" height="${H}"></canvas></div><div id="goal-cards-wrap"></div>`;
   drawPixelMap();updateCards();attachCanvasEvents();
 }
 
@@ -1258,9 +1291,16 @@ function attachCanvasEvents(){
   const canvas=document.getElementById('pixel-canvas');if(!canvas)return;
   const tooltip=document.getElementById('pixel-tooltip');
   const{claimedMap}=getTerritory();
-  canvas.addEventListener('mousemove',(e)=>{const rect=canvas.getBoundingClientRect();const scaleX=(GRID*STEP)/rect.width,scaleY=(GRID*STEP)/rect.height;const q=Math.floor((e.clientX-rect.left)*scaleX/STEP);const r=Math.floor((e.clientY-rect.top)*scaleY/STEP);const k=q+','+r;if(claimedMap.has(k)){const info=claimedMap.get(k);const g=state.goals.find(x=>x.id===info.goalId);if(g){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';tooltip.textContent=g.name.toUpperCase()+' — TASK '+(info.cellIdx+1)+'/'+g.total+' '+(g.doneSet.has(info.cellIdx)?'✓ CONQUERED':'[ CLICK TO CONQUER ]');}}else if(WATER_CELLS.has(k)){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';tooltip.textContent='WATER — UNCROSSABLE';}else{tooltip.style.display='none';}});
+  canvas.addEventListener('mousemove',(e)=>{const rect=canvas.getBoundingClientRect();const scaleX=(GRID*STEP)/rect.width,scaleY=(GRID*STEP)/rect.height;const q=Math.floor((e.clientX-rect.left)*scaleX/STEP);const r=Math.floor((e.clientY-rect.top)*scaleY/STEP);const k=q+','+r;if(claimedMap.has(k)){const info=claimedMap.get(k);const g=state.goals.find(x=>x.id===info.goalId);if(g){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';const dl=getDaysLeft(g.deadline);const dlStr=dl<0?Math.abs(dl)+'D OVERDUE':dl+'D LEFT';tooltip.textContent=g.name.toUpperCase()+' — TASK '+(info.cellIdx+1)+'/'+g.total+' '+(g.doneSet.has(info.cellIdx)?'✓ CONQUERED':'[ CLICK TO CONQUER ]')+' · '+dlStr;}}else if(WATER_CELLS.has(k)){tooltip.style.display='block';tooltip.style.left=(e.clientX+14)+'px';tooltip.style.top=(e.clientY-8)+'px';tooltip.textContent='WATER — UNCROSSABLE';}else{tooltip.style.display='none';}});
   canvas.addEventListener('mouseleave',()=>{tooltip.style.display='none';});
   canvas.addEventListener('click',(e)=>{const rect=canvas.getBoundingClientRect();const scaleX=(GRID*STEP)/rect.width,scaleY=(GRID*STEP)/rect.height;const q=Math.floor((e.clientX-rect.left)*scaleX/STEP);const r=Math.floor((e.clientY-rect.top)*scaleY/STEP);const k=q+','+r;if(claimedMap.has(k)){const info=claimedMap.get(k);toggleTask(info.goalId,info.cellIdx);}});
+}
+
+// Build a lookup: goalId -> days left
+function buildDeadlineMap() {
+  const map = {};
+  state.goals.forEach(g => { map[g.id] = getDaysLeft(g.deadline); });
+  return map;
 }
 
 function drawPixelMap(){
@@ -1272,34 +1312,106 @@ function drawPixelMap(){
   MAP_FORESTS.forEach(([q,r])=>{if(WATER_CELLS.has(q+','+r))return;ctx.fillStyle='rgba(70,100,40,0.25)';ctx.fillRect(q*STEP+3,r*STEP+3,PX-6,PX-6);ctx.fillStyle='rgba(70,100,40,0.18)';ctx.beginPath();ctx.arc(q*STEP+PX/2,r*STEP+PX/2,PX/3,0,Math.PI*2);ctx.fill();});
   MAP_MOUNTAINS.forEach(([q,r])=>{if(WATER_CELLS.has(q+','+r))return;ctx.fillStyle='rgba(100,80,60,0.22)';const cx2=q*STEP+PX/2,cy2=r*STEP+PX*0.85;ctx.beginPath();ctx.moveTo(cx2,r*STEP+3);ctx.lineTo(cx2+PX*0.42,cy2);ctx.lineTo(cx2-PX*0.42,cy2);ctx.closePath();ctx.fill();ctx.fillStyle='rgba(200,180,160,0.25)';ctx.beginPath();ctx.moveTo(cx2,r*STEP+3);ctx.lineTo(cx2+PX*0.2,cy2*0.6+r*STEP*0.4);ctx.lineTo(cx2-PX*0.15,cy2*0.6+r*STEP*0.4);ctx.closePath();ctx.fill();});
   let wi=0;WATER_CELLS.forEach(k=>{const[q,r]=k.split(',').map(Number);ctx.fillStyle=WATER_COLORS[wi++%WATER_COLORS.length];ctx.fillRect(q*STEP+1,r*STEP+1,PX-1,PX-1);ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(q*STEP+3,r*STEP+5,PX-8,1.5);ctx.fillStyle='rgba(255,255,255,0.10)';ctx.fillRect(q*STEP+4,r*STEP+11,PX-10,1);ctx.strokeStyle='rgba(30,90,140,0.4)';ctx.lineWidth=0.8;ctx.strokeRect(q*STEP+1,r*STEP+1,PX-1,PX-1);});
+
   const{claimedMap}=getTerritory();
-  claimedMap.forEach((info,k)=>{const[q,r]=k.split(',').map(Number);const g=state.goals.find(x=>x.id===info.goalId);if(!g)return;const isDone=g.doneSet.has(info.cellIdx);const baseColor=MAP_GOAL_COLORS[g.colorIdx];const fill=isDone?CONQUERED_COLOR:baseColor;ctx.fillStyle=fill;ctx.globalAlpha=isDone?0.82:0.68;ctx.fillRect(q*STEP+1,r*STEP+1,PX-1,PX-1);ctx.globalAlpha=1;ctx.fillStyle='rgba(255,240,200,0.12)';ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,PX-4);ctx.fillStyle='rgba(255,255,255,0.18)';ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,2);ctx.fillRect(q*STEP+2,r*STEP+2,2,PX-4);ctx.strokeStyle='rgba(90,62,27,0.4)';ctx.lineWidth=0.7;ctx.strokeRect(q*STEP+1,r*STEP+1,PX-1,PX-1);if(isDone){ctx.strokeStyle='rgba(255,255,200,0.45)';ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(q*STEP+5,r*STEP+5);ctx.lineTo(q*STEP+PX-4,r*STEP+PX-4);ctx.stroke();ctx.beginPath();ctx.moveTo(q*STEP+PX-4,r*STEP+5);ctx.lineTo(q*STEP+5,r*STEP+PX-4);ctx.stroke();}});
+  const deadlineMap = buildDeadlineMap();
+
+  claimedMap.forEach((info,k)=>{
+    const[q,r]=k.split(',').map(Number);
+    const g=state.goals.find(x=>x.id===info.goalId);if(!g)return;
+    const isDone=g.doneSet.has(info.cellIdx);
+    const baseColor=MAP_GOAL_COLORS[g.colorIdx];
+    const fill=isDone?CONQUERED_COLOR:baseColor;
+    ctx.fillStyle=fill;
+    ctx.globalAlpha=isDone?0.82:0.68;
+    ctx.fillRect(q*STEP+1,r*STEP+1,PX-1,PX-1);
+    ctx.globalAlpha=1;
+    ctx.fillStyle='rgba(255,240,200,0.12)';
+    ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,PX-4);
+    ctx.fillStyle='rgba(255,255,255,0.18)';
+    ctx.fillRect(q*STEP+2,r*STEP+2,PX-4,2);
+    ctx.fillRect(q*STEP+2,r*STEP+2,2,PX-4);
+    ctx.strokeStyle='rgba(90,62,27,0.4)';
+    ctx.lineWidth=0.7;
+    ctx.strokeRect(q*STEP+1,r*STEP+1,PX-1,PX-1);
+
+    if(isDone){
+      // Conquered: draw X marks
+      ctx.strokeStyle='rgba(255,255,200,0.45)';ctx.lineWidth=1.5;
+      ctx.beginPath();ctx.moveTo(q*STEP+5,r*STEP+5);ctx.lineTo(q*STEP+PX-4,r*STEP+PX-4);ctx.stroke();
+      ctx.beginPath();ctx.moveTo(q*STEP+PX-4,r*STEP+5);ctx.lineTo(q*STEP+5,r*STEP+PX-4);ctx.stroke();
+    } else {
+      // ── NEW: draw days-left number on unconquered pixels ──
+      const daysLeft = deadlineMap[g.id];
+      if (daysLeft !== undefined) {
+        let label, labelColor;
+        if (daysLeft < 0) {
+          // Overdue
+          label = 'OVR';
+          labelColor = '#ff4444';
+        } else if (daysLeft === 0) {
+          label = 'DUE';
+          labelColor = '#ff2020';
+        } else if (daysLeft <= 99) {
+          label = String(daysLeft);
+          // Color urgency: ≤7 red/orange, ≤30 yellow, else white
+          labelColor = daysLeft <= 7 ? '#ffcc00' : (daysLeft <= 30 ? '#ffe97f' : 'rgba(255,255,255,0.75)');
+        } else {
+          label = '99+';
+          labelColor = 'rgba(255,255,255,0.5)';
+        }
+
+        ctx.save();
+        ctx.font = 'bold 6px "JetBrains Mono",monospace';
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        // Drop shadow for legibility
+        ctx.fillStyle = 'rgba(0,0,0,0.7)';
+        ctx.fillText(label, q*STEP + PX/2 + 0.5, r*STEP + PX/2 + 0.5);
+        ctx.fillStyle = labelColor;
+        ctx.fillText(label, q*STEP + PX/2, r*STEP + PX/2);
+        ctx.restore();
+      }
+    }
+  });
+
+  // Draw Nexus
   const nx=(CX-1)*STEP+1,ny=(CY-1)*STEP+1;const ns=3*STEP-2;
   ctx.fillStyle='rgba(0,0,0,0.35)';ctx.fillRect(nx+3,ny+3,ns,ns);ctx.fillStyle=NEXUS_COLOR;ctx.fillRect(nx,ny,ns,ns);ctx.strokeStyle='#b8860b';ctx.lineWidth=2.5;ctx.strokeRect(nx,ny,ns,ns);ctx.strokeStyle='rgba(255,220,100,0.5)';ctx.lineWidth=1;ctx.strokeRect(nx+4,ny+4,ns-8,ns-8);
   ctx.fillStyle='#fdf6e3';ctx.font='bold 8px "JetBrains Mono",monospace';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('NEXUS',nx+ns/2,ny+ns/2-7);ctx.font='6px "JetBrains Mono",monospace';ctx.fillStyle='rgba(253,246,227,0.8)';ctx.fillText(state.goals.length+' GOALS',nx+ns/2,ny+ns/2+7);
+
   const totalTasks=state.goals.reduce((s,g)=>s+g.total,0);const totalDone=state.goals.reduce((s,g)=>s+getDone(g),0);const pct=totalTasks>0?Math.round(totalDone/totalTasks*100):0;
   const pills=document.querySelectorAll('.stat-pill');if(pills[1])pills[1].textContent='CONQUERED: '+totalDone;if(pills[2])pills[2].textContent='TERRITORY: '+pct+'%';
   document.querySelectorAll('.legend-chip span').forEach((span,i)=>{if(state.goals[i])span.textContent=getDone(state.goals[i])+'/'+state.goals[i].total;});
 }
 
+// ═══════════════════════════════════════════════════════════════
+// CARDS — sorted by deadline (least days first)
+// ═══════════════════════════════════════════════════════════════
 function updateCards(){
   const wrap=document.getElementById('goal-cards-wrap');if(!wrap)return;
+
+  // Sort goals by days left ascending (most urgent first)
+  const sortedGoals = [...state.goals].sort((a, b) => getDaysLeft(a.deadline) - getDaysLeft(b.deadline));
+
   let html=`<div class="goal-cards-grid">`;
-  state.goals.forEach((g,i)=>{
+  sortedGoals.forEach((g,i)=>{
     const accentColor=ACCENT_COLORS[g.colorIdx];const mapColor=MAP_GOAL_COLORS[g.colorIdx];
     const done=getDone(g);const pct=g.total>0?Math.round(done/g.total*100):0;
-    const today=new Date();today.setHours(0,0,0,0);const dl=new Date(g.deadline);
-    const diff=Math.ceil((dl-today)/864e5);
-    let dlClass='dl-ok',dlLabel='';
-    if(diff<0){dlClass='dl-over';dlLabel=Math.abs(diff)+'D OVER';}
+    const diff = getDaysLeft(g.deadline);
+    let dlClass,dlLabel;
+    if(diff<0){dlClass='dl-over';dlLabel=Math.abs(diff)+'D OVERDUE';}
     else if(diff<=7){dlClass='dl-soon';dlLabel=diff+'D LEFT';}
-    else{dlClass='dl-ok';dlLabel=diff+'D';}
+    else{dlClass='dl-ok';dlLabel=diff+'D LEFT';}
+    const dl=new Date(g.deadline+'T00:00:00');
     const dlDisplay=dl.toLocaleDateString('en-GB',{day:'2-digit',month:'short',year:'numeric'});
     const fillColor=pct>=100?CONQUERED_COLOR:mapColor;
     const catLabel = g.category==='goal'?'STANDALONE':g.category.toUpperCase();
+    // Find original index for display
+    const origIdx = state.goals.findIndex(x => x.id === g.id);
     html+=`<div class="goal-card">
       <div class="goal-card-header" style="background:${accentColor};">
-        <span>#${i+1} — ${catLabel}</span><span style="font-size:9px;">${g.output.toUpperCase()}</span>
+        <span>#${origIdx+1} — ${catLabel}</span><span style="font-size:9px;">${g.output.toUpperCase()}</span>
       </div>
       <div class="goal-card-body">
         <div class="goal-card-name">${g.name}</div>
@@ -1496,12 +1608,9 @@ function addFriend(){
 }
 function editFriend(id){
   const f = state.friends.find(x=>x.id===id);if(!f) return;
-  document.getElementById('fr-name').value = f.name||'';
-  document.getElementById('fr-role').value = f.role||'';
-  document.getElementById('fr-phone').value = f.phone||'';
-  document.getElementById('fr-dob').value = f.dob||'';
-  document.getElementById('fr-guardian').value = f.guardian||'';
-  document.getElementById('fr-address').value = f.address||'';
+  document.getElementById('fr-name').value = f.name||'';document.getElementById('fr-role').value = f.role||'';
+  document.getElementById('fr-phone').value = f.phone||'';document.getElementById('fr-dob').value = f.dob||'';
+  document.getElementById('fr-guardian').value = f.guardian||'';document.getElementById('fr-address').value = f.address||'';
   document.getElementById('fr-notes').value = f.notes||'';
   const footer = document.querySelector('#modal-friend .modal-footer');
   footer.innerHTML = `<button class="btn" onclick="closeModal('modal-friend')">CANCEL</button><button class="btn btn-cyan" onclick="saveFriendEdit(${id})">SAVE CHANGES</button>`;
@@ -1645,7 +1754,7 @@ document.addEventListener('click', e=>{
 });
 
 // ═══════════════════════════════════════════════════════════════
-// ECONOMICS
+// ECONOMICS — with improved card theming
 // ═══════════════════════════════════════════════════════════════
 let _econMap = null;
 let _econMode = 'view';
@@ -1653,7 +1762,6 @@ let _econRectCorner1 = null;
 let _econRectPreview = null;
 let _econPendingBounds = null;
 let _econLayers = {};
-const ECON_ACCENT_HEX = ['#00f0ff','#ffe500','#a2ef00','#fe00fe','#ff6b00','#8b5cf6','#00d4aa'];
 
 function renderEconomics(){
   if(!_econMap){
@@ -1780,6 +1888,7 @@ function econDeleteDataRow(regionId, rowIdx){
   scheduleSave(); econRenderCards();
 }
 function econDataKeydown(e, regionId){ if(e.key==='Enter') econAddDataRow(regionId); }
+
 function econRenderCards(){
   const regions = state.economics.regions || [];
   const grid = document.getElementById('econ-cards-grid');
@@ -1793,15 +1902,21 @@ function econRenderCards(){
   }
   grid.innerHTML = regions.map(r => {
     const accentHex = ECON_ACCENT_HEX[r.colorIdx % ECON_ACCENT_HEX.length];
+    // Decide header text color — light colors get dark text
+    const lightColors = ['#00f0ff','#ffe500','#a2ef00'];
+    const headerTextColor = lightColors.includes(accentHex) ? '#000' : '#fff';
     const dataRows = (r.data||[]);
     const sw = r.bounds.sw; const ne = r.bounds.ne;
     const coordStr = `SW ${sw[0].toFixed(1)},${sw[1].toFixed(1)} · NE ${ne[0].toFixed(1)},${ne[1].toFixed(1)}`;
-    return `<div class="econ-card econ-accent-${r.colorIdx % 7}" id="econ-card-${r.id}" style="border-left:6px solid ${accentHex};">
-      <div class="econ-card-head">
-        <div><div class="econ-card-title">${r.title}</div><div class="econ-card-coords">${coordStr}</div></div>
+    return `<div class="econ-card" id="econ-card-${r.id}">
+      <div class="econ-card-head" style="background:${accentHex};color:${headerTextColor};">
+        <div>
+          <div class="econ-card-title">${r.title}</div>
+          <div class="econ-card-coords" style="color:${headerTextColor};">${coordStr}</div>
+        </div>
         <div class="econ-card-actions">
-          <button class="econ-card-action-btn" onclick="econFlyToRegion(${r.id})">◎ MAP</button>
-          <button class="econ-card-action-btn del" onclick="econDeleteRegion(${r.id})">✕</button>
+          <button class="econ-card-action-btn" onclick="econFlyToRegion(${r.id})" style="background:rgba(255,255,255,.25);border-color:rgba(0,0,0,.3);box-shadow:2px 2px 0 rgba(0,0,0,.2);">◎ MAP</button>
+          <button class="econ-card-action-btn del" onclick="econDeleteRegion(${r.id})" style="background:rgba(255,255,255,.25);border-color:rgba(0,0,0,.3);box-shadow:2px 2px 0 rgba(0,0,0,.2);">✕</button>
         </div>
       </div>
       <div class="econ-card-body">
@@ -1819,70 +1934,47 @@ function econRenderCards(){
 }
 
 // ═══════════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════
 // LIFESTYLE PAGE
 // ═══════════════════════════════════════════════════════════════
-// ═══════════════════════════════════════════════════════════════
-
 const LS_DAYS = ['MON','TUE','WED','THU','FRI','SAT','SUN'];
 const LS_MONTHS_SHORT = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
-
-// Week offset: 0 = current week, -1 = previous, etc.
 let _lsWeekOffset = 0;
-let _lsSelectedDateKey = null; // 'YYYY-MM-DD'
-let _lsModalType = null; // current modal activity type
+let _lsSelectedDateKey = null;
+let _lsModalType = null;
 
-// Returns 'YYYY-MM-DD' string for a Date
 function lsDateKey(d) {
   return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');
 }
-
-// Returns Monday of the week containing `d`
 function lsGetMonday(d) {
-  const copy = new Date(d);
-  const day = copy.getDay(); // 0=Sun
+  const copy = new Date(d); const day = copy.getDay();
   const diff = (day === 0) ? -6 : 1 - day;
-  copy.setDate(copy.getDate() + diff);
-  copy.setHours(0,0,0,0);
-  return copy;
+  copy.setDate(copy.getDate() + diff); copy.setHours(0,0,0,0); return copy;
 }
-
-// Get the Monday for the displayed week (offset from current)
 function lsGetDisplayMonday() {
   const today = new Date(); today.setHours(0,0,0,0);
-  const mon = lsGetMonday(today);
-  mon.setDate(mon.getDate() + _lsWeekOffset * 7);
-  return mon;
+  const mon = lsGetMonday(today); mon.setDate(mon.getDate() + _lsWeekOffset * 7); return mon;
 }
-
 function lsTodayKey() { return lsDateKey(new Date()); }
-
 function lsIsCurrentWeek() { return _lsWeekOffset === 0; }
 
 function renderLifestyle() {
   const mon = lsGetDisplayMonday();
   const todayKey = lsTodayKey();
-
-  // Week range label
   const sun = new Date(mon); sun.setDate(sun.getDate() + 6);
   const rangeLabel = `${mon.getDate()} ${LS_MONTHS_SHORT[mon.getMonth()]} – ${sun.getDate()} ${LS_MONTHS_SHORT[sun.getMonth()]} ${sun.getFullYear()}`;
   document.getElementById('ls-week-range').textContent = '// WEEK OF ' + rangeLabel;
 
-  // Build day buttons
   const nav = document.getElementById('ls-week-nav');
   let dayBtnsHtml = `<button class="ls-prev-btn" onclick="lsChangeWeek(-1)" title="Previous week">◀ PREV</button>`;
-
   for (let i = 0; i < 7; i++) {
     const d = new Date(mon); d.setDate(d.getDate() + i);
     const dk = lsDateKey(d);
     const isToday = dk === todayKey;
     const isSelected = dk === _lsSelectedDateKey;
     const hasEntries = (state.lifestyle.log[dk]||[]).length > 0;
-
     let cls = 'ls-day-btn';
     if (isToday) cls += ' today';
     if (isSelected) cls += ' active';
-
     dayBtnsHtml += `<button class="${cls}" onclick="lsSelectDay('${dk}')">
       <span class="ls-day-name">${LS_DAYS[i]}</span>
       <span class="ls-day-num">${d.getDate()}</span>
@@ -1891,50 +1983,26 @@ function renderLifestyle() {
       ${hasEntries ? `<span style="font-family:var(--font-mono);font-size:7px;font-weight:700;background:var(--lime);color:#000;padding:1px 5px;border:1px solid #000;margin-top:1px;">${(state.lifestyle.log[dk]||[]).length}</span>` : ''}
     </button>`;
   }
-
-  // Next week button only if there's a future week to show? Always allow for data review.
   dayBtnsHtml += `<button class="ls-prev-btn" onclick="lsChangeWeek(1)" style="background:var(--cyan);color:#000;" title="Next week">NEXT ▶</button>`;
-
   nav.innerHTML = dayBtnsHtml;
 
-  // If no day selected yet, auto-select today if in current week
   if (!_lsSelectedDateKey || !_isInDisplayedWeek(_lsSelectedDateKey)) {
-    if (lsIsCurrentWeek()) {
-      _lsSelectedDateKey = todayKey;
-    } else {
-      // select monday of shown week
-      _lsSelectedDateKey = lsDateKey(mon);
-    }
+    _lsSelectedDateKey = lsIsCurrentWeek() ? todayKey : lsDateKey(mon);
   }
-
-  lsRenderCanvas();
-  lsUpdateActionsBar();
+  lsRenderCanvas(); lsUpdateActionsBar();
 }
 
 function _isInDisplayedWeek(dk) {
   const mon = lsGetDisplayMonday();
-  for (let i = 0; i < 7; i++) {
-    const d = new Date(mon); d.setDate(d.getDate() + i);
-    if (lsDateKey(d) === dk) return true;
-  }
+  for (let i = 0; i < 7; i++) { const d = new Date(mon); d.setDate(d.getDate() + i); if (lsDateKey(d) === dk) return true; }
   return false;
 }
-
 function lsChangeWeek(delta) {
   _lsWeekOffset += delta;
-  // Don't allow going past current week into future
   if (_lsWeekOffset > 0) _lsWeekOffset = 0;
-  _lsSelectedDateKey = null;
-  renderLifestyle();
+  _lsSelectedDateKey = null; renderLifestyle();
 }
-
-function lsSelectDay(dk) {
-  _lsSelectedDateKey = dk;
-  lsRenderCanvas();
-  lsUpdateActionsBar();
-  // Re-render nav to update active state
-  renderLifestyle();
-}
+function lsSelectDay(dk) { _lsSelectedDateKey = dk; lsRenderCanvas(); lsUpdateActionsBar(); renderLifestyle(); }
 
 function lsRenderCanvas() {
   if (!_lsSelectedDateKey) return;
@@ -1942,229 +2010,93 @@ function lsRenderCanvas() {
   const d = new Date(_lsSelectedDateKey+'T00:00:00');
   const dayName = LS_DAYS[((d.getDay()+6)%7)];
   const dateStr = `${dayName} · ${d.getDate()} ${LS_MONTHS_SHORT[d.getMonth()]} ${d.getFullYear()}`;
-
   document.getElementById('ls-canvas-date-label').textContent = dateStr;
   document.getElementById('ls-canvas-count').textContent = entries.length + ' ENTR' + (entries.length === 1 ? 'Y' : 'IES');
-
   const wrap = document.getElementById('ls-tiles-wrap');
   if (!entries.length) {
     wrap.innerHTML = `<div class="ls-canvas-empty">NO ACTIVITIES LOGGED FOR THIS DAY<br><br>USE THE BUTTONS BELOW TO LOG YOUR DAY</div>`;
     return;
   }
-
   wrap.innerHTML = entries.map((entry, idx) => lsBuildTileHTML(entry, idx)).join('');
 }
 
 function lsBuildTileHTML(entry, idx) {
   const delBtn = `<button class="ls-tile-del" onclick="lsDeleteEntry('${_lsSelectedDateKey}',${idx})" title="Remove">✕</button>`;
-
-  if (entry.type === 'sleep') {
-    return `<div class="ls-tile ls-tile-sleep">
-      ${delBtn}
-      <div class="ls-tile-type">SLEEP TIME</div>
-      <div class="ls-tile-main">${entry.time}</div>
-      <div class="ls-tile-sub">WENT TO BED</div>
-    </div>`;
-  }
-  if (entry.type === 'wakeup') {
-    return `<div class="ls-tile ls-tile-wakeup">
-      ${delBtn}
-      <div class="ls-tile-type">WAKE UP</div>
-      <div class="ls-tile-main">${entry.time}</div>
-      <div class="ls-tile-sub">WOKE UP AT</div>
-    </div>`;
-  }
-  if (entry.type === 'learning') {
-    const dur = entry.hours + 'h ' + (entry.mins ? entry.mins + 'm' : '');
-    return `<div class="ls-tile ls-tile-learning">
-      ${delBtn}
-      <div class="ls-tile-type">LEARNING</div>
-      <div class="ls-tile-main">${entry.topic}</div>
-      <div class="ls-tile-sub">⏱ ${dur}</div>
-    </div>`;
-  }
-  if (entry.type === 'timewaste') {
-    return `<div class="ls-tile ls-tile-timewaste">
-      ${delBtn}
-      <div class="ls-tile-type">TIME WASTE</div>
-      <div class="ls-tile-main">${entry.platform}</div>
-      <div class="ls-tile-sub">⏱ ${entry.hours}h ${entry.mins ? entry.mins+'m' : ''}</div>
-    </div>`;
-  }
-  if (entry.type === 'custom') {
-    return `<div class="ls-tile ls-tile-custom">
-      ${delBtn}
-      <div class="ls-tile-type">${entry.label}</div>
-      <div class="ls-tile-main">${entry.value}</div>
-      ${entry.note ? `<div class="ls-tile-sub">${entry.note}</div>` : ''}
-    </div>`;
-  }
+  if (entry.type === 'sleep') return `<div class="ls-tile ls-tile-sleep">${delBtn}<div class="ls-tile-type">SLEEP TIME</div><div class="ls-tile-main">${entry.time}</div><div class="ls-tile-sub">WENT TO BED</div></div>`;
+  if (entry.type === 'wakeup') return `<div class="ls-tile ls-tile-wakeup">${delBtn}<div class="ls-tile-type">WAKE UP</div><div class="ls-tile-main">${entry.time}</div><div class="ls-tile-sub">WOKE UP AT</div></div>`;
+  if (entry.type === 'learning') { const dur = entry.hours + 'h ' + (entry.mins ? entry.mins + 'm' : ''); return `<div class="ls-tile ls-tile-learning">${delBtn}<div class="ls-tile-type">LEARNING</div><div class="ls-tile-main">${entry.topic}</div><div class="ls-tile-sub">⏱ ${dur}</div></div>`; }
+  if (entry.type === 'timewaste') return `<div class="ls-tile ls-tile-timewaste">${delBtn}<div class="ls-tile-type">TIME WASTE</div><div class="ls-tile-main">${entry.platform}</div><div class="ls-tile-sub">⏱ ${entry.hours}h ${entry.mins ? entry.mins+'m' : ''}</div></div>`;
+  if (entry.type === 'custom') return `<div class="ls-tile ls-tile-custom">${delBtn}<div class="ls-tile-type">${entry.label}</div><div class="ls-tile-main">${entry.value}</div>${entry.note ? `<div class="ls-tile-sub">${entry.note}</div>` : ''}</div>`;
   return '';
 }
 
 function lsDeleteEntry(dk, idx) {
   if (!state.lifestyle.log[dk]) return;
   state.lifestyle.log[dk].splice(idx, 1);
-  scheduleSave();
-  lsRenderCanvas();
-  renderLifestyle();
-  toast('ENTRY REMOVED');
+  scheduleSave(); lsRenderCanvas(); renderLifestyle(); toast('ENTRY REMOVED');
 }
-
 function lsUpdateActionsBar() {
   const todayKey = lsTodayKey();
   const isToday = _lsSelectedDateKey === todayKey;
   const bar = document.getElementById('ls-actions-bar');
   const notice = document.getElementById('ls-locked-notice');
-  if (isToday) {
-    bar.classList.remove('locked');
-    notice.style.display = 'none';
-  } else {
-    bar.classList.add('locked');
-    notice.style.display = 'flex';
-  }
+  if (isToday) { bar.classList.remove('locked'); notice.style.display = 'none'; }
+  else { bar.classList.add('locked'); notice.style.display = 'flex'; }
 }
 
-// ── Modal system ───────────────────────────────────────────────
 const LS_WASTE_PRESETS = ['INSTAGRAM','YOUTUBE','WHATSAPP','TWITTER/X','NETFLIX','REELS','OTHER'];
-
 function lsOpenModal(type) {
-  // Block if not today
   if (_lsSelectedDateKey !== lsTodayKey()) { toast('CAN ONLY LOG TO TODAY'); return; }
-
   _lsModalType = type;
   const header = document.getElementById('ls-modal-header');
   const body = document.getElementById('ls-modal-body');
-
-  const headerColors = {
-    sleep:     'background:var(--violet);color:#fff;',
-    wakeup:    'background:var(--yellow);color:#000;',
-    learning:  'background:var(--cyan);color:#000;',
-    timewaste: 'background:var(--red);color:#fff;',
-    custom:    'background:var(--lime);color:#000;',
-  };
-  const titles = {
-    sleep:'LOG SLEEP TIME', wakeup:'LOG WAKE UP TIME',
-    learning:'LOG LEARNING SESSION', timewaste:'LOG TIME WASTE', custom:'LOG CUSTOM ACTIVITY',
-  };
-
+  const headerColors = { sleep:'background:var(--violet);color:#fff;', wakeup:'background:var(--yellow);color:#000;', learning:'background:var(--cyan);color:#000;', timewaste:'background:var(--red);color:#fff;', custom:'background:var(--lime);color:#000;' };
+  const titles = { sleep:'LOG SLEEP TIME', wakeup:'LOG WAKE UP TIME', learning:'LOG LEARNING SESSION', timewaste:'LOG TIME WASTE', custom:'LOG CUSTOM ACTIVITY' };
   header.style.cssText = headerColors[type] || '';
   header.innerHTML = titles[type] + ` <button class="modal-close" onclick="closeModal('modal-lifestyle')" style="color:inherit;">X</button>`;
-
   if (type === 'sleep' || type === 'wakeup') {
-    body.innerHTML = `
-      <div class="field">
-        <label class="label-field">${type === 'sleep' ? 'SLEEP TIME' : 'WAKE UP TIME'}</label>
-        <input class="input" id="ls-time-input" type="time" style="font-size:28px;padding:12px;text-align:center;letter-spacing:.1em;"/>
-      </div>
-      <div style="font-family:var(--font-mono);font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;">
-        ${type === 'sleep' ? 'WHAT TIME DID YOU GO TO BED?' : 'WHAT TIME DID YOU WAKE UP?'}
-      </div>`;
-    // Pre-fill with current time
+    body.innerHTML = `<div class="field"><label class="label-field">${type === 'sleep' ? 'SLEEP TIME' : 'WAKE UP TIME'}</label><input class="input" id="ls-time-input" type="time" style="font-size:28px;padding:12px;text-align:center;letter-spacing:.1em;"/></div><div style="font-family:var(--font-mono);font-size:10px;color:#888;text-transform:uppercase;letter-spacing:.06em;">${type === 'sleep' ? 'WHAT TIME DID YOU GO TO BED?' : 'WHAT TIME DID YOU WAKE UP?'}</div>`;
     const now = new Date();
-    document.getElementById('ls-time-input') && setTimeout(()=>{
-      const el = document.getElementById('ls-time-input');
-      if(el) el.value = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0');
-    }, 20);
+    setTimeout(()=>{ const el = document.getElementById('ls-time-input'); if(el) el.value = String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0'); }, 20);
+  } else if (type === 'learning') {
+    body.innerHTML = `<div class="field"><label class="label-field">WHAT DID YOU LEARN?</label><input class="input" id="ls-learn-topic" placeholder="E.g. React Hooks, Chapter 3, Spanish vocab…"/></div><div class="field" style="display:flex;gap:12px;"><div style="flex:1;"><label class="label-field">HOURS</label><input class="input" id="ls-learn-hours" type="number" min="0" max="24" placeholder="0" style="text-align:center;font-size:20px;"/></div><div style="flex:1;"><label class="label-field">MINUTES</label><input class="input" id="ls-learn-mins" type="number" min="0" max="59" placeholder="0" style="text-align:center;font-size:20px;"/></div></div>`;
+  } else if (type === 'timewaste') {
+    body.innerHTML = `<div class="field"><label class="label-field">PLATFORM / APP</label><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;" id="ls-waste-presets">${LS_WASTE_PRESETS.map(p=>`<button onclick="lsSelectWastePreset('${p}',this)" style="font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border:var(--border);cursor:pointer;box-shadow:2px 2px 0 #000;background:var(--white);transition:background .1s;">${p}</button>`).join('')}</div><input class="input" id="ls-waste-platform" placeholder="OR TYPE CUSTOM…" style="margin-top:4px;"/></div><div class="field" style="display:flex;gap:12px;"><div style="flex:1;"><label class="label-field">HOURS</label><input class="input" id="ls-waste-hours" type="number" min="0" max="24" placeholder="0" style="text-align:center;font-size:20px;"/></div><div style="flex:1;"><label class="label-field">MINUTES</label><input class="input" id="ls-waste-mins" type="number" min="0" max="59" placeholder="0" style="text-align:center;font-size:20px;"/></div></div>`;
+  } else if (type === 'custom') {
+    body.innerHTML = `<div class="field"><label class="label-field">ACTIVITY LABEL (button name)</label><input class="input" id="ls-custom-label" placeholder="E.g. GYM, MEDITATION, CODING…"/></div><div class="field"><label class="label-field">VALUE / AMOUNT</label><input class="input" id="ls-custom-value" placeholder="E.g. 45 MIN, 10KM, 3 SETS…"/></div><div class="field"><label class="label-field">NOTES (optional)</label><input class="input" id="ls-custom-note" placeholder="Any extra context…"/></div>`;
   }
-
-  else if (type === 'learning') {
-    body.innerHTML = `
-      <div class="field">
-        <label class="label-field">WHAT DID YOU LEARN?</label>
-        <input class="input" id="ls-learn-topic" placeholder="E.g. React Hooks, Chapter 3, Spanish vocab…"/>
-      </div>
-      <div class="field" style="display:flex;gap:12px;">
-        <div style="flex:1;">
-          <label class="label-field">HOURS</label>
-          <input class="input" id="ls-learn-hours" type="number" min="0" max="24" placeholder="0" style="text-align:center;font-size:20px;"/>
-        </div>
-        <div style="flex:1;">
-          <label class="label-field">MINUTES</label>
-          <input class="input" id="ls-learn-mins" type="number" min="0" max="59" placeholder="0" style="text-align:center;font-size:20px;"/>
-        </div>
-      </div>`;
-  }
-
-  else if (type === 'timewaste') {
-    body.innerHTML = `
-      <div class="field">
-        <label class="label-field">PLATFORM / APP</label>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:10px;" id="ls-waste-presets">
-          ${LS_WASTE_PRESETS.map(p=>`<button onclick="lsSelectWastePreset('${p}',this)" style="font-family:var(--font-mono);font-size:10px;font-weight:700;text-transform:uppercase;padding:6px 12px;border:var(--border);cursor:pointer;box-shadow:2px 2px 0 #000;background:var(--white);transition:background .1s;">${p}</button>`).join('')}
-        </div>
-        <input class="input" id="ls-waste-platform" placeholder="OR TYPE CUSTOM…" style="margin-top:4px;"/>
-      </div>
-      <div class="field" style="display:flex;gap:12px;">
-        <div style="flex:1;">
-          <label class="label-field">HOURS</label>
-          <input class="input" id="ls-waste-hours" type="number" min="0" max="24" placeholder="0" style="text-align:center;font-size:20px;"/>
-        </div>
-        <div style="flex:1;">
-          <label class="label-field">MINUTES</label>
-          <input class="input" id="ls-waste-mins" type="number" min="0" max="59" placeholder="0" style="text-align:center;font-size:20px;"/>
-        </div>
-      </div>`;
-  }
-
-  else if (type === 'custom') {
-    body.innerHTML = `
-      <div class="field">
-        <label class="label-field">ACTIVITY LABEL (button name)</label>
-        <input class="input" id="ls-custom-label" placeholder="E.g. GYM, MEDITATION, CODING…"/>
-      </div>
-      <div class="field">
-        <label class="label-field">VALUE / AMOUNT</label>
-        <input class="input" id="ls-custom-value" placeholder="E.g. 45 MIN, 10KM, 3 SETS…"/>
-      </div>
-      <div class="field">
-        <label class="label-field">NOTES (optional)</label>
-        <input class="input" id="ls-custom-note" placeholder="Any extra context…"/>
-      </div>`;
-  }
-
   openModal('modal-lifestyle');
-  // Focus first input
   setTimeout(()=>{ const f = body.querySelector('input'); if(f)f.focus(); }, 80);
 }
-
 function lsSelectWastePreset(name, btn) {
   document.getElementById('ls-waste-platform').value = name;
   document.querySelectorAll('#ls-waste-presets button').forEach(b=>b.style.background='var(--white)');
-  btn.style.background = 'var(--red)';
-  btn.style.color = '#fff';
+  btn.style.background = 'var(--red)'; btn.style.color = '#fff';
 }
-
 function lsSaveActivity() {
   if (!_lsSelectedDateKey) { toast('SELECT A DAY FIRST'); return; }
   if (_lsSelectedDateKey !== lsTodayKey()) { toast('CAN ONLY LOG TO TODAY'); return; }
   if (!state.lifestyle.log[_lsSelectedDateKey]) state.lifestyle.log[_lsSelectedDateKey] = [];
-
-  const type = _lsModalType;
-  let entry = null;
-
+  const type = _lsModalType; let entry = null;
   if (type === 'sleep' || type === 'wakeup') {
     const t = document.getElementById('ls-time-input').value;
     if (!t) { toast('SET A TIME'); return; }
     entry = { type, time: t };
-  }
-  else if (type === 'learning') {
+  } else if (type === 'learning') {
     const topic = document.getElementById('ls-learn-topic').value.trim();
     const hours = parseInt(document.getElementById('ls-learn-hours').value)||0;
     const mins  = parseInt(document.getElementById('ls-learn-mins').value)||0;
     if (!topic) { toast('ENTER WHAT YOU LEARNT'); return; }
     if (hours === 0 && mins === 0) { toast('ENTER TIME SPENT'); return; }
     entry = { type, topic, hours, mins };
-  }
-  else if (type === 'timewaste') {
+  } else if (type === 'timewaste') {
     const platform = document.getElementById('ls-waste-platform').value.trim();
     const hours = parseInt(document.getElementById('ls-waste-hours').value)||0;
     const mins  = parseInt(document.getElementById('ls-waste-mins').value)||0;
     if (!platform) { toast('SELECT OR ENTER PLATFORM'); return; }
     if (hours === 0 && mins === 0) { toast('ENTER TIME WASTED'); return; }
     entry = { type, platform, hours, mins };
-  }
-  else if (type === 'custom') {
+  } else if (type === 'custom') {
     const label = document.getElementById('ls-custom-label').value.trim().toUpperCase();
     const value = document.getElementById('ls-custom-value').value.trim();
     const note  = document.getElementById('ls-custom-note').value.trim();
@@ -2172,15 +2104,7 @@ function lsSaveActivity() {
     if (!value) { toast('ENTER A VALUE'); return; }
     entry = { type, label, value, note };
   }
-
-  if (entry) {
-    state.lifestyle.log[_lsSelectedDateKey].push(entry);
-    scheduleSave();
-    closeModal('modal-lifestyle');
-    lsRenderCanvas();
-    renderLifestyle();
-    toast('LOGGED ✓');
-  }
+  if (entry) { state.lifestyle.log[_lsSelectedDateKey].push(entry); scheduleSave(); closeModal('modal-lifestyle'); lsRenderCanvas(); renderLifestyle(); toast('LOGGED ✓'); }
 }
 
 // ═══════════════════════════════════════════════════════════════
