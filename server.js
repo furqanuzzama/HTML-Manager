@@ -14,9 +14,13 @@
  *   MONGO_URI   = mongodb+srv://<user>:<pass>@cluster.mongodb.net/goal_engine
  *   PORT        = 3000  (optional, default 3000)
  *
- * FIXES IN THIS VERSION:
- *   - Economics regions now saved/loaded (new EconomicsRegion model)
- *   - Lifestyle daily log now saved/loaded (new LifestyleDay model)
+ * CHANGES IN THIS VERSION:
+ *   - Lifestyle page removed — LifestyleDay model & endpoints removed.
+ *   - Goals now carry a `kanbanStatus` field (todo / inprogress / done)
+ *     used to drive the Dashboard's Kanban board.
+ *   - Planning is now surfaced inside the Dashboard page on the frontend;
+ *     the PlanningLane schema/endpoints are unchanged.
+ *   - Economics regions unchanged.
  *   - Friends: all fields (phone, dob, guardian, address, notes) fully persisted
  *   - Social counts (instagram/youtube/linkedin) reliably persisted
  */
@@ -34,7 +38,7 @@ const app  = express();
 const PORT = process.env.PORT || 3000;
 
 app.use(cors());
-app.use(express.json({ limit: '4mb' })); // bumped limit for lifestyle logs
+app.use(express.json({ limit: '4mb' }));
 
 // ─────────────────────────────────────────────────────────────
 // MONGOOSE SCHEMAS
@@ -42,15 +46,16 @@ app.use(express.json({ limit: '4mb' })); // bumped limit for lifestyle logs
 
 // ── Goal ──────────────────────────────────────────────────────
 const GoalSchema = new mongoose.Schema({
-  clientId:   { type: Number, required: true, unique: true },
-  name:       { type: String, required: true },
-  total:      { type: Number, required: true, min: 1, max: 90 },
-  output:     { type: String, enum: ['learning', 'earning'], default: 'learning' },
-  deadline:   { type: String, required: true },
-  category:   { type: String, required: true },
-  catData:    { type: mongoose.Schema.Types.Mixed, default: {} },
-  colorIdx:   { type: Number, default: 0 },
-  doneSet:    { type: [Number], default: [] },
+  clientId:     { type: Number, required: true, unique: true },
+  name:         { type: String, required: true },
+  total:        { type: Number, required: true, min: 1, max: 90 },
+  output:       { type: String, enum: ['learning', 'earning'], default: 'learning' },
+  deadline:     { type: String, required: true },
+  category:     { type: String, required: true },
+  catData:      { type: mongoose.Schema.Types.Mixed, default: {} },
+  colorIdx:     { type: Number, default: 0 },
+  doneSet:      { type: [Number], default: [] },
+  kanbanStatus: { type: String, enum: ['todo', 'inprogress', 'done'], default: 'todo' },
 }, { timestamps: true });
 
 // ── Skill ─────────────────────────────────────────────────────
@@ -120,7 +125,7 @@ const PlanningLaneSchema = new mongoose.Schema({
   events:    { type: [PlanningEventSchema], default: [] },
 }, { timestamps: true });
 
-// ── Economics Region (NEW) ────────────────────────────────────
+// ── Economics Region ───────────────────────────────────────────
 // Each mapped region on the geo-intel map is one document.
 // `data` is a free-form array of { key, val } pairs the user adds.
 const EconomicsRegionSchema = new mongoose.Schema({
@@ -137,15 +142,6 @@ const EconomicsRegionSchema = new mongoose.Schema({
     type: [{ key: String, val: String, _id: false }],
     default: [],
   },
-}, { timestamps: true });
-
-// ── Lifestyle Day (NEW) ───────────────────────────────────────
-// One document per calendar day. `entries` mirrors the frontend array
-// stored under state.lifestyle.log['YYYY-MM-DD'].
-// We store every entry as a Mixed object so any activity shape is accepted.
-const LifestyleDaySchema = new mongoose.Schema({
-  dateKey: { type: String, required: true, unique: true }, // 'YYYY-MM-DD'
-  entries: { type: [mongoose.Schema.Types.Mixed], default: [] },
 }, { timestamps: true });
 
 // ── Settings (social + ultimate + planning year — singleton) ──
@@ -174,7 +170,6 @@ const Friend           = mongoose.model('Friend',           FriendSchema);
 const Client           = mongoose.model('Client',           ClientSchema);
 const PlanningLane     = mongoose.model('PlanningLane',     PlanningLaneSchema);
 const EconomicsRegion  = mongoose.model('EconomicsRegion',  EconomicsRegionSchema);
-const LifestyleDay     = mongoose.model('LifestyleDay',     LifestyleDaySchema);
 const Settings         = mongoose.model('Settings',         SettingsSchema);
 
 // ─────────────────────────────────────────────────────────────
@@ -250,20 +245,20 @@ app.post('/api/state/sync', async (req, res) => {
       nextId,
       planning,
       economics,   // { regions: [...] }
-      lifestyle,   // { log: { 'YYYY-MM-DD': [...entries] } }
     } = req.body;
 
     // ── Goals ────────────────────────────────────────────────
     await upsertAll(Goal, goals, g => ({
-      clientId: g.id,
-      name:     g.name,
-      total:    g.total,
-      output:   g.output,
-      deadline: g.deadline,
-      category: g.category,
-      catData:  g.catData  || {},
-      colorIdx: g.colorIdx || 0,
-      doneSet:  Array.isArray(g.doneSet) ? g.doneSet : [...(g.doneSet || [])],
+      clientId:     g.id,
+      name:         g.name,
+      total:        g.total,
+      output:       g.output,
+      deadline:     g.deadline,
+      category:     g.category,
+      catData:      g.catData  || {},
+      colorIdx:     g.colorIdx || 0,
+      doneSet:      Array.isArray(g.doneSet) ? g.doneSet : [...(g.doneSet || [])],
+      kanbanStatus: g.kanbanStatus || 'todo',
     }));
 
     // ── Skills ───────────────────────────────────────────────
@@ -335,7 +330,7 @@ app.post('/api/state/sync', async (req, res) => {
       }));
     }
 
-    // ── Economics Regions (NEW) ───────────────────────────────
+    // ── Economics Regions ──────────────────────────────────────
     // state.economics = { regions: [ { id, title, colorIdx, bounds, data } ] }
     if (economics) {
       const regions = economics.regions || [];
@@ -349,33 +344,6 @@ app.post('/api/state/sync', async (req, res) => {
         },
         data: (r.data || []).map(row => ({ key: row.key || '', val: row.val || '' })),
       }));
-    }
-
-    // ── Lifestyle Daily Log (NEW) ─────────────────────────────
-    // state.lifestyle = { log: { 'YYYY-MM-DD': [ ...entries ] } }
-    // Strategy: upsert one LifestyleDay doc per date key that has entries.
-    // Delete docs for dates that are no longer in the log (or have empty arrays).
-    if (lifestyle && lifestyle.log) {
-      const log = lifestyle.log;
-      const dateKeys = Object.keys(log).filter(dk => log[dk] && log[dk].length > 0);
-
-      const lsOps = dateKeys.map(dk => ({
-        updateOne: {
-          filter: { dateKey: dk },
-          update:  { $set: { dateKey: dk, entries: log[dk] } },
-          upsert:  true,
-        },
-      }));
-
-      if (lsOps.length) await LifestyleDay.bulkWrite(lsOps);
-
-      // Remove days that were cleared (empty array or key removed)
-      if (dateKeys.length > 0) {
-        await LifestyleDay.deleteMany({ dateKey: { $nin: dateKeys } });
-      } else {
-        // No entries at all — wipe everything
-        await LifestyleDay.deleteMany({});
-      }
     }
 
     // ── Settings (social + ultimate + nextId + planning year) ─
@@ -396,17 +364,14 @@ app.post('/api/state/sync', async (req, res) => {
     res.json({
       ok: true,
       synced: {
-        goals:           goals.length,
-        skills:          skills.length,
-        books:           books.length,
-        langs:           langs.length,
-        friends:         friends.length,
-        clients:         clients.length,
-        planningLanes:   planning?.lanes?.length  ?? 0,
+        goals:            goals.length,
+        skills:           skills.length,
+        books:            books.length,
+        langs:            langs.length,
+        friends:          friends.length,
+        clients:          clients.length,
+        planningLanes:    planning?.lanes?.length  ?? 0,
         economicsRegions: (economics?.regions?.length) ?? 0,
-        lifestyleDays:   lifestyle?.log
-          ? Object.keys(lifestyle.log).filter(dk => (lifestyle.log[dk]||[]).length > 0).length
-          : 0,
       },
     });
   } catch (err) {
@@ -422,7 +387,7 @@ app.get('/api/state', async (_req, res) => {
   try {
     const [
       goals, skills, books, langs, friends, clients,
-      planningLanes, econRegions, lifestyleDays, settings,
+      planningLanes, econRegions, settings,
     ] = await Promise.all([
       Goal.find().sort({ createdAt: 1 }).lean(),
       Skill.find().sort({ createdAt: 1 }).lean(),
@@ -432,7 +397,6 @@ app.get('/api/state', async (_req, res) => {
       Client.find().sort({ createdAt: 1 }).lean(),
       PlanningLane.find().sort({ createdAt: 1 }).lean(),
       EconomicsRegion.find().sort({ createdAt: 1 }).lean(),
-      LifestyleDay.find().sort({ dateKey: 1 }).lean(),
       getSettings(),
     ]);
 
@@ -465,25 +429,18 @@ app.get('/api/state', async (_req, res) => {
       })),
     };
 
-    // ── Rebuild lifestyle log ─────────────────────────────────
-    // Reconstruct as { 'YYYY-MM-DD': [...entries] }
-    const lifestyleLog = {};
-    lifestyleDays.forEach(day => {
-      lifestyleLog[day.dateKey] = day.entries || [];
-    });
-    const lifestyle = { log: lifestyleLog };
-
     res.json({
       goals: goals.map(g => ({
-        id:       g.clientId,
-        name:     g.name,
-        total:    g.total,
-        output:   g.output,
-        deadline: g.deadline,
-        category: g.category,
-        catData:  g.catData  || {},
-        colorIdx: g.colorIdx || 0,
-        doneSet:  g.doneSet  || [],
+        id:           g.clientId,
+        name:         g.name,
+        total:        g.total,
+        output:       g.output,
+        deadline:     g.deadline,
+        category:     g.category,
+        catData:      g.catData  || {},
+        colorIdx:     g.colorIdx || 0,
+        doneSet:      g.doneSet  || [],
+        kanbanStatus: g.kanbanStatus || 'todo',
       })),
       skills: skills.map(s => ({
         id:           s.clientId,
@@ -533,7 +490,6 @@ app.get('/api/state', async (_req, res) => {
       nextId:   settings.nextId   || 100,
       planning,
       economics,
-      lifestyle,
     });
   } catch (err) {
     console.error('[load]', err);
@@ -558,6 +514,7 @@ app.post('/api/goals', async (req, res) => {
       output: g.output, deadline: g.deadline,
       category: g.category, catData: g.catData || {}, colorIdx: g.colorIdx || 0,
       doneSet: Array.isArray(g.doneSet) ? g.doneSet : [...(g.doneSet || [])],
+      kanbanStatus: g.kanbanStatus || 'todo',
     });
     res.status(201).json({ ok: true, id: doc.clientId });
   } catch (err) { res.status(400).json({ error: err.message }); }
@@ -700,7 +657,7 @@ app.delete('/api/planning/lanes/:id', async (req, res) => {
   await PlanningLane.deleteOne({ clientId: parseInt(req.params.id) }); res.json({ ok: true });
 });
 
-// ── Economics Regions (NEW granular endpoints) ────────────────
+// ── Economics Regions (granular endpoints) ─────────────────────
 app.get('/api/economics/regions', async (_req, res) => {
   const docs = await EconomicsRegion.find().sort({ createdAt: 1 }).lean();
   res.json(docs.map(r => ({
@@ -725,26 +682,6 @@ app.patch('/api/economics/regions/:id', async (req, res) => {
 });
 app.delete('/api/economics/regions/:id', async (req, res) => {
   await EconomicsRegion.deleteOne({ clientId: parseInt(req.params.id) }); res.json({ ok: true });
-});
-
-// ── Lifestyle (NEW granular endpoints) ────────────────────────
-app.get('/api/lifestyle', async (_req, res) => {
-  const docs = await LifestyleDay.find().sort({ dateKey: 1 }).lean();
-  const log = {};
-  docs.forEach(d => { log[d.dateKey] = d.entries || []; });
-  res.json({ log });
-});
-app.put('/api/lifestyle/:dateKey', async (req, res) => {
-  // Full replace of a single day's entries
-  try {
-    const { dateKey } = req.params;
-    const { entries = [] } = req.body;
-    await LifestyleDay.updateOne({ dateKey }, { $set: { dateKey, entries } }, { upsert: true });
-    res.json({ ok: true });
-  } catch (err) { res.status(400).json({ error: err.message }); }
-});
-app.delete('/api/lifestyle/:dateKey', async (req, res) => {
-  await LifestyleDay.deleteOne({ dateKey: req.params.dateKey }); res.json({ ok: true });
 });
 
 // ── Settings ──────────────────────────────────────────────────
