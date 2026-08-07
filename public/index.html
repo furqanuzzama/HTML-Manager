@@ -195,6 +195,84 @@ nav{position:sticky;top:0;z-index:1000;background:rgba(244,244,240,0.97);backdro
 .quick-add-btns{display:flex;gap:6px;}
 .quick-add-btns button{flex:1;font-family:var(--font-mono);font-size:11px;font-weight:700;
   text-transform:uppercase;padding:7px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);}
+
+/* ═══════════════════════════════════════════════════════════════
+   RESPONSIVE — additive only, nothing above this point is changed.
+   Desktop layout/behaviour is untouched; these queries adapt the
+   same structure down to tablet and phone widths.
+═══════════════════════════════════════════════════════════════ */
+@media (max-width:1024px){
+  .page{padding:36px 32px;}
+  .page-title{font-size:48px;}
+  .social-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr));}
+}
+
+@media (max-width:900px){
+  nav{padding:0 20px;}
+  .nav-logo{margin-right:16px;font-size:10px;padding:4px 8px;}
+  .nav-item{padding:0 12px;font-size:11px;}
+  .save-indicator{font-size:9px;padding-right:8px;}
+  #db-badge{font-size:8px;padding:3px 7px;margin-right:6px;}
+}
+
+@media (max-width:768px){
+  nav{height:auto;min-height:56px;flex-wrap:wrap;padding:8px 16px;}
+  .nav-logo{margin-bottom:6px;}
+  .nav-items{flex:1 1 100%;overflow-x:auto;-webkit-overflow-scrolling:touch;order:3;}
+  .nav-item{height:44px;padding:0 14px;flex-shrink:0;}
+  .save-indicator{order:2;margin-left:0;padding-right:0;}
+  #db-badge{order:1;}
+
+  .page{padding:24px 18px;}
+  .page-title{font-size:34px;padding-bottom:12px;}
+  .page-subtitle{font-size:10px;}
+  .dash-section{margin-bottom:32px;}
+
+  .kanban-wrap{grid-template-columns:1fr !important;}
+  .kanban-col{min-height:auto;}
+  .kanban-col-body{min-height:0;}
+
+  .section-title{font-size:12px;}
+
+  .planning-topbar{gap:8px;}
+  .plan-year-badge{font-size:24px;padding:4px 12px;}
+
+  .modal{width:92vw;}
+  .modal-body{padding:18px;}
+
+  .quick-add-popup{width:min(272px,86vw);}
+
+  .social-grid{grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:14px;}
+  .node-number{font-size:32px;}
+  .node-sub-row{flex-wrap:wrap;}
+
+  .pin-card{max-width:100%;flex:1 1 calc(50% - 14px);}
+}
+
+@media (max-width:480px){
+  .page{padding:18px 14px;}
+  .page-title{font-size:26px;}
+  .page-subtitle{font-size:9px;}
+
+  .btn{padding:8px 14px;font-size:10px;}
+  .btn-sm{padding:6px 10px;font-size:10px;}
+
+  .nav-logo{font-size:9px;}
+  .nav-item{font-size:10px;padding:0 10px;}
+
+  .kanban-card{font-size:11px;padding:10px 12px;}
+
+  .social-grid{grid-template-columns:1fr 1fr;}
+  .node-body{padding:14px 10px;}
+  .node-number{font-size:26px;}
+
+  .pin-card{flex:1 1 100%;}
+
+  .toast{left:16px;right:16px;bottom:16px;text-align:center;}
+
+  .plan-year-badge{font-size:18px;padding:3px 10px;}
+  .cal-add-lane-btn{width:36px;height:36px;font-size:18px;}
+}
 </style>
 </head>
 <body>
