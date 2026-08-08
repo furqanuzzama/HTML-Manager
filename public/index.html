@@ -196,6 +196,36 @@ nav{position:sticky;top:0;z-index:1000;background:rgba(244,244,240,0.97);backdro
 .quick-add-btns button{flex:1;font-family:var(--font-mono);font-size:11px;font-weight:700;
   text-transform:uppercase;padding:7px;border:var(--border);cursor:pointer;box-shadow:var(--shadow);}
 
+/* ═══ OPPORTUNITY WIRE (newspaper feed, backend-fetched, separate from tracker boards) ═══ */
+.wire-masthead{border:var(--border);border-bottom:4px double #000;box-shadow:var(--shadow-lg);
+  background:var(--white);padding:16px 20px;margin-bottom:20px;display:flex;align-items:baseline;
+  justify-content:space-between;flex-wrap:wrap;gap:8px;}
+.wire-masthead-title{font-family:var(--font-main);font-weight:700;font-size:28px;text-transform:uppercase;
+  letter-spacing:-.01em;}
+.wire-masthead-meta{font-family:var(--font-mono);font-size:10px;color:#666;text-transform:uppercase;
+  letter-spacing:.1em;}
+.wire-status{font-family:var(--font-mono);font-size:10px;text-transform:uppercase;letter-spacing:.08em;
+  padding:16px;text-align:center;color:#888;border:2px dashed #ccc;}
+.wire-status.err{color:#a00;border-color:#e0a0a0;background:#fff5f5;}
+.wire-grid{column-width:300px;column-gap:18px;}
+.wire-card{break-inside:avoid;border:var(--border);box-shadow:var(--shadow);background:var(--white);
+  margin-bottom:18px;padding:14px 16px;position:relative;}
+.wire-card-top{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;}
+.wire-tag{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
+  letter-spacing:.08em;padding:2px 8px;border:1.5px solid #000;}
+.wire-headline{font-family:var(--font-main);font-weight:700;font-size:16px;line-height:1.2;margin-bottom:6px;}
+.wire-blurb{font-family:var(--font-main);font-size:12.5px;line-height:1.5;color:#333;margin-bottom:10px;}
+.wire-foot{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;
+  border-top:1px solid #ddd;padding-top:8px;}
+.wire-source{font-family:var(--font-mono);font-size:9px;color:#888;text-transform:uppercase;letter-spacing:.06em;}
+.wire-source a{color:#0645ad;text-decoration:none;}
+.wire-source a:hover{text-decoration:underline;}
+.wire-btns{display:flex;gap:6px;}
+.wire-track-btn{font-family:var(--font-mono);font-size:9px;font-weight:700;text-transform:uppercase;
+  padding:4px 8px;border:1.5px solid #000;cursor:pointer;background:var(--lime);box-shadow:2px 2px 0 #000;}
+.wire-track-btn:hover{box-shadow:3px 3px 0 #000;}
+.wire-track-btn:disabled{background:#eee;color:#999;cursor:default;box-shadow:none;}
+
 /* ═══════════════════════════════════════════════════════════════
    RESPONSIVE — additive only, nothing above this point is changed.
    Desktop layout/behaviour is untouched; these queries adapt the
@@ -357,6 +387,15 @@ nav{position:sticky;top:0;z-index:1000;background:rgba(244,244,240,0.97);backdro
   <div class="dash-section">
     <div class="section-header"><div class="section-title">OPPORTUNITIES</div></div>
     <div id="board-opportunities"></div>
+  </div>
+
+  <div class="dash-section">
+    <div class="wire-masthead">
+      <div class="wire-masthead-title">THE OPPORTUNITY WIRE</div>
+      <div class="wire-masthead-meta" id="wire-issue-date">FETCHING ISSUE…</div>
+      <button class="btn btn-dark btn-sm" onclick="loadWire()">↻ REFRESH</button>
+    </div>
+    <div id="wire-wrap"><div class="wire-status">LOADING FEED…</div></div>
   </div>
 </div>
 
@@ -534,7 +573,7 @@ function showPage(name,el){
   if(el)el.classList.add('active');
   if(name==='personal'){ renderBoardById('lifeQuality'); renderBoardById('tasks'); renderPinboard(); renderPlanning(); }
   if(name==='social'){ renderSocial(); }
-  if(name==='professional'){ renderToWorkOn(); renderBoardById('opportunities'); }
+  if(name==='professional'){ renderToWorkOn(); renderBoardById('opportunities'); loadWire(); }
 }
 
 function getDaysLeft(deadlineStr) {
@@ -895,6 +934,101 @@ function planDeleteEvent(e, laneId, eventId){
   const lane = (yearData.lanes||[]).find(l=>l.id===laneId);if(!lane) return;
   lane.events = (lane.events||[]).filter(ev=>ev.id!==eventId);
   scheduleSave(); renderPlanning(); toast('EVENT REMOVED');
+}
+
+// ═══════════════════════════════════════════════════════════════
+// OPPORTUNITY WIRE — backend-fetched newspaper feed.
+// Lives entirely separate from state.professional.opportunities
+// (the manual tracker board). Nothing here is auto-added to your
+// boards — each card has its own "+ TRACK" button that copies it
+// over on demand.
+// ═══════════════════════════════════════════════════════════════
+const WIRE_TAG_COLORS = { internship:'var(--cyan)', event:'var(--pink)', competition:'var(--yellow)', other:'var(--lime)' };
+let _wireCache = [];
+let _wireLoaded = false;
+
+async function loadWire(){
+  const wrap = document.getElementById('wire-wrap');
+  const dateEl = document.getElementById('wire-issue-date');
+  wrap.innerHTML = `<div class="wire-status">FETCHING LATEST OPPORTUNITIES…</div>`;
+  try{
+    const res = await fetch(API + '/api/opportunities/wire');
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const articles = await res.json();
+    _wireCache = Array.isArray(articles) ? articles : [];
+    _wireLoaded = true;
+    dateEl.textContent = 'ISSUE — ' + new Date().toLocaleDateString('en-IN',{day:'2-digit',month:'short',year:'numeric'}).toUpperCase();
+    renderWire();
+  }catch(err){
+    console.error('[wire]', err);
+    dateEl.textContent = 'OFFLINE';
+    wrap.innerHTML = `<div class="wire-status err">COULDN'T REACH THE WIRE (${err.message}). BACKEND NEEDS THE /api/opportunities/wire ROUTE + SEEDED DATA — SEE server.js.</div>`;
+  }
+}
+
+function wireDaysLeftLabel(deadline){
+  if(!deadline) return null;
+  const diff = getDaysLeft(deadline);
+  if(diff<0) return {cls:'dl-over', label:Math.abs(diff)+'D OVERDUE'};
+  if(diff<=7) return {cls:'dl-soon', label:diff+'D LEFT'};
+  return {cls:'dl-ok', label:diff+'D LEFT'};
+}
+
+function renderWire(){
+  const wrap = document.getElementById('wire-wrap');
+  if(!_wireCache.length){
+    wrap.innerHTML = `<div class="wire-status">NO ARTICLES YET — SEED THE BACKEND'S wire COLLECTION.</div>`;
+    return;
+  }
+  // sort: has-deadline first (soonest first), then no-deadline items
+  const sorted = [..._wireCache].sort((a,b)=>{
+    if(a.deadline && b.deadline) return new Date(a.deadline)-new Date(b.deadline);
+    if(a.deadline) return -1;
+    if(b.deadline) return 1;
+    return 0;
+  });
+  wrap.innerHTML = `<div class="wire-grid">${sorted.map(a=>renderWireCard(a)).join('')}</div>`;
+}
+
+function renderWireCard(a){
+  const tagColor = WIRE_TAG_COLORS[a.category] || 'var(--white)';
+  const dl = wireDaysLeftLabel(a.deadline);
+  const already = isAlreadyTracked(a);
+  return `<div class="wire-card">
+    <div class="wire-card-top">
+      <span class="wire-tag" style="background:${tagColor};">${(a.category||'other').toUpperCase()}</span>
+      ${dl ? `<span class="deadline-pill ${dl.cls}">${dl.label}</span>` : ''}
+    </div>
+    <div class="wire-headline">${escapeHtml(a.title||'')}</div>
+    <div class="wire-blurb">${escapeHtml(a.blurb||'')}</div>
+    <div class="wire-foot">
+      <span class="wire-source">${a.url ? `<a href="${escapeAttr(a.url)}" target="_blank" rel="noopener">${escapeHtml(a.source||new URL(a.url).hostname)} ↗</a>` : escapeHtml(a.source||'')}</span>
+      <div class="wire-btns">
+        <button class="wire-track-btn" ${already?'disabled':''} onclick="pushWireToTracker('${a.id}')">${already?'✓ TRACKED':'+ TRACK'}</button>
+      </div>
+    </div>
+  </div>`;
+}
+
+function escapeAttr(s){ return String(s).replace(/"/g,'&quot;'); }
+
+function isAlreadyTracked(article){
+  const col = BOARD_DEFS.opportunities.getData()[article.category] || [];
+  return col.some(c => c.text === article.title);
+}
+
+function pushWireToTracker(articleId){
+  const article = _wireCache.find(a=>String(a.id)===String(articleId));
+  if(!article) return;
+  const data = BOARD_DEFS.opportunities.getData();
+  const col = data[article.category] || data.other;
+  const card = { id: state.nextId++, text: article.title };
+  if(article.deadline) card.deadline = article.deadline;
+  col.push(card);
+  scheduleSave();
+  renderBoardById('opportunities');
+  renderWire();
+  toast('TRACKED: '+article.title.toUpperCase());
 }
 
 // ═══════════════════════════════════════════════════════════════
