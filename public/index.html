@@ -493,7 +493,31 @@ function defaultState(){
     },
     professional: {
       toWorkOn: [],
-      opportunities: { internship:[], event:[], competition:[], other:[] },
+      // ── OPPORTUNITY TRACKER — pre-seeded Aug 2026 ──
+      // Items with a `deadline` show a live countdown pill on the card
+      // (green >7d left, yellow <=7d left, red if overdue).
+      // Items with no deadline are rolling/ongoing — re-check the source
+      // periodically and update or move them as new info comes in.
+      opportunities: {
+        internship: [
+          { id: 1, text: 'DRDO lab internships (DIPAS, DMSRDE, SAG, etc.) — posted lab-by-lab, no single portal. Recheck drdo.gov.in/drdo/en/search/node?keys=Internship every 2-3 weeks.' },
+          { id: 2, text: 'ISRO internship (VSSC / URSC / SAC) — general track + Project Trainee Scheme (needs 6th sem done). Monsoon cycle Aug-Oct, check individual centre sites.' },
+          { id: 3, text: 'IIRS Dehradun external student internship — rolling admissions, needs faculty sponsor + college NOC.' },
+          { id: 4, text: 'DAAD WISE (Germany) — fully funded research internship, ~€861/mo + travel. Need a German professor\u2019s acceptance BEFORE applying — start outreach now.', deadline: '2026-10-01' },
+        ],
+        event: [
+          { id: 5, text: 'Yuva Sangam Phase VII — fully funded 5-7 day cultural/educational exchange to a paired state. Register at ebsb.aicte-india.org.', deadline: '2026-08-18' },
+        ],
+        competition: [
+          { id: 6, text: 'Smart India Hackathon (SIH) 2026 — check with JMI SPOC/innovation cell if a team can still submit a problem statement.', deadline: '2026-08-10' },
+          { id: 7, text: 'SUPRA SAEINDIA (Formula Student) — 13th edition at Buddh Int\u2019l Circuit. This cycle\u2019s build is underway; watch suprasaeindia.org for the next season\u2019s team registration.', deadline: '2026-09-02' },
+          { id: 8, text: 'BAJA SAEINDIA 2027 — rules & team registration typically open Sep-Oct. Watch bajasaeindia.org. Good fit if JMI doesn\u2019t have an active team yet.', deadline: '2026-10-01' },
+          { id: 9, text: 'Eureka! (E-Cell IIT Bombay) — Asia\u2019s largest business model competition, zonal round first. Watch ecell.in/eureka.', deadline: '2026-09-15' },
+        ],
+        other: [
+          { id: 10, text: 'SAE India Aerothon / ADDC / IIT Hyderabad Drone Challenge — drone design-build-fly competitions, ties into drone interest. Watch for next season announcements.' },
+        ],
+      },
     },
     planning: { years: {} },
     nextId: 100,
